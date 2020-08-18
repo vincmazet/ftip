@@ -1,0 +1,416 @@
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Convolution &#8212; Fundamental Tools for Image Processing</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+    <link href="_static/css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="_static/sphinx-book-theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/jbvinc.css" />
+    <link rel="stylesheet" type="text/css" href="_static/.ipynb_checkpoints/jbvinc-checkpoint.css" />
+    <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/sphinx-book-theme.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/mystnb.js"></script>
+    <script src="_static/sphinx-book-theme.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Fourier Transform" href="fourier.html" />
+    <link rel="prev" title="Histogram" href="histogram.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="en">
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="index.html">
+  
+  
+  <h1 class="site-logo" id="site-title">Fundamental Tools for Image Processing</h1>
+  
+</a>
+</div>
+
+<form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="preface.html">
+   Preface
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Courses
+ </span>
+</p>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="python.html">
+   Installing and Using Python
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="definition.html">
+   What is a Digital Image?
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="operations.html">
+   Arithmetic Operations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="histogram.html">
+   Histogram
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Convolution
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="fourier.html">
+   Fourier Transform
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="compression.html">
+   Compression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="mm.html">
+   Mathematical Morphology
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="interpolation.html">
+   Interpolation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="registration.html">
+   Registration
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="segmentation.html">
+   Segmentation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="deconvolution.html">
+   Deconvolution
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="denoising.html">
+   Denoising
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="xxx_pattern.html">
+   Pattern &amp; Co xxx
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Appendices
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="glossary.html">
+   Glossary
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="biblio.html">
+   References
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="license.html">
+   License
+  </a>
+ </li>
+</ul>
+
+</nav>
+
+ <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        <div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/convolution.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+    
+</div>
+        <!-- Source interaction buttons -->
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> On this page
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#definition">
+   Definition
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#dirac-et-gaussienne">
+   Dirac et gaussienne
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#proprietes">
+   Propriétés
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#problemes-aux-bords">
+   Problèmes aux bords
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#separabilite">
+   Séparabilité
+  </a>
+ </li>
+</ul>
+
+        </nav>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="convolution">
+<h1>Convolution<a class="headerlink" href="#convolution" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="definition">
+<h2>Definition<a class="headerlink" href="#definition" title="Permalink to this headline">¶</a></h2>
+<p>Many image processing methods result from a modification of one pixel with respect to its neighbors.
+When this modification is similar in the entire image <span class="math notranslate nohighlight">\(g\)</span>,
+it can be mathematically defined using a second image <span class="math notranslate nohighlight">\(h\)</span> which defines the neighbor relationships.
+This results in a third image <span class="math notranslate nohighlight">\(f\)</span>.
+This is the so-called convolution <a class="reference internal" href="biblio.html#c-biblio"><span class="std std-ref">[Jahne 2005, section 4]</span></a> and it is denotes with <span class="math notranslate nohighlight">\(*\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+  f(x,y) = (g*h)(x,y) = \sum_m \sum_n g(x-m,y-n) h(m,n)
+\]</div>
+<p>Intuitively, the convolution “spreads” each pixel <span class="math notranslate nohighlight">\((m,n)\)</span> in <span class="math notranslate nohighlight">\(g\)</span> following <span class="math notranslate nohighlight">\(h\)</span> (and proportionally to the intensity <span class="math notranslate nohighlight">\(g_{m,n}\)</span>).
+<a class="reference internal" href="#f-convolution-sketch"><span class="std std-numref">Fig. 14</span></a> gives an example of the computing of a particular pixel.</p>
+<div class="figure align-default" id="f-convolution-sketch">
+<a class="reference internal image-reference" href="_images/convolution.png"><img alt="_images/convolution.png" src="_images/convolution.png" style="width: 654.5px; height: 204.39999999999998px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 14 </span><span class="caption-text">Example for computing the pixel (2,2) of <span class="math notranslate nohighlight">\(f\)</span>.</span><a class="headerlink" href="#f-convolution-sketch" title="Permalink to this image">¶</a></p>
+</div>
+<p>For the sake of simplicity, the image <span class="math notranslate nohighlight">\(h\)</span> is:</p>
+<ul class="simple">
+<li><p>of odd size (<span class="math notranslate nohighlight">\(3\times3\)</span>, <span class="math notranslate nohighlight">\(5\times5\)</span>, <span class="math notranslate nohighlight">\(7\times7\)</span>, \dots);</p></li>
+<li><p>centered, <em>i.e.</em> the pixel with coordinates <span class="math notranslate nohighlight">\((0,0)\)</span> is at the center of the image.</p></li>
+</ul>
+<p>Besides, note that, depending the context, the image <span class="math notranslate nohighlight">\(h\)</span> is called: filter, mask, kernel, window, pattern or point spread function (PSF).</p>
+<p>Some convolution examples are shown in <code class="xref std std-numref docutils literal notranslate"><span class="pre">F:convolution:example</span></code>.</p>
+</div>
+<div class="section" id="dirac-et-gaussienne">
+<h2>Dirac et gaussienne<a class="headerlink" href="#dirac-et-gaussienne" title="Permalink to this headline">¶</a></h2>
+<p>d = np.zeros((64,64))
+d[31,31] = 1
+g = scipy.ndimage.gaussian_filter(input, sigma, order=0, output=None, mode=’reflect’, cval=0.0, truncate=4.0)[source]</p>
+<p>h1 = fspecial(‘gaussian’,64,7);
+h1 = h1 / max(h1(:));
+imwrite(h1,’gaussian.png’);</p>
+<p>imwrite(d,’dirac.png’);</p>
+<p>f = conv2(d,h1,’same’);
+imwrite(f,’dirac-gaussian.png’);</p>
+<p>d = zeros(64);
+d(16,16) = 1;
+imwrite(d,’diracdec.png’);</p>
+<p>f = conv2(d,h1,’same’);
+imwrite(f,’diracdec-gaussian.png’);</p>
+<p>d = zeros(64);
+d([100 2000 3000]) = 1;
+imwrite(d,’diracs.png’);</p>
+<p>f = conv2(d,h1,’same’);
+imwrite(f,’diracs-gaussian.png’);</p>
+<p>muse = double(imread(‘muse.png’))/255;
+f = conv2(muse,h1,’same’);
+f = f/max(f(:));
+imwrite(f,’muse-gaussian.png’);</p>
+<p>lena = double(imread(‘lena.png’))/255;
+f = conv2(lena,h1,’same’);
+f = f/max(f(:));
+imwrite(f,’lena-gaussian.png’);</p>
+<p>N = 80;
+h2 = zeros(2<em>N-1);
+h2(N,N:2</em>N-1) = linspace(1,0,N);
+imwrite(h2,’shakeblur.png’);</p>
+<p>f = conv2(lena,h2,’same’);
+f = f/max(f(:));
+imwrite(f,’lena-shakeblur.png’);</p>
+<p>h3 = [0 -1 0 ; -1 4 -1 ; 0 -1 0];
+f = conv2(lena,h3,’same’);
+h3 = (h3-min(h3(:))) / (max(h3(:))-min(h3(:)));
+f = (f-min(f(:))) / (max(f(:))-min(f(:)));
+f = histeq(f);
+imwrite(h3,’highpass.png’);
+imwrite(f,’lena-highpass.png’);</p>
+</div>
+<div class="section" id="proprietes">
+<h2>Propriétés<a class="headerlink" href="#proprietes" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="problemes-aux-bords">
+<h2>Problèmes aux bords<a class="headerlink" href="#problemes-aux-bords" title="Permalink to this headline">¶</a></h2>
+<p>La formule du produit de convolution n’est pas définie sur les bords de l’image~:
+ainsi, le calcul de <span class="math notranslate nohighlight">\(f_{1,1}\)</span> dans la figure~\ref{F:conv-illustration}
+nécessite de connaître, par exemple, la valeur de <span class="math notranslate nohighlight">\(g_{0,0}\)</span> qui n’existe pas.
+Il existe donc plusieurs manières de fixer les valeurs des pixels situés en dehors de l’image~:
+la figure~\ref{F:conv-bords} représente l’image Lena
+et les différentes possibilités de définir les pixels extérieurs,
+et la figure~\ref{F:conv-bords-results} présente les résultats de convolution dans les différents cas.</p>
+<p>Cette dernière figure montre que, globalement, les résultats sont très proches~:
+seuls les pixels aux bords de l’image peuvent être différents.
+En tous les cas, il n’existe pas de manière parfaite pour fixer les valeurs des pixels situés en dehors de l’image~:
+toutes introduisent des erreurs.
+Aussi, le mieux est de s’arranger pour que les objets d’intérêt soient loin du bord.
+Notons enfin que la périodisation de l’image aboutit à une \emph{convolution circulaire}~;
+c’est également le résultat obtenu par une multiplication dans le domaine de Fourier (cf. section~\ref{S:fourier}).</p>
+</div>
+<div class="section" id="separabilite">
+<h2>Séparabilité<a class="headerlink" href="#separabilite" title="Permalink to this headline">¶</a></h2>
+<p>Lorsqu’un filtre <span class="math notranslate nohighlight">\(h\)</span> peut s’écrire comme la convolution de deux filtres 1D (<span class="math notranslate nohighlight">\(h_1\)</span> et <span class="math notranslate nohighlight">\(h_2\)</span>) suivant les deux axes,
+il est dit \emph{séparable}. Un exemple est représenté ci-dessous~:</p>
+<p>Ainsi, la convolution d’une image <span class="math notranslate nohighlight">\(g\)</span> par un filtre séparable <span class="math notranslate nohighlight">\(h\)</span> peut être calculée
+en effectuant tout d’abord la convolution de <span class="math notranslate nohighlight">\(g\)</span> par <span class="math notranslate nohighlight">\(h_1\)</span>, puis ensuite par <span class="math notranslate nohighlight">\(h_2\)</span> (ou l’inverse)~:</p>
+<p>La séparabilité permet ainsi de gagner en temps de calcul,
+car le calcul de deux convolutions 1D demande moins d’opérations que le calcul d’une convolution 2D.</p>
+<p>https://perso.esiee.fr/~perretb/I5FM/TAI/convolution/index.html</p>
+</div>
+</div>
+
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="histogram.html" title="previous page">Histogram</a>
+    <a class='right-next' id="next-link" href="fourier.html" title="next page">Fourier Transform</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Vincent Mazet (University of Strasbourg, France)<br/>
+        
+            &copy; Copyright 2020.<br/>
+          <div class="extra_footer">
+            Fundamental Tools for Image Processing &mdash; Vincent Mazet (Université de Strasbourg), 2020 &mdash; <a href="license.html">CC BY-NC 4.0</a>.
+          </div>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    <script src="_static/js/index.js"></script>
+    
+  </body>
+</html>
