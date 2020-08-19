@@ -13,6 +13,7 @@
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="_static/jbvinc.css" />
     <link rel="stylesheet" type="text/css" href="_static/.ipynb_checkpoints/jbvinc-checkpoint.css" />
     <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
@@ -31,6 +32,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Installing and Using Python" href="python.html" />
@@ -235,19 +243,10 @@
     <!-- Table of contents -->
     <div class="d-none d-md-block col-md-2 bd-toc show">
         <div class="tocsection onthispage pt-5 pb-3">
-            <i class="fas fa-list"></i> On this page
+            <i class="fas fa-list"></i> Contents
         </div>
         <nav id="bd-toc-nav">
-            <ul class="nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#todo">
-   🐛 TODO
-  </a>
-  <ul class="nav section-nav flex-column">
-  </ul>
- </li>
-</ul>
-
+            
         </nav>
     </div>
 </div>
@@ -259,27 +258,38 @@
   <div class="section" id="preface">
 <h1>Preface<a class="headerlink" href="#preface" title="Permalink to this headline">¶</a></h1>
 <p>This is the textbook for the course “Fundamental Tools for Image Processing” given in the 2nd year of master IRIV, at the University of Strasbourg. This course comes with <a class="reference external" href="https://moodle3.unistra.fr/course/view.php?id=13708">this Moodle page</a> (accessible only to my students).</p>
-<div class="section" id="todo">
-<h2>🐛 TODO<a class="headerlink" href="#todo" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><p>Pour en savoir plus sur Lena : <a class="reference external" href="https://fr.wikipedia.org/wiki/Lenna">fr.wikipedia.org/wiki/Lenna</a> ou     <a class="reference external" href="http://www.cs.cmu.edu/~chuck/lennapg/">www.cs.cmu.edu/<span class="math notranslate nohighlight">\(\sim\)</span>chuck/lennapg/</a>.</p></li>
-<li><ul>
-<li><p><a class="reference internal" href="definition.html#f-definition-colormap"><span class="std std-numref">figure 3</span></a></p></li>
-<li><p><a class="reference internal" href="definition.html#f-definition-colormap"><span class="std std-ref">reference to the figure</span></a></p></li>
-<li><p><a class="reference internal" href="definition.html#f-definition-colormap"><span class="std std-numref">Fig. 3</span></a>.</p></li>
-</ul>
-</li>
-<li><p>Exemple de définition : on peut citer le livre de Jahne <a class="reference internal" href="biblio.html#c-biblio"><span class="std std-ref">[Jahne 2005, p. 42]</span></a>.</p></li>
-<li><p>sous Chrome, les images sont affichées un peu trop grandes : donc elles sont floues. À corriger !</p></li>
-<li><p>Donner, les instructions et fonctions Python à utiliser (ex : chargement, affichage, fft…) ?</p></li>
-</ul>
-<div class="toctree-wrapper compound">
+<p>🐛 Images pas affichées à la bonne taille (Chrome : ×1,3, FF : ×1,25) : donc elles sont floues.</p>
+<div class="figure align-default">
+<a class="reference internal image-reference" href="_images/grid.png"><img alt="_images/grid.png" src="_images/grid.png" style="height: 100px;" /></a>
+</div>
+<div class="figure align-default">
+<img alt="_images/grid.png" src="_images/grid.png" />
 </div>
 <div class="toctree-wrapper compound">
 </div>
+<div class="toctree-wrapper compound">
 </div>
 </div>
 
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
 
               </div>
               

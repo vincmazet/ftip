@@ -13,6 +13,7 @@
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="_static/jbvinc.css" />
     <link rel="stylesheet" type="text/css" href="_static/.ipynb_checkpoints/jbvinc-checkpoint.css" />
     <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
@@ -31,6 +32,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="License" href="license.html" />
@@ -101,6 +109,47 @@
  <li class="toctree-l1">
   <a class="reference internal" href="convolution.html">
    Convolution
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="convolution.html#underbrace-begin-bmatrix-alpha-a-alpha-b-alpha-c-beta-a-beta-b-beta-c-gamma-a-gamma-b-gamma-c-end-bmatrix-text-normalsize-h">
+   $$
+\underbrace{\begin{bmatrix}
+\alpha a &amp; \alpha b &amp; \alpha c \
+\beta  a &amp; \beta  b &amp; \beta  c \
+\gamma a &amp; \gamma b &amp; \gamma c \
+\end{bmatrix}}_\text{\normalsize
+   <span class="math notranslate nohighlight">
+    \(h\)
+   </span>
+   }
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="convolution.html#underbrace-begin-bmatrix-0-alpha-0-0-beta-0-0-gamma-0-end-bmatrix-text-normalsize-h-1-underbrace-begin-bmatrix-0-0-0-a-b-c-0-0-0-end-bmatrix-text-normalsize-h-2">
+   \underbrace{\begin{bmatrix}
+0 &amp; \alpha &amp; 0 \
+0 &amp; \beta &amp; 0 \
+0 &amp; \gamma &amp; 0 \
+\end{bmatrix}}
+   <em>
+    \text{\normalsize
+    <span class="math notranslate nohighlight">
+     \(h_1\)
+    </span>
+    }
+*
+\underbrace{\begin{bmatrix}
+0 &amp; 0 &amp; 0 \
+a &amp; b &amp; c \
+0 &amp; 0 &amp; 0 \
+\end{bmatrix}}
+   </em>
+   \text{\normalsize
+   <span class="math notranslate nohighlight">
+    \(h_2\)
+   </span>
+   }
   </a>
  </li>
  <li class="toctree-l1">
@@ -236,7 +285,7 @@
     <!-- Table of contents -->
     <div class="d-none d-md-block col-md-2 bd-toc show">
         <div class="tocsection onthispage pt-5 pb-3">
-            <i class="fas fa-list"></i> On this page
+            <i class="fas fa-list"></i> Contents
         </div>
         <nav id="bd-toc-nav">
             
@@ -262,11 +311,30 @@ Springer, 2005.
 <a class="reference external" href="https://www.springer.com/gp/book/9783540240358">Available freely from Unistra or INSA</a> (or through VPN).</p></li>
 <li><p>[Perret 2017]
 B. Perret.
-<a class="reference external" href="https://perso.esiee.fr/~perretb/I5FM/TAI/histogramme/index.html"><em>Traitement d’histogramme</em></a>.
+<a class="reference external" href="https://perso.esiee.fr/~perretb/I5FM/TAI/index.html"><em>Traitement et  analyse d’images</em></a>.
 2017.</p></li>
 </ul>
 </div>
 
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
 
               </div>
               

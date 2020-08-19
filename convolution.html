@@ -13,6 +13,7 @@
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="_static/jbvinc.css" />
     <link rel="stylesheet" type="text/css" href="_static/.ipynb_checkpoints/jbvinc-checkpoint.css" />
     <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
@@ -31,6 +32,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Fourier Transform" href="fourier.html" />
@@ -236,7 +244,7 @@
     <!-- Table of contents -->
     <div class="d-none d-md-block col-md-2 bd-toc show">
         <div class="tocsection onthispage pt-5 pb-3">
-            <i class="fas fa-list"></i> On this page
+            <i class="fas fa-list"></i> Contents
         </div>
         <nav id="bd-toc-nav">
             <ul class="nav section-nav flex-column">
@@ -246,23 +254,18 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#dirac-et-gaussienne">
-   Dirac et gaussienne
+  <a class="reference internal nav-link" href="#properties">
+   Properties
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#proprietes">
-   Propriétés
+  <a class="reference internal nav-link" href="#boundaries-effects">
+   Boundaries effects
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#problemes-aux-bords">
-   Problèmes aux bords
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#separabilite">
-   Séparabilité
+  <a class="reference internal nav-link" href="#separable-convolution">
+   Separable Convolution
   </a>
  </li>
 </ul>
@@ -277,6 +280,13 @@
                 
   <div class="section" id="convolution">
 <h1>Convolution<a class="headerlink" href="#convolution" title="Permalink to this headline">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">myst_nb</span> <span class="kn">import</span> <span class="n">glue</span>
+</pre></div>
+</div>
+</div>
+</div>
 <div class="section" id="definition">
 <h2>Definition<a class="headerlink" href="#definition" title="Permalink to this headline">¶</a></h2>
 <p>Many image processing methods result from a modification of one pixel with respect to its neighbors.
@@ -288,7 +298,7 @@ This is the so-called convolution <a class="reference internal" href="biblio.htm
 \[
   f(x,y) = (g*h)(x,y) = \sum_m \sum_n g(x-m,y-n) h(m,n)
 \]</div>
-<p>Intuitively, the convolution “spreads” each pixel <span class="math notranslate nohighlight">\((m,n)\)</span> in <span class="math notranslate nohighlight">\(g\)</span> following <span class="math notranslate nohighlight">\(h\)</span> (and proportionally to the intensity <span class="math notranslate nohighlight">\(g_{m,n}\)</span>).
+<p>Intuitively, the convolution “spreads” each pixel <span class="math notranslate nohighlight">\((m,n)\)</span> in <span class="math notranslate nohighlight">\(g\)</span> following <span class="math notranslate nohighlight">\(h\)</span> and proportionally to the intensity <span class="math notranslate nohighlight">\(g_{m,n}\)</span>.
 <a class="reference internal" href="#f-convolution-sketch"><span class="std std-numref">Fig. 14</span></a> gives an example of the computing of a particular pixel.</p>
 <div class="figure align-default" id="f-convolution-sketch">
 <a class="reference internal image-reference" href="_images/convolution.png"><img alt="_images/convolution.png" src="_images/convolution.png" style="width: 654.5px; height: 204.39999999999998px;" /></a>
@@ -296,88 +306,119 @@ This is the so-called convolution <a class="reference internal" href="biblio.htm
 </div>
 <p>For the sake of simplicity, the image <span class="math notranslate nohighlight">\(h\)</span> is:</p>
 <ul class="simple">
-<li><p>of odd size (<span class="math notranslate nohighlight">\(3\times3\)</span>, <span class="math notranslate nohighlight">\(5\times5\)</span>, <span class="math notranslate nohighlight">\(7\times7\)</span>, \dots);</p></li>
-<li><p>centered, <em>i.e.</em> the pixel with coordinates <span class="math notranslate nohighlight">\((0,0)\)</span> is at the center of the image.</p></li>
+<li><p>of odd size (<span class="math notranslate nohighlight">\(3\times3\)</span>, <span class="math notranslate nohighlight">\(5\times5\)</span>, <span class="math notranslate nohighlight">\(7\times7\)</span>…);</p></li>
+<li><p>centered, <em>i.e.</em> the pixel with coordinates <span class="math notranslate nohighlight">\((0,0)\)</span> is at the center of the image <span class="math notranslate nohighlight">\(h\)</span>.</p></li>
 </ul>
-<p>Besides, note that, depending the context, the image <span class="math notranslate nohighlight">\(h\)</span> is called: filter, mask, kernel, window, pattern or point spread function (PSF).</p>
-<p>Some convolution examples are shown in <code class="xref std std-numref docutils literal notranslate"><span class="pre">F:convolution:example</span></code>.</p>
+<p>Furthermore, the image <span class="math notranslate nohighlight">\(h\)</span> has different names, depending the context: <em>filter</em>, <em>mask</em>, <em>kernel</em>, <em>window</em>, <em>pattern</em> or <em>point spread function</em> (PSF).</p>
+<p>Some convolution examples are shown in <a class="reference internal" href="#f-convolution-example"><span class="std std-numref">Fig. 15</span></a>.</p>
+<div class="figure align-default" id="f-convolution-example">
+<div class="cell_output docutils container">
+<img alt="_images/convolution_3_0.png" src="_images/convolution_3_0.png" />
 </div>
-<div class="section" id="dirac-et-gaussienne">
-<h2>Dirac et gaussienne<a class="headerlink" href="#dirac-et-gaussienne" title="Permalink to this headline">¶</a></h2>
-<p>d = np.zeros((64,64))
-d[31,31] = 1
-g = scipy.ndimage.gaussian_filter(input, sigma, order=0, output=None, mode=’reflect’, cval=0.0, truncate=4.0)[source]</p>
-<p>h1 = fspecial(‘gaussian’,64,7);
-h1 = h1 / max(h1(:));
-imwrite(h1,’gaussian.png’);</p>
-<p>imwrite(d,’dirac.png’);</p>
-<p>f = conv2(d,h1,’same’);
-imwrite(f,’dirac-gaussian.png’);</p>
-<p>d = zeros(64);
-d(16,16) = 1;
-imwrite(d,’diracdec.png’);</p>
-<p>f = conv2(d,h1,’same’);
-imwrite(f,’diracdec-gaussian.png’);</p>
-<p>d = zeros(64);
-d([100 2000 3000]) = 1;
-imwrite(d,’diracs.png’);</p>
-<p>f = conv2(d,h1,’same’);
-imwrite(f,’diracs-gaussian.png’);</p>
-<p>muse = double(imread(‘muse.png’))/255;
-f = conv2(muse,h1,’same’);
-f = f/max(f(:));
-imwrite(f,’muse-gaussian.png’);</p>
-<p>lena = double(imread(‘lena.png’))/255;
-f = conv2(lena,h1,’same’);
-f = f/max(f(:));
-imwrite(f,’lena-gaussian.png’);</p>
-<p>N = 80;
-h2 = zeros(2<em>N-1);
-h2(N,N:2</em>N-1) = linspace(1,0,N);
-imwrite(h2,’shakeblur.png’);</p>
-<p>f = conv2(lena,h2,’same’);
-f = f/max(f(:));
-imwrite(f,’lena-shakeblur.png’);</p>
-<p>h3 = [0 -1 0 ; -1 4 -1 ; 0 -1 0];
-f = conv2(lena,h3,’same’);
-h3 = (h3-min(h3(:))) / (max(h3(:))-min(h3(:)));
-f = (f-min(f(:))) / (max(f(:))-min(f(:)));
-f = histeq(f);
-imwrite(h3,’highpass.png’);
-imwrite(f,’lena-highpass.png’);</p>
+<p class="caption"><span class="caption-number">Fig. 15 </span><span class="caption-text">Three examples of image convolution.</span><a class="headerlink" href="#f-convolution-example" title="Permalink to this image">¶</a></p>
 </div>
-<div class="section" id="proprietes">
-<h2>Propriétés<a class="headerlink" href="#proprietes" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="problemes-aux-bords">
-<h2>Problèmes aux bords<a class="headerlink" href="#problemes-aux-bords" title="Permalink to this headline">¶</a></h2>
-<p>La formule du produit de convolution n’est pas définie sur les bords de l’image~:
-ainsi, le calcul de <span class="math notranslate nohighlight">\(f_{1,1}\)</span> dans la figure~\ref{F:conv-illustration}
-nécessite de connaître, par exemple, la valeur de <span class="math notranslate nohighlight">\(g_{0,0}\)</span> qui n’existe pas.
-Il existe donc plusieurs manières de fixer les valeurs des pixels situés en dehors de l’image~:
-la figure~\ref{F:conv-bords} représente l’image Lena
-et les différentes possibilités de définir les pixels extérieurs,
-et la figure~\ref{F:conv-bords-results} présente les résultats de convolution dans les différents cas.</p>
-<p>Cette dernière figure montre que, globalement, les résultats sont très proches~:
-seuls les pixels aux bords de l’image peuvent être différents.
-En tous les cas, il n’existe pas de manière parfaite pour fixer les valeurs des pixels situés en dehors de l’image~:
-toutes introduisent des erreurs.
-Aussi, le mieux est de s’arranger pour que les objets d’intérêt soient loin du bord.
-Notons enfin que la périodisation de l’image aboutit à une \emph{convolution circulaire}~;
-c’est également le résultat obtenu par une multiplication dans le domaine de Fourier (cf. section~\ref{S:fourier}).</p>
+<div class="section" id="properties">
+<h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>The neutral element of convolution is an image filled with zeros but the pixel at the center equals 1.</p></li>
+<li><p>The convolution is commutative:  
+<span class="math notranslate nohighlight">\(g*h = h*g\)</span>.</p></li>
+<li><p>The convolution is distributive with respect to the addition:  
+<span class="math notranslate nohighlight">\(g*(h_1+h_2) = g*h_1 + g*h_2\)</span>.</p></li>
+<li><p>The convolution is bilinear:  
+<span class="math notranslate nohighlight">\(\alpha (g*h) = (\alpha g) * h = g * (\alpha h)\)</span>   (with <span class="math notranslate nohighlight">\(\alpha\in\mathbb{C}\)</span>).</p></li>
+<li><p>The convolution is associative:  
+<span class="math notranslate nohighlight">\(h_1*(h_2*h_3) = (h_1*h_2)*h_3\)</span>.</p></li>
+</ul>
 </div>
-<div class="section" id="separabilite">
-<h2>Séparabilité<a class="headerlink" href="#separabilite" title="Permalink to this headline">¶</a></h2>
-<p>Lorsqu’un filtre <span class="math notranslate nohighlight">\(h\)</span> peut s’écrire comme la convolution de deux filtres 1D (<span class="math notranslate nohighlight">\(h_1\)</span> et <span class="math notranslate nohighlight">\(h_2\)</span>) suivant les deux axes,
-il est dit \emph{séparable}. Un exemple est représenté ci-dessous~:</p>
-<p>Ainsi, la convolution d’une image <span class="math notranslate nohighlight">\(g\)</span> par un filtre séparable <span class="math notranslate nohighlight">\(h\)</span> peut être calculée
-en effectuant tout d’abord la convolution de <span class="math notranslate nohighlight">\(g\)</span> par <span class="math notranslate nohighlight">\(h_1\)</span>, puis ensuite par <span class="math notranslate nohighlight">\(h_2\)</span> (ou l’inverse)~:</p>
-<p>La séparabilité permet ainsi de gagner en temps de calcul,
-car le calcul de deux convolutions 1D demande moins d’opérations que le calcul d’une convolution 2D.</p>
-<p>https://perso.esiee.fr/~perretb/I5FM/TAI/convolution/index.html</p>
+<div class="section" id="boundaries-effects">
+<h2>Boundaries effects<a class="headerlink" href="#boundaries-effects" title="Permalink to this headline">¶</a></h2>
+<p>The convolution formula is not defined on the boundaries of the image:
+as an example, computing <span class="math notranslate nohighlight">\(f_{1,1}\)</span> in <a class="reference internal" href="#f-convolution-sketch"><span class="std std-numref">Fig. 14</span></a> requires the value of <span class="math notranslate nohighlight">\(g_{0,0}\)</span> which is not defined.</p>
+<p>Therefore, one has to assume some hypotheses of the pixel values oputside the image.
+<a class="reference internal" href="#f-convolution-boundaries-hypotheses"><span class="std std-numref">Fig. 16</span></a> shows an image with some possibilities to consider the external pixels, and <a class="reference internal" href="#f-convolution-boundaries-results"><span class="std std-numref">Fig. 17</span></a> shows the convolution of the former images by a Gaussian.</p>
+<div class="figure align-default" id="f-convolution-boundaries-hypotheses">
+<div class="cell_output docutils container">
+<img alt="_images/convolution_6_0.png" src="_images/convolution_6_0.png" />
+</div>
+<p class="caption"><span class="caption-number">Fig. 16 </span><span class="caption-text">Several ways to set the pixels outside the image.</span><a class="headerlink" href="#f-convolution-boundaries-hypotheses" title="Permalink to this image">¶</a></p>
+</div>
+<div class="figure align-default" id="f-convolution-boundaries-results">
+<div class="cell_output docutils container">
+<img alt="_images/convolution_7_0.png" src="_images/convolution_7_0.png" />
+</div>
+<p class="caption"><span class="caption-number">Fig. 17 </span><span class="caption-text">Results of the convolution with the same image.</span><a class="headerlink" href="#f-convolution-boundaries-results" title="Permalink to this image">¶</a></p>
+</div>
+<p>One can see on the <a class="reference internal" href="#f-convolution-boundaries-results"><span class="std std-numref">Fig. 17</span></a> that the three convolutions are basically identical:
+only the pixels near the boundaries may be different (darker or brighter on this example).
+Anyway, there is no perfect choice to set the pixels outside the image, and each choice yields some errors.
+Also, the best way is to arrange it so that the objects of interest are far from the edges.</p>
+<p>At last, note that the wrapping hypothesis yields a <em>circular convolution</em>.
+This is also the result given by a multiplication in the Fourier domain (see <a class="reference internal" href="fourier.html#c-fourier"><span class="std std-ref">Fourier Transform</span></a>).</p>
+</div>
+<div class="section" id="separable-convolution">
+<h2>Separable Convolution<a class="headerlink" href="#separable-convolution" title="Permalink to this headline">¶</a></h2>
+<p>A separable convolution is when the convolution kernel <span class="math notranslate nohighlight">\(h\)</span> can be written as the convolution of two 1D filters (say <span class="math notranslate nohighlight">\(h_1\)</span> and <span class="math notranslate nohighlight">\(h_2\)</span>) defined along the two axes.
+Let’s give an example:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+  \underbrace{\begin{bmatrix}
+    \alpha a &amp; \alpha b &amp; \alpha c \\
+    \beta  a &amp; \beta  b &amp; \beta  c \\
+    \gamma a &amp; \gamma b &amp; \gamma c \\
+  \end{bmatrix}}_{h}
+  =
+  \underbrace{\begin{bmatrix}
+    0 &amp; \alpha &amp; 0 \\
+    0 &amp; \beta &amp; 0 \\
+    0 &amp; \gamma &amp; 0 \\
+  \end{bmatrix}}_{h_1}
+  *
+  \underbrace{\begin{bmatrix}
+    0 &amp; 0 &amp; 0 \\
+    a &amp; b &amp; c \\
+    0 &amp; 0 &amp; 0 \\
+    \end{bmatrix}}_{h_2}
+  =
+  \underbrace{\begin{bmatrix}
+    \alpha \\
+    \beta \\
+    \gamma \\
+  \end{bmatrix}}_{h_1}
+  *
+  \underbrace{\begin{bmatrix}
+    a &amp; b &amp; c \\
+    \end{bmatrix}}_{h_2}
+\end{split}\]</div>
+<p>Thus, the convolution of an image <span class="math notranslate nohighlight">\(g\)</span> by a separable filter <span class="math notranslate nohighlight">\(h\)</span> can be calculated by first computing the convolution of <span class="math notranslate nohighlight">\(g\)</span> with <span class="math notranslate nohighlight">\(h_1\)</span>, then the convolution of the former result with <span class="math notranslate nohighlight">\(h_2\)</span> (or the reverse):</p>
+<div class="math notranslate nohighlight">
+\[
+  g * h = g * (h_1*h_2) = (g*h_1) * h_2 = (g*h_2) * h_1
+\]</div>
+<p>The convolution separability saves computation time because the computation of two 1D convolutions requires less operations than the computation of a 2D convolution.</p>
 </div>
 </div>
 
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
 
               </div>
               
