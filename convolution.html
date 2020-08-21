@@ -87,11 +87,6 @@
 </p>
 <ul class="current nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="python.html">
-   Installing and Using Python
-  </a>
- </li>
- <li class="toctree-l1">
   <a class="reference internal" href="definition.html">
    What is a Digital Image?
   </a>
@@ -159,10 +154,39 @@
 </ul>
 <p class="caption">
  <span class="caption-text">
+  In-Class Sessions
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="tp1.html">
+   07/10/2020
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Corrections
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="labs/tp1-code.html">
+   07/10/2020
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
   Appendices
  </span>
 </p>
 <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="python.html">
+   Installing and Using Python
+  </a>
+ </li>
  <li class="toctree-l1">
   <a class="reference internal" href="glossary.html">
    Glossary
@@ -280,13 +304,6 @@
                 
   <div class="section" id="convolution">
 <h1>Convolution<a class="headerlink" href="#convolution" title="Permalink to this headline">¶</a></h1>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">myst_nb</span> <span class="kn">import</span> <span class="n">glue</span>
-</pre></div>
-</div>
-</div>
-</div>
 <div class="section" id="definition">
 <h2>Definition<a class="headerlink" href="#definition" title="Permalink to this headline">¶</a></h2>
 <p>Many image processing methods result from a modification of one pixel with respect to its neighbors.
@@ -299,10 +316,10 @@ This is the so-called convolution <a class="reference internal" href="biblio.htm
   f(x,y) = (g*h)(x,y) = \sum_m \sum_n g(x-m,y-n) h(m,n)
 \]</div>
 <p>Intuitively, the convolution “spreads” each pixel <span class="math notranslate nohighlight">\((m,n)\)</span> in <span class="math notranslate nohighlight">\(g\)</span> following <span class="math notranslate nohighlight">\(h\)</span> and proportionally to the intensity <span class="math notranslate nohighlight">\(g_{m,n}\)</span>.
-<a class="reference internal" href="#f-convolution-sketch"><span class="std std-numref">Fig. 14</span></a> gives an example of the computing of a particular pixel.</p>
+<a class="reference internal" href="#f-convolution-sketch"><span class="std std-numref">Fig. 13</span></a> gives an example of the computing of a particular pixel.</p>
 <div class="figure align-default" id="f-convolution-sketch">
 <a class="reference internal image-reference" href="_images/convolution.png"><img alt="_images/convolution.png" src="_images/convolution.png" style="width: 654.5px; height: 204.39999999999998px;" /></a>
-<p class="caption"><span class="caption-number">Fig. 14 </span><span class="caption-text">Example for computing the pixel (2,2) of <span class="math notranslate nohighlight">\(f\)</span>.</span><a class="headerlink" href="#f-convolution-sketch" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-number">Fig. 13 </span><span class="caption-text">Example for computing the pixel (2,2) of <span class="math notranslate nohighlight">\(f\)</span>.</span><a class="headerlink" href="#f-convolution-sketch" title="Permalink to this image">¶</a></p>
 </div>
 <p>For the sake of simplicity, the image <span class="math notranslate nohighlight">\(h\)</span> is:</p>
 <ul class="simple">
@@ -310,12 +327,12 @@ This is the so-called convolution <a class="reference internal" href="biblio.htm
 <li><p>centered, <em>i.e.</em> the pixel with coordinates <span class="math notranslate nohighlight">\((0,0)\)</span> is at the center of the image <span class="math notranslate nohighlight">\(h\)</span>.</p></li>
 </ul>
 <p>Furthermore, the image <span class="math notranslate nohighlight">\(h\)</span> has different names, depending the context: <em>filter</em>, <em>mask</em>, <em>kernel</em>, <em>window</em>, <em>pattern</em> or <em>point spread function</em> (PSF).</p>
-<p>Some convolution examples are shown in <a class="reference internal" href="#f-convolution-example"><span class="std std-numref">Fig. 15</span></a>.</p>
+<p>Some convolution examples are shown in <a class="reference internal" href="#f-convolution-example"><span class="std std-numref">Fig. 14</span></a>.</p>
 <div class="figure align-default" id="f-convolution-example">
 <div class="cell_output docutils container">
 <img alt="_images/convolution_3_0.png" src="_images/convolution_3_0.png" />
 </div>
-<p class="caption"><span class="caption-number">Fig. 15 </span><span class="caption-text">Three examples of image convolution.</span><a class="headerlink" href="#f-convolution-example" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-number">Fig. 14 </span><span class="caption-text">Three examples of image convolution.</span><a class="headerlink" href="#f-convolution-example" title="Permalink to this image">¶</a></p>
 </div>
 </div>
 <div class="section" id="properties">
@@ -335,22 +352,22 @@ This is the so-called convolution <a class="reference internal" href="biblio.htm
 <div class="section" id="boundaries-effects">
 <h2>Boundaries effects<a class="headerlink" href="#boundaries-effects" title="Permalink to this headline">¶</a></h2>
 <p>The convolution formula is not defined on the boundaries of the image:
-as an example, computing <span class="math notranslate nohighlight">\(f_{1,1}\)</span> in <a class="reference internal" href="#f-convolution-sketch"><span class="std std-numref">Fig. 14</span></a> requires the value of <span class="math notranslate nohighlight">\(g_{0,0}\)</span> which is not defined.</p>
+as an example, computing <span class="math notranslate nohighlight">\(f_{1,1}\)</span> in <a class="reference internal" href="#f-convolution-sketch"><span class="std std-numref">Fig. 13</span></a> requires the value of <span class="math notranslate nohighlight">\(g_{0,0}\)</span> which is not defined.</p>
 <p>Therefore, one has to assume some hypotheses of the pixel values oputside the image.
-<a class="reference internal" href="#f-convolution-boundaries-hypotheses"><span class="std std-numref">Fig. 16</span></a> shows an image with some possibilities to consider the external pixels, and <a class="reference internal" href="#f-convolution-boundaries-results"><span class="std std-numref">Fig. 17</span></a> shows the convolution of the former images by a Gaussian.</p>
+<a class="reference internal" href="#f-convolution-boundaries-hypotheses"><span class="std std-numref">Fig. 15</span></a> shows an image with some possibilities to consider the external pixels, and <a class="reference internal" href="#f-convolution-boundaries-results"><span class="std std-numref">Fig. 16</span></a> shows the convolution of the former images by a Gaussian.</p>
 <div class="figure align-default" id="f-convolution-boundaries-hypotheses">
 <div class="cell_output docutils container">
 <img alt="_images/convolution_6_0.png" src="_images/convolution_6_0.png" />
 </div>
-<p class="caption"><span class="caption-number">Fig. 16 </span><span class="caption-text">Several ways to set the pixels outside the image.</span><a class="headerlink" href="#f-convolution-boundaries-hypotheses" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-number">Fig. 15 </span><span class="caption-text">Several ways to set the pixels outside the image.</span><a class="headerlink" href="#f-convolution-boundaries-hypotheses" title="Permalink to this image">¶</a></p>
 </div>
 <div class="figure align-default" id="f-convolution-boundaries-results">
 <div class="cell_output docutils container">
 <img alt="_images/convolution_7_0.png" src="_images/convolution_7_0.png" />
 </div>
-<p class="caption"><span class="caption-number">Fig. 17 </span><span class="caption-text">Results of the convolution with the same image.</span><a class="headerlink" href="#f-convolution-boundaries-results" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-number">Fig. 16 </span><span class="caption-text">Results of the convolution with the same image.</span><a class="headerlink" href="#f-convolution-boundaries-results" title="Permalink to this image">¶</a></p>
 </div>
-<p>One can see on the <a class="reference internal" href="#f-convolution-boundaries-results"><span class="std std-numref">Fig. 17</span></a> that the three convolutions are basically identical:
+<p>One can see on the <a class="reference internal" href="#f-convolution-boundaries-results"><span class="std std-numref">Fig. 16</span></a> that the three convolutions are basically identical:
 only the pixels near the boundaries may be different (darker or brighter on this example).
 Anyway, there is no perfect choice to set the pixels outside the image, and each choice yields some errors.
 Also, the best way is to arrange it so that the objects of interest are far from the edges.</p>

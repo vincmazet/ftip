@@ -87,11 +87,6 @@
 </p>
 <ul class="current nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="python.html">
-   Installing and Using Python
-  </a>
- </li>
- <li class="toctree-l1">
   <a class="reference internal" href="definition.html">
    What is a Digital Image?
   </a>
@@ -159,10 +154,39 @@
 </ul>
 <p class="caption">
  <span class="caption-text">
+  In-Class Sessions
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="tp1.html">
+   07/10/2020
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Corrections
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="labs/tp1-code.html">
+   07/10/2020
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
   Appendices
  </span>
 </p>
 <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="python.html">
+   Installing and Using Python
+  </a>
+ </li>
  <li class="toctree-l1">
   <a class="reference internal" href="glossary.html">
    Glossary
@@ -275,14 +299,7 @@
                 
   <div class="section" id="fourier-transform">
 <span id="c-fourier"></span><h1>Fourier Transform<a class="headerlink" href="#fourier-transform" title="Permalink to this headline">¶</a></h1>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">myst_nb</span> <span class="kn">import</span> <span class="n">glue</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>The two-dimensional Fourier transform is the extension of the well knwon Fourier transform to images (<a class="reference internal" href="biblio.html#c-biblio"><span class="std std-ref">[Jahne 2005, section 2.3]</span></a>).
+<p>The two-dimensional Fourier transform is the extension of the well knwon Fourier transform to images <a class="reference internal" href="biblio.html#c-biblio"><span class="std std-ref">[Jahne 2005, section 2.3]</span></a>.
 We recall that the Fourier transform decompose a signal into a sum of sinusoids,
 thus highlighting the frequencies contained in this signal.</p>
 <div class="section" id="definition">
@@ -294,12 +311,12 @@ thus highlighting the frequencies contained in this signal.</p>
 \]</div>
 <p>In the sequel, we note <span class="math notranslate nohighlight">\(\mathcal{F}\)</span> the DFT so that <span class="math notranslate nohighlight">\(\mathcal{F}[f] = F\)</span>.</p>
 <p>Because the DFT of an image is possibly complex, it cannot be displayed with a single image.
-That is why we will show the amplitude (modulus) and phase (argument) of the DFT separately, as in <a class="reference internal" href="#f-fourier-example"><span class="std std-numref">Fig. 18</span></a>.</p>
+That is why we will show the amplitude (modulus) and phase (argument) of the DFT separately, as in <a class="reference internal" href="#f-fourier-example"><span class="std std-numref">Fig. 17</span></a>.</p>
 <div class="figure align-default" id="f-fourier-example">
 <div class="cell_output docutils container">
 <img alt="_images/fourier_4_0.png" src="_images/fourier_4_0.png" />
 </div>
-<p class="caption"><span class="caption-number">Fig. 18 </span><span class="caption-text">DFT of the squirrel. The amplitude is shown with a logarithmic scale to distinguish clearly the details (so we have appled an histogram transformation).</span><a class="headerlink" href="#f-fourier-example" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-number">Fig. 17 </span><span class="caption-text">DFT of the squirrel. The amplitude is shown with a logarithmic scale to distinguish clearly the details (so we have appled an histogram transformation).</span><a class="headerlink" href="#f-fourier-example" title="Permalink to this image">¶</a></p>
 </div>
 <p>The amplitude and phase represent the distribution of energy in the frequency plane.
 The low frequencies are located in the center of the image, and the high frequencies near the boundaries.
@@ -344,20 +361,20 @@ f * g = \mathcal{F}^{-1}[F \times G]
 <div class="section" id="filtering">
 <h2>Filtering<a class="headerlink" href="#filtering" title="Permalink to this headline">¶</a></h2>
 <p>The operation of filtering consists in selecting some frequencies in the images.
-Especially, we distinguish low-pass filtering which preserves only the low frequencies (<a class="reference internal" href="#f-fourier-lowpass"><span class="std std-numref">Fig. 19</span></a>)
-and high-pass filtering which preserves only the high frequencies (<a class="reference internal" href="#f-fourier-highpass"><span class="std std-numref">Fig. 20</span></a>).</p>
+Especially, we distinguish low-pass filtering which preserves only the low frequencies (<a class="reference internal" href="#f-fourier-lowpass"><span class="std std-numref">Fig. 18</span></a>)
+and high-pass filtering which preserves only the high frequencies (<a class="reference internal" href="#f-fourier-highpass"><span class="std std-numref">Fig. 19</span></a>).</p>
 <div class="figure align-default" id="f-fourier-lowpass">
 <div class="cell_output docutils container">
 <img alt="_images/fourier_8_0.png" src="_images/fourier_8_0.png" />
 </div>
-<p class="caption"><span class="caption-number">Fig. 19 </span><span class="caption-text">Example of low-pass filtering: only the low frequencies are kept.
+<p class="caption"><span class="caption-number">Fig. 18 </span><span class="caption-text">Example of low-pass filtering: only the low frequencies are kept.
 Top row: spatial domain, bottom row: amplitude of the DFT.</span><a class="headerlink" href="#f-fourier-lowpass" title="Permalink to this image">¶</a></p>
 </div>
 <div class="figure align-default" id="f-fourier-highpass">
 <div class="cell_output docutils container">
 <img alt="_images/fourier_9_0.png" src="_images/fourier_9_0.png" />
 </div>
-<p class="caption"><span class="caption-number">Fig. 20 </span><span class="caption-text">Example of high-pass filtering: only the high frequencies (i.e. the sudden changes in the intensities) are kept.</span><a class="headerlink" href="#f-fourier-highpass" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-number">Fig. 19 </span><span class="caption-text">Example of high-pass filtering: only the high frequencies (i.e. the sudden changes in the intensities) are kept.</span><a class="headerlink" href="#f-fourier-highpass" title="Permalink to this image">¶</a></p>
 </div>
 </div>
 </div>
