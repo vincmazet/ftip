@@ -326,6 +326,94 @@
    </li>
   </ul>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#create-a-simple-image">
+   Create a simple image
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     Objectives
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#image-synthesis">
+     Image synthesis
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#setting-the-intensity-range">
+   Setting the intensity range
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id4">
+     Objectives
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#display-the-image">
+     Display the image
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#choose-a-better-colormap">
+     Choose a better colormap
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#segmentation-by-histogram-thresholding">
+   Segmentation by histogram thresholding
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id5">
+     Objectives
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#image-histogram">
+     Image histogram
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#segmentation-in-2-classes">
+     Segmentation in 2 classes
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#segmentation-in-3-classes">
+     Segmentation in 3 classes
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#contrast-enhancement">
+   Contrast enhancement
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#objective">
+     Objective
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#multiplication-by-a-real">
+     Multiplication by a real
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#histogram-equalization">
+     Histogram equalization
+    </a>
+   </li>
+  </ul>
+ </li>
 </ul>
 
         </nav>
@@ -567,6 +655,283 @@ Max : 0.9116803921568628
 </div>
 </div>
 <p>Do you see on the profile the Mandrill’s nose and the protruding ridges on its sides?</p>
+</div>
+</div>
+<div class="section" id="create-a-simple-image">
+<h2>Create a simple image<a class="headerlink" href="#create-a-simple-image" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h3>Objectives<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>synthesize an RGB image (and know, for example, that yellow = green + red)</p></li>
+<li><p>manipulate the value / color correspondence</p></li>
+<li><p>use the <code class="docutils literal notranslate"><span class="pre">:</span></code> operator</p></li>
+</ul>
+</div>
+<div class="section" id="image-synthesis">
+<h3>Image synthesis<a class="headerlink" href="#image-synthesis" title="Permalink to this headline">¶</a></h3>
+<p>As usual, do not forget the modules:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The image is composed of blocks of homogeneous color with size 20 × 20 pixels, so as to form an image of 40 × 80 pixels.
+Also, it contains three bands as it is an RGB image.
+Therefore we create an array <code class="docutils literal notranslate"><span class="pre">f</span></code> of size 40 × 80 × 3:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">40</span><span class="p">,</span><span class="mi">80</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We use <a class="reference external" href="https://en.wikipedia.org/wiki/Additive_color">Additive color</a> to create the colors.
+Thus, yellow is obtained by combining green and red.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">[</span> <span class="mi">0</span><span class="p">:</span><span class="mi">20</span> <span class="p">,</span>   <span class="p">:</span>   <span class="p">,</span> <span class="mi">0</span> <span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>   <span class="c1"># Red band (top row:: pixels 0 to 19)</span>
+<span class="n">f</span><span class="p">[</span>  <span class="p">:</span>   <span class="p">,</span>  <span class="mi">0</span><span class="p">:</span><span class="mi">40</span> <span class="p">,</span> <span class="mi">1</span> <span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>   <span class="c1"># Green band (the two columns on the left)</span>
+<span class="n">f</span><span class="p">[</span>  <span class="p">:</span>   <span class="p">,</span> <span class="mi">20</span><span class="p">:</span><span class="mi">60</span> <span class="p">,</span> <span class="mi">2</span> <span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>   <span class="c1"># Blue band (the two columns at the center)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The bands can be displayed separately:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">7</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">f</span><span class="p">[:,:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Red band&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">f</span><span class="p">[:,:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Green band&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">f</span><span class="p">[:,:,</span><span class="mi">2</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Blue band&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Blue band&#39;)
+</pre></div>
+</div>
+<img alt="../_images/tp1-code_39_1.png" src="../_images/tp1-code_39_1.png" />
+</div>
+</div>
+<p>And finally the color image:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x7faa504fc978&gt;
+</pre></div>
+</div>
+<img alt="../_images/tp1-code_41_1.png" src="../_images/tp1-code_41_1.png" />
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="setting-the-intensity-range">
+<h2>Setting the intensity range<a class="headerlink" href="#setting-the-intensity-range" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<h3>Objectives<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>be aware of the need for a good colormap</p></li>
+<li><p>know how to adjust the colormap to display the objects of interest</p></li>
+</ul>
+<div class="cell tag_remove-input docutils container">
+</div>
+</div>
+<div class="section" id="display-the-image">
+<h3>Display the image<a class="headerlink" href="#display-the-image" title="Permalink to this headline">¶</a></h3>
+<p>Load and display the image:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s2">&quot;hdfs.tiff&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x7faa50ee3e48&gt;
+</pre></div>
+</div>
+<img alt="../_images/tp1-code_45_1.png" src="../_images/tp1-code_45_1.png" />
+</div>
+</div>
+<p>This image corresponds to a portion of the sky in the southern hemisphere called the <a class="reference external" href="http://muse-vlt.eu/science/hdfs-v1-0/"><em>Hubble Deep Field South</em></a>. It comes from the <a class="reference external" href="http://muse-vlt.eu/science/">MUSE sensor</a> installed on the VLT in Chile. It is obtained by averaging around 4000 bands of the original image: we speak of a hyperspectral image. (Source: <a class="reference external" href="https://www.aanda.org/articles/aa/abs/2015/03/aa25419-14/aa25419-14.html">Bacon et al., “The MUSE 3D view of the Hubble Deep Field South”, <em>Astronomy &amp; Astrophysics</em>, 2015</a>).</p>
+<p>You can see just a small star, however there are many other objects. Because these objects are very distant, they are very faint. In astronomy, as in many other science fields, the pixel intensity is not limited to 256 values. In this case, the intensities lie over the range given below:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Mininmal intensity: </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">f</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Maximal intensity: </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">f</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Mininmal intensity: 625722
+Maximal intensity: 628454834
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="choose-a-better-colormap">
+<h3>Choose a better colormap<a class="headerlink" href="#choose-a-better-colormap" title="Permalink to this headline">¶</a></h3>
+<p>Therefore, to observe the other objects, we will adjust the colormap so that the gray levels will lie between <code class="docutils literal notranslate"><span class="pre">vmin</span></code> and <code class="docutils literal notranslate"><span class="pre">vmax</span></code>.
+Intensities less than <code class="docutils literal notranslate"><span class="pre">vmin</span></code> will be displayed in black, and those greater than <code class="docutils literal notranslate"><span class="pre">vmax</span></code> will be in white.
+It’s up to you to find these values to get an image like the one below, where other stars and galaxies are clearly visible
+(and the brightest star is saturated).</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x7faa502d5fd0&gt;
+</pre></div>
+</div>
+<img alt="../_images/tp1-code_50_1.png" src="../_images/tp1-code_50_1.png" />
+</div>
+</div>
+<p>Another possibility is to use colors to increase the dynamics of the intensities observed. The <code class="docutils literal notranslate"><span class="pre">jet</span></code> colormap is used in the example below, with the the same <code class="docutils literal notranslate"><span class="pre">vmin</span></code> and <code class="docutils literal notranslate"><span class="pre">vmax</span></code> as before. We observe a few more objects.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x7faa50235e80&gt;
+</pre></div>
+</div>
+<img alt="../_images/tp1-code_52_1.png" src="../_images/tp1-code_52_1.png" />
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="segmentation-by-histogram-thresholding">
+<h2>Segmentation by histogram thresholding<a class="headerlink" href="#segmentation-by-histogram-thresholding" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id5">
+<h3>Objectives<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>display and manipulate a histogram</p></li>
+<li><p>define a threshold from a histogram</p></li>
+</ul>
+</div>
+<div class="section" id="image-histogram">
+<h3>Image histogram<a class="headerlink" href="#image-histogram" title="Permalink to this headline">¶</a></h3>
+<div class="cell tag_remove-input docutils container">
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp1-code_56_0.png" src="../_images/tp1-code_56_0.png" />
+</div>
+</div>
+<p>The histogram is obtained with <code class="docutils literal notranslate"><span class="pre">matplotlib.pyplot.hist</span></code>.
+As this function calculates the image from a vector, it must be used on the vectorized image, and not the image itself.
+The vectorized image is obtained with <code class="docutils literal notranslate"><span class="pre">numpy.ravel</span></code>.
+The pixels in a vectorized image are arrange in one dimension.</p>
+<p>The histogram of the image is not unique: the number of bins must be specified
+Generally, we choose as many bins as gray levels, but this is not mandatory.
+The following histograms are obtained with 16, 64 and 256 bins.
+Note that the intensities of the image are not between 0 and 255: do you know why (ask the teacher if you cannot get the solution)?</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp1-code_58_0.png" src="../_images/tp1-code_58_0.png" />
+<img alt="../_images/tp1-code_58_1.png" src="../_images/tp1-code_58_1.png" />
+<img alt="../_images/tp1-code_58_2.png" src="../_images/tp1-code_58_2.png" />
+</div>
+</div>
+<p>One one hand, we easily observe that if the number of bars is low, then the distribution is coarse and some details
+(such as the presence of two modes after 0.5) are not visible.
+On the other hand, if the bin number is high, then we may have too many details for analysing the result.
+In conclusion, the bin number does not necessarily have to be equal to the number of gray levels in the image,
+it depends on what we are going to do with the histogram!</p>
+</div>
+<div class="section" id="segmentation-in-2-classes">
+<h3>Segmentation in 2 classes<a class="headerlink" href="#segmentation-in-2-classes" title="Permalink to this headline">¶</a></h3>
+<p>The presence of several modes in the histogram implies several possible thresholds.
+The two images below correspond to the thresholds obtained around the three modes of the histogram.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp1-code_62_0.png" src="../_images/tp1-code_62_0.png" />
+<img alt="../_images/tp1-code_62_1.png" src="../_images/tp1-code_62_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="segmentation-in-3-classes">
+<h3>Segmentation in 3 classes<a class="headerlink" href="#segmentation-in-3-classes" title="Permalink to this headline">¶</a></h3>
+<p>The histogram is a tool that represents the distribution of the intensities in an image.
+We used it in this exercise to define a threshold on the image, then segmenting the image into two classes.
+Furthermore, we can define several thresholds to obtain a segmentation with more than two classes, as for example in the image below.</p>
+<p>How can you get this result?
+Besides, which modes in the histogram correspond to the three identified zones?</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp1-code_65_0.png" src="../_images/tp1-code_65_0.png" />
+</div>
+</div>
+<p>There are methods in the literature that are able to determine automatically the value of the threshold(s), such as Otsu’s method (see chapter <a class="reference internal" href="../segmentation.html#c-segmentation"><span class="std std-ref">Segmentation</span></a>).</p>
+</div>
+</div>
+<div class="section" id="contrast-enhancement">
+<h2>Contrast enhancement<a class="headerlink" href="#contrast-enhancement" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="objective">
+<h3>Objective<a class="headerlink" href="#objective" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Apply histogram transformations</p></li>
+</ul>
+<div class="cell tag_remove-input docutils container">
+</div>
+<p>The image forest.png has been used in several publications dealing with the problem of removing fog from an image (<em>dehazing</em>).</p>
+<ul class="simple">
+<li><p>K. He, J. Sun, X. Tang,
+« Single image haze removal using dark channel prior »,
+<em>IEEE Transactions on Pattern Analysis and Machine Intelligence</em>, 2011.</p></li>
+<li><p>D. Berman, T. Treibitz, S. Avidan,
+« Non-Local Image Dehazing »,
+CVPR 2016, <a class="reference external" href="http://www.eng.tau.ac.il/~berman/NonLocalDehazing/">website</a>.</p></li>
+</ul>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp1-code_70_0.png" src="../_images/tp1-code_70_0.png" />
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp1-code_71_0.png" src="../_images/tp1-code_71_0.png" />
+</div>
+</div>
+<p>The original image and its histogram are given above.
+The histogram is mono-modal (it has only one maximum) and uses the full range of intensities quite well.
+However, there are few pixels with low or high intensities, explaining the lack of contrast in the image.</p>
+<p>Thus, what is the effect on this image of a histogram spread?</p>
+</div>
+<div class="section" id="multiplication-by-a-real">
+<h3>Multiplication by a real<a class="headerlink" href="#multiplication-by-a-real" title="Permalink to this headline">¶</a></h3>
+<p>By multiplying the intensities by a coefficient (here: 1.3), the histogram is dilated: low intensities stay weak while high intensities increase.
+Therefore the image is lighter, but the dark areas are little changed.
+As a result, the contrast is better.
+Note that the two images are represented with intensities between 0 (<code class="docutils literal notranslate"><span class="pre">vmin</span></code>) and 1 (<code class="docutils literal notranslate"> <span class="pre">vmax</span></code>).</p>
+<p>Is this observation still valid for other values of the multiplicative coefficient?</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp1-code_75_0.png" src="../_images/tp1-code_75_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="histogram-equalization">
+<h3>Histogram equalization<a class="headerlink" href="#histogram-equalization" title="Permalink to this headline">¶</a></h3>
+<p>The histogram equalization gives the result below.
+The image is more contrasted than previously: this is due to the fact that the histogram of the transformed image is (almost) flat.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp1-code_78_0.png" src="../_images/tp1-code_78_0.png" />
+</div>
+</div>
 </div>
 </div>
 </div>

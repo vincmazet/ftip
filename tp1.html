@@ -287,6 +287,21 @@
    Create a simple image
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#setting-the-intensity-range">
+   Setting the intensity range
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#segmentation-by-histogram-thresholding">
+   Segmentation by histogram thresholding
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#contrast-enhancement">
+   Contrast enhancement
+  </a>
+ </li>
 </ul>
 
         </nav>
@@ -299,46 +314,44 @@
                 
   <div class="section" id="id1">
 <h1>07/10/2020<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
-<p>The corrections of these exercises are available in the part “Corrections”.
-Nevertheless, do not hesitate to ask your colleagues and teachers to get more informations or to discuss about a specific topic.</p>
+<p>You can refer to the corrections (available in “Corrections”) after you have completed each exercise.
+Whatever, do not hesitate to ask your colleagues and teachers to get more informations or to discuss about a specific topic.</p>
 <div class="section" id="getting-started">
 <h2>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference external" href="https://www.python.org/">Python</a> is a very versatile programming language and can especially be used for scientific programming and image processing.
 We will use <a class="reference external" href="https://jupyterlab.readthedocs.io/en/latest/index.html">Jupyter Lab</a>, which runs in a web browser, to write programs.
-These programs are saved as _notebooks.</p>
+These programs are saved as <em>notebooks</em>.</p>
 <ul>
 <li><p>First, start Jupyter by typing in a terminal:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">jupyter</span><span class="o">-</span><span class="n">notebook</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">jupyter</span><span class="o">-</span><span class="n">lab</span>
 </pre></div>
 </div>
 </li>
 <li><p>Open a new Python 3 notebook, then rename it from <code class="docutils literal notranslate"><span class="pre">File</span></code> &gt; <code class="docutils literal notranslate"><span class="pre">Save Notebook As...</span></code>.</p></li>
-<li><p>In the first and single cell of the notebook, write</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="mi">40</span> <span class="o">+</span> <span class="mi">2</span>
+<li><p>In the first cell of the notebook, write</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">40</span> <span class="o">+</span> <span class="mi">2</span>
 </pre></div>
 </div>
 <p>and type <code class="docutils literal notranslate"><span class="pre">Shift</span></code> + <code class="docutils literal notranslate"><span class="pre">Return</span></code>.
 The code is executed, the result is displayed then a new cell appears below.</p>
 </li>
-<li><p>Like any programming language, the code is written using <em>variables</em>, <em>operators</em> and <em>functions</em>.
-A <em>variable</em>  store one (or more) values, whether it is numeric or not.
+<li><p>Like any programming language, the code is written using <em>variables</em> and <em>functions</em>.
+A <em>variable</em>  stores one (or more) values, whether it is numeric or not.
 The name of the variable can contain letters, numbers (except the first character) or underscore.
 Case is important (<em>i.e.</em> <code class="docutils literal notranslate"><span class="pre">a</span></code> and <code class="docutils literal notranslate"><span class="pre">A</span></code> are two different variables).
 Type the instructions below in the second cell:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">year</span> <span class="o">=</span> <span class="mi">2020</span>
-  <span class="n">course</span> <span class="o">=</span> <span class="s2">&quot;FTIP&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">year</span> <span class="o">=</span> <span class="mi">2020</span>
+<span class="n">course</span> <span class="o">=</span> <span class="s2">&quot;FTIP&quot;</span>
 </pre></div>
 </div>
-<p>and type again <code class="docutils literal notranslate"><span class="pre">Shift</span></code> + <code class="docutils literal notranslate"><span class="pre">Return</span></code>.</p>
-<p>So, the value 2020 is stored in the variable <code class="docutils literal notranslate"><span class="pre">year</span></code>
-and the character string <code class="docutils literal notranslate"><span class="pre">FTIP</span></code> in the <code class="docutils literal notranslate"><span class="pre">course</span></code>.</p>
+<p>and type again <code class="docutils literal notranslate"><span class="pre">Shift</span></code> + <code class="docutils literal notranslate"><span class="pre">Return</span></code>.
+Now the value 2020 is stored in the variable <code class="docutils literal notranslate"><span class="pre">year</span></code> and the character string <code class="docutils literal notranslate"><span class="pre">FTIP</span></code> in the <code class="docutils literal notranslate"><span class="pre">course</span></code>.</p>
 </li>
-<li><p>Modify the previous cell by adding the following statement:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="nb">print</span><span class="p">(</span><span class="n">course</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">))</span>
+<li><p>Modify the previous cell by adding the following statement (<code class="docutils literal notranslate"><span class="pre">print</span></code> is a <em>function</em>):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">course</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">))</span>
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">print</span></code> is a function.
-The code of the cell is then run again.</p>
+<p>and type <code class="docutils literal notranslate"><span class="pre">Shift</span></code> + <code class="docutils literal notranslate"><span class="pre">Return</span></code> to run again the code.</p>
 </li>
 </ul>
 <p>A notebook is appealing as it is also possible to add text using the <a class="reference external" href="https://en.wikipedia.org/wiki/Markdown">markdown language</a>.</p>
@@ -360,14 +373,14 @@ Try to write:</p>
 <li><p>Write the following statements to allow the use of the modules
 <code class="docutils literal notranslate"><span class="pre">skimage.io</span></code> and <code class="docutils literal notranslate"><span class="pre">matplotlib.pyplot</span></code>
 which are renamed, by convention, <code class="docutils literal notranslate"><span class="pre">io</span></code> and <code class="docutils literal notranslate"><span class="pre">plt</span></code>.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="kn">import</span> <span class="nn">skimage.io</span> <span class="k">as</span> <span class="nn">io</span>
-  <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">skimage.io</span> <span class="k">as</span> <span class="nn">io</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 </pre></div>
 </div>
 </li>
 <li><p>Load the image mandrill.tiff (<a class="reference external" href="http://sipi.usc.edu/database/database.php?volume=misc&amp;image=10">available online</a>) and display it:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">f</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s2">&quot;mandrill.tiff&quot;</span><span class="p">)</span>
-  <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s2">&quot;mandrill.tiff&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 </pre></div>
 </div>
 </li>
@@ -392,220 +405,62 @@ Do you manage to find in this profile the different areas of the image?</p></li>
 </div>
 <div class="section" id="create-a-simple-image">
 <h2>Create a simple image<a class="headerlink" href="#create-a-simple-image" title="Permalink to this headline">¶</a></h2>
-<p>Une image RVB est codée sous forme d’une matrice à trois dimensions~:
-les deux premières sont les dimensions spatiales de l’image, la troisième correspond aux bandes.</p>
-<p>\begin{questions}</p>
-<p>\item Synthétisez puis affichez l’image <span class="math notranslate nohighlight">\(40 \times 80\)</span> schématisée ci-dessous.
-\medskip
-\begin{center}
-\includegraphics[scale=0.8]{synthimage}
-\end{center}
-Pour cela, créez tout d’abord une image noire aux bonnes dimensions
-(la fonction \syntax{numpy.zeros} crée une matrice remplie de zéros),
-puis affectez la valeur souhaitée aux éléments de la matrice, en procédant bande par bande.
-Ainsi,
-\begin{code}
-f[m1:m2, n1:n2, b] = x
-\end{code}
-affecte la valeur \syntax{x} aux pixels de la bande \syntax{b}
-situés entre les lignes \syntax{m1} et \syntax{m2}<span class="math notranslate nohighlight">\(-1\)</span>
-et les colonnes \syntax{n1} et~\syntax{n2}<span class="math notranslate nohighlight">\(-1\)</span>
-(en Python, les indices sont numérotés en partant de~0).</p>
-<p>\end{questions}</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-
-% =============================================================================================== %
-
-% \exo{!!! affichage d&#39;une image hyperspectrale}
-%
-% L&#39;image hyperspectrale Indian\_pines.mat est de taille $145\times145$ pixels et contient 220 bandes spectrales.
-% \begin{questions}
-%   \item Affichez la dixième bande de l&#39;image.
-%   \item Créez une composition RVB de l&#39;image et affichez-la.
-%   Vous pouvez pour cela avoir besoin d&#39;effectuer une moyenne (\syntax{mean})
-%   et de normaliser les bandes pour forcer leurs intensités à être entre 0 et 1.
-%   \item Affichez les spectres de quelques pixels, par exemple les pixels (34,106), (47,20) et (91,136).
-%   Utilisez la fonction \syntax{squeeze} qui permet d&#39;éliminer les dimensions vide d&#39;une matrice 3D.
-% \end{questions}
-%
-% \begin{note}
-%   L&#39;image hyperspectrale Indian\_pines.mat a été capturée en 1992 par le capteur Aviris
-%   au dessus de champs dans l&#39;Indiana, États-Unis.
-%   C&#39;est une image de $145\times145$ pixels et 220 bandes spectrales réparties entre 400 et 2500 nm.
-%   \todo{source}
-% \end{note}
+<p>An RGB image is encoded in the form of a three-dimensional array:
+the first two dimensions are the spatial dimensions of the image, the third corresponds to the bands.</p>
+<ul>
+<li><p>Create the array corresponding to the RGB image <span class="math notranslate nohighlight">\(40 \times 80\)</span> sketched <a class="reference internal" href="#f-tp1-synthimage"><span class="std std-numref">Fig. 20</span></a>:</p>
+<div class="figure align-default" id="f-tp1-synthimage">
+<a class="reference internal image-reference" href="_images/synthimage.png"><img alt="_images/synthimage.png" src="_images/synthimage.png" style="width: 328.0px; height: 167.20000000000002px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 20 </span><span class="caption-text">A simple image.</span><a class="headerlink" href="#f-tp1-synthimage" title="Permalink to this image">¶</a></p>
+</div>
+<p>To do this, create first a black image with the right dimensions
+(<code class="docutils literal notranslate"><span class="pre">numpy.zeros</span></code> generates an array filled with zeros).
+Then assign the desired value to the elements of the matrix, proceeding band by band, by using for example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">[</span><span class="n">m1</span><span class="p">:</span><span class="n">m2</span><span class="p">,</span> <span class="n">n1</span><span class="p">:</span><span class="n">n2</span><span class="p">,</span> <span class="n">b</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span>
 </pre></div>
 </div>
+<p>assigns the value <code class="docutils literal notranslate"><span class="pre">x</span></code> to the pixels of the band <code class="docutils literal notranslate"><span class="pre">b</span></code> located between the rows <code class="docutils literal notranslate"><span class="pre">m1</span></code> and <code class="docutils literal notranslate"><span class="pre">m2</span></code><span class="math notranslate nohighlight">\(-1\)</span> and the columns <code class="docutils literal notranslate"><span class="pre">n1</span></code> and <code class="docutils literal notranslate"><span class="pre">n2</span></code><span class="math notranslate nohighlight">\(-1\)</span>
+(in Python, indices starts at 0).</p>
+</li>
+</ul>
 </div>
-<div class="cell_output docutils container">
-<div class="stderr docutils container">
-<pre class="stderr literal-block">UsageError: Line magic function `%` not found.
-</pre>
+<div class="section" id="setting-the-intensity-range">
+<h2>Setting the intensity range<a class="headerlink" href="#setting-the-intensity-range" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Display the image <a class="reference external" href="https://vincmazet.github.io/ftip/_static/data/hdfs.tiff">hdfs.tiff</a>, corresponding to a part of the sky in the southern hemisphere.
+You should only observe a single star.</p></li>
+<li><p>What is the dynamic of this image (<em>i.e.</em> the minimum and maximum values of the intensities)?</p></li>
+<li><p>Adjust the intensity range with the arguments <code class="docutils literal notranslate"><span class="pre">vmin</span></code> and <code class="docutils literal notranslate"><span class="pre">vmax</span></code> of the function <code class="docutils literal notranslate"><span class="pre">matplotlib.pyplot.imshow</span></code>
+to observe other objects, most of them being galaxies.</p></li>
+<li><p>Try another colormap (argument <code class="docutils literal notranslate"><span class="pre">cmap</span></code>).</p></li>
+</ul>
 </div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-<span class="o">%</span> <span class="o">===============================================================================================</span> <span class="o">%</span>
-
-\<span class="n">exo</span><span class="p">{</span><span class="n">réglage</span> <span class="n">de</span> <span class="n">la</span> <span class="n">gamme</span> <span class="n">des</span> <span class="n">intensités</span> <span class="p">(</span><span class="n">palette</span> <span class="n">de</span> <span class="n">couleurs</span><span class="p">)}</span>
-
-\<span class="n">begin</span><span class="p">{</span><span class="n">questions</span><span class="p">}</span>
-  \<span class="n">item</span> <span class="n">Affichez</span> <span class="n">l</span><span class="s1">&#39;image hdfs.tiff. Vous ne devriez observer qu&#39;</span><span class="n">un</span> <span class="n">seul</span> <span class="n">objet</span><span class="o">~</span><span class="p">:</span> <span class="n">une</span> <span class="n">étoile</span><span class="o">.</span>
-  \<span class="n">item</span> <span class="n">Quelle</span> <span class="n">est</span> <span class="n">la</span> <span class="n">dynamique</span> <span class="n">de</span> <span class="n">cette</span> <span class="n">image</span><span class="p">,</span> <span class="n">c</span><span class="s1">&#39;est-à-dire les valeurs minimale et maximale des intensités~?</span>
-  \<span class="n">item</span> <span class="n">Réglez</span> <span class="n">la</span> <span class="n">gamme</span> <span class="n">des</span> <span class="n">intensités</span> <span class="n">avec</span> <span class="n">les</span> <span class="n">arguments</span> \<span class="n">syntax</span><span class="p">{</span><span class="n">vmin</span><span class="p">}</span> <span class="n">et</span> \<span class="n">syntax</span><span class="p">{</span><span class="n">vmax</span><span class="p">}</span>
-  <span class="n">de</span> \<span class="n">syntax</span><span class="p">{</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">imshow</span><span class="p">}</span> <span class="n">pour</span> <span class="n">observer</span> <span class="n">les</span> <span class="n">autres</span> <span class="n">objets</span><span class="p">,</span> <span class="n">la</span> <span class="n">plupart</span> <span class="n">étant</span> <span class="n">des</span> <span class="n">galaxies</span><span class="o">.</span>
-  \<span class="n">item</span> <span class="n">Utilisez</span> <span class="n">une</span> <span class="n">autre</span> <span class="n">palette</span> <span class="n">des</span> <span class="n">couleurs</span> <span class="p">(</span><span class="n">argument</span> \<span class="n">syntax</span><span class="p">{</span><span class="n">cmap</span><span class="p">})</span><span class="o">.</span>
-\<span class="n">end</span><span class="p">{</span><span class="n">questions</span><span class="p">}</span>
+<div class="section" id="segmentation-by-histogram-thresholding">
+<h2>Segmentation by histogram thresholding<a class="headerlink" href="#segmentation-by-histogram-thresholding" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p>Load the image <a class="reference external" href="https://vincmazet.github.io/ftip/_static/data/santamonica.jpg">santamonica.jpg</a> and convert it to grayscale.</p></li>
+<li><p>Display its histogram with <code class="docutils literal notranslate"><span class="pre">matplotlib.pyplot.hist</span></code>,
+after having vectorized the image with <code class="docutils literal notranslate"><span class="pre">numpy.ravel</span></code>.</p></li>
+<li><p>Try different bin number and discuss the result: what do you observe?</p></li>
+<li><p>Choose a suitable threshold to segment the image into two classes.
+To perform thresholding, the easiest way is to display the image</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">&gt;</span> <span class="n">threshold</span>
 </pre></div>
 </div>
+<p>where <code class="docutils literal notranslate"><span class="pre">f</span></code> is the original image and <code class="docutils literal notranslate"><span class="pre">threshold</span></code> is, well… the threshold value.</p>
+</li>
+</ul>
 </div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">  File</span><span class="nn"> &quot;&lt;ipython-input-5-c3dac1deae25&gt;&quot;</span><span class="gt">, line </span><span class="mi">3</span>
-    \<span class="n">exo</span><span class="p">{</span><span class="n">réglage</span> <span class="n">de</span> <span class="n">la</span> <span class="n">gamme</span> <span class="n">des</span> <span class="n">intensités</span> <span class="p">(</span><span class="n">palette</span> <span class="n">de</span> <span class="n">couleurs</span><span class="p">)}</span>
-                                                                  <span class="o">^</span>
-<span class="ne">SyntaxError</span>: unexpected character after line continuation character
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-
-% =============================================================================================== %
-
-% \exo{débruitage par moyennage}
-%
-% Le rapport signal-à-bruit (RSB) permet de quantifier le niveau de bruit sur une image.
-% Il se mesure en décibel et correspond au rapport de l&#39;énergie de l&#39;image non bruitée $f$ sur l&#39;énergie du bruit $b$~:
-% \begin{equation*}
-%   \text{RSB} = 10 \log_{10} \left(\frac{\|f\|^2}{\|b\|^2}\right)
-% \end{equation*}
-% où $\log_{10}$ est le logarithme à base~10 (\syntax{numpy.log10}),
-% $f$ et $b$ sont respectivement les images non bruitée et le bruit,
-% et $\|\cdot\|$ est la norme~2 (\syntax{numpy.linalg.norm})~:
-% \begin{equation*}
-%   \|f\| = \sqrt{\sum_{m,n} f(m,n)^2}.
-% \end{equation*}
-%
-% Ce exercice a pour but d&#39;illustrer l&#39;évolution du RSB en fonction du nombre d&#39;images moyennées.
-% \begin{questions}
-%   \item Chargez l&#39;image schtroumpf.png, puis convertissez-la en nombres flottants avec \syntax{skimage.util.img\_as\_float}.
-%   \item Ajoutez du bruit gaussien (\syntax{skimage.util.random\_noise}) à l&#39;image, et calculez le RSB de l&#39;image obtenue.
-%   \item Effectuez la moyenne de plusieurs images bruitées (avec différentes réalisations de bruit gaussien),
-%   et calculez le RSB de l&#39;image obtenue.
-%   \item Représentez l&#39;évolution du RSB en fonction du nombre d&#39;images moyennées~:
-%   que pouvez-vous conclure par rapport à l&#39;affirmation donnée dans le support de cours~?
-%   \item Effectuez la même étude dans le cas d&#39;un bruit de Poisson,
-%   tel qu&#39;il peut en exister lorsque le nombre de photons mesurés est très faible.
-% \end{questions}
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="stderr docutils container">
-<pre class="stderr literal-block">UsageError: Line magic function `%` not found.
-</pre>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-
-% =============================================================================================== %
-
-% \exo{!!! histo : tracer histo de quelque images}
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="stderr docutils container">
-<pre class="stderr literal-block">UsageError: Line magic function `%` not found.
-</pre>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-
-% =============================================================================================== %
-
-% \exo{!!! histo : influence du nb de bins}
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="stderr docutils container">
-<pre class="stderr literal-block">UsageError: Line magic function `%` not found.
-</pre>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-
-% =============================================================================================== %
-
-\exo{segmentation par seuillage à partir de l&#39;histogramme}
-
-\begin{questions}
-  \item Chargez l&#39;image santamonica.jpg et convertissez-la en niveaux de gris.
-  \item Affichez son histogramme avec la fonction \syntax{matplotlib.pyplot.hist},
-  après avoir vectorisé l&#39;image avec \syntax{numpy.ravel}.
-  \item Essayez avec plusieurs nombres de barres~: que pouvez-vous en dire~?
-  \item Choisir un seuil adéquat pour segmenter l&#39;image en deux classes.
-  Pour effectuer le seuillage, le plus simple est d&#39;afficher l&#39;image
-  \begin{code}
-f &gt; seuil
-  \end{code}
-  où \syntax{f} est l&#39;image originale et \syntax{seuil} est la valeur du seuil.
-\end{questions}
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">  File</span><span class="nn"> &quot;&lt;ipython-input-9-158d09b2ba2d&gt;&quot;</span><span class="gt">, line </span><span class="mi">3</span>
-    \<span class="n">exo</span><span class="p">{</span><span class="n">segmentation</span> <span class="n">par</span> <span class="n">seuillage</span> <span class="n">à</span> <span class="n">partir</span> <span class="n">de</span> <span class="n">l</span><span class="s1">&#39;histogramme}</span>
-                                                              <span class="o">^</span>
-<span class="ne">SyntaxError</span>: unexpected character after line continuation character
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-
-% =============================================================================================== %
-
-\exo{amélioration du contraste}
-
-\begin{questions}
-
-  \item Affichez l&#39;image forest.png, une fois convertie en niveaux de gris.
-
-  \item Affichez son histogramme.
-  Vous constaterez que l&#39;image est peu contrastée~: comment cela se traduit-il sur l&#39;histogramme~?
-
-  \item Multipliez l&#39;image par un réel positif~: que se passe-t-il sur l&#39;image et son histogramme~?
-
-  \item Effectuez une égalisation de l&#39;histogramme (\syntax{skimage.exposure.equalize\_hist}).
-  Est-ce que l&#39;objectif de l&#39;exercice est atteint~?
-
-\end{questions}
-
-% =============================================================================================== %
-</pre></div>
-</div>
-</div>
-</div>
+<div class="section" id="contrast-enhancement">
+<h2>Contrast enhancement<a class="headerlink" href="#contrast-enhancement" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Display the image <a class="reference external" href="https://vincmazet.github.io/ftip/_static/data/forest.png">forest.png</a>, after converting it to grayscale.</p></li>
+<li><p>Display its histogram.
+You will notice that the image is not very contrasted: what does that imply on the histogram?</p></li>
+<li><p>Multiply the image by a positive real: what happens on the image and its histogram?</p></li>
+<li><p>Perform an histogram equalization (<code class="docutils literal notranslate"><span class="pre">skimage.exposure.equalize_hist</span></code>).
+Do you achieve the exercise goal?</p></li>
+</ul>
 </div>
 </div>
 
