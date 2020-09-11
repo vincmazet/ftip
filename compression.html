@@ -2,9 +2,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Compression &#8212; Fundamental Tools for Image Processing</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="_static/css/index.css" rel="stylesheet">
@@ -16,9 +17,8 @@
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="_static/jbvinc.css" />
     <link rel="stylesheet" type="text/css" href="_static/.ipynb_checkpoints/jbvinc-checkpoint.css" />
-    <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-dropdown.css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script src="_static/sphinx-book-theme.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
@@ -26,12 +26,10 @@
     <script src="_static/togglebutton.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
-    <script src="_static/mystnb.js"></script>
     <script src="_static/sphinx-book-theme.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -148,7 +146,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="xxx_pattern.html">
-   Pattern &amp; Co xxx
+   (Pattern &amp; Co)
   </a>
  </li>
 </ul>
@@ -182,6 +180,13 @@
  </span>
 </p>
 <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://moodle3.unistra.fr/course/view.php?id=13708">
+   Moodle
+   <i class="fas fa-external-link-alt">
+   </i>
+  </a>
+ </li>
  <li class="toctree-l1">
   <a class="reference internal" href="python.html">
    Installing and Using Python
@@ -263,6 +268,22 @@
 
         <!-- Launch buttons -->
 
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/vincmazet/ftip/blob/master/compression.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
     </div>
 
     <!-- Table of contents -->
@@ -271,7 +292,43 @@
             <i class="fas fa-list"></i> Contents
         </div>
         <nav id="bd-toc-nav">
-            
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introduction">
+   Introduction
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#lossless-compression">
+   Lossless compression
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#run-length-encoding">
+     Run-length encoding
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#lempel-ziv-welch-algorithm">
+     Lempel-Ziv-Welch Algorithm
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#lossy-compression">
+   Lossy compression
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#changing-the-color-space">
+     Changing the color space
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
         </nav>
     </div>
 </div>
@@ -282,6 +339,180 @@
                 
   <div class="section" id="compression">
 <h1>Compression<a class="headerlink" href="#compression" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>Do you know how bytes are needed to code one second of Full HD video?
+Let me recall that this standard is characterized by images of size 1920 × 1080, each of the three channels (RGB) is coded with 1 byte, and there are 50 frames per second.</p>
+<div class="toggle docutils container">
+<p>One second contains 1920 × 1080 × 3 × 50 = 311 040 000 bytes, or around 311 Mb.
+Thus, a DVD (4,7 Gb) can store only 15 s of a movie…</p>
+</div>
+<p>This example shows the need for image compression!
+The goal of image compression is to hold the <em>information</em> contained in the image with fewer bytes than the original image.
+OK, but how to quantify information?
+In 1948, <a class="reference external" href="https://en.wikipedia.org/wiki/Claude_Shannon">Claude Shannon</a> proposed to consider that an image or a message is very informative if it is unlikely.
+This definition is currently still used and needs to model the problem by using probabilities (but this is out of the scope of this course).</p>
+<p>We distinguish two kinds of compression:</p>
+<ul class="simple">
+<li><p>With <strong>lossless compression</strong>, no information is lost during compression
+(<em>i.e.</em> the original image and the compressed image are perfectly identical.
+It is possible to reach a compression ratio up to 1/10
+(the size in bytes of the compressed image is 1/10 times the original one).</p></li>
+<li><p>In <strong>lossy compression</strong>, we accept to loose information during compression
+(while ensuring that the original image still remain close to the original one).
+The compression ratio can reach 1/100!</p></li>
+</ul>
+</div>
+<div class="section" id="lossless-compression">
+<h2>Lossless compression<a class="headerlink" href="#lossless-compression" title="Permalink to this headline">¶</a></h2>
+<p>Here are two examples of lossless image compression.</p>
+<div class="section" id="run-length-encoding">
+<h3>Run-length encoding<a class="headerlink" href="#run-length-encoding" title="Permalink to this headline">¶</a></h3>
+<p>RLE (run-length encoding) replaces a sequence of pixels of the same color with the number of pixels in that sequence.
+Therefore, the image</p>
+<div class="figure align-default" id="f-compression-rle">
+<div class="cell_output docutils container">
+<img alt="_images/compression_7_0.png" src="_images/compression_7_0.png" />
+</div>
+<p class="caption"><span class="caption-number">Fig. 20 </span><span class="caption-text">A 3 × 3 image.</span><a class="headerlink" href="#f-compression-rle" title="Permalink to this image">¶</a></p>
+</div>
+<p>is encoding without compression with 9 bytes:</p>
+<div class="math notranslate nohighlight">
+\[
+  \begin{pmatrix} 0 &amp; 0 &amp; 0 &amp; 255 &amp; 255 &amp; 255 &amp; 255 &amp; 128 &amp; 128 \end{pmatrix}.
+\]</div>
+<p>By reading the image column after column, we see 3 pixels with intensity 0, 4 pixels with intensity 255, and 2 pixels with intensity 128.
+Thus the image is encoded in RLE with only 6 bytes:</p>
+<div class="math notranslate nohighlight">
+\[
+  \begin{pmatrix} 3 &amp; 0 &amp; 4 &amp; 255 &amp; 2 &amp; 128 \end{pmatrix}.
+\]</div>
+<p>In this example, the compression rate is 6/9 = 2/3.</p>
+<p>In computers, the BMP format is based on RLE compression.</p>
+</div>
+<div class="section" id="lempel-ziv-welch-algorithm">
+<h3>Lempel-Ziv-Welch Algorithm<a class="headerlink" href="#lempel-ziv-welch-algorithm" title="Permalink to this headline">¶</a></h3>
+<p>The LZW algorithm (Lempel-Ziv-Welch, 1984) is an improvement of the LZ78 algorithm (1978).
+The principle is to build a dictionary of existing groups of pixels and to assign a code to each group.
+It is used in format like GIF or TIFF.</p>
+<p>The algorithm is the following one:</p>
+<pre>
+Initialize the dictionary with all the possible intensities
+For each pixel:
+  Look to the longest sequence in the dictionary that starts at this pixel
+  Replace this sequence with the corresponding code
+  Add to the dictionary the sequence followed by the next pixel
+</pre></div>
+</div>
+<div class="section" id="lossy-compression">
+<h2>Lossy compression<a class="headerlink" href="#lossy-compression" title="Permalink to this headline">¶</a></h2>
+<p>The most famous compression format for images is JPEG.
+The JPEG format was created by the Joint Photographic Experts Group in 1992.</p>
+<p>The main idea of JPEG compression is to apply a specific tranform on the image (namely, the discrete cosine transform)
+and to cancel some coefficients of the transform.
+Actually, the JPEG compression is a sequence of several steps, including:</p>
+<ul class="simple">
+<li><p>use another color space instead of the usual RGB representation,</p></li>
+<li><p>downsample the image</p></li>
+<li><p>split the image into 8 <span class="math notranslate nohighlight">\(\times\)</span> 8 sub-images</p></li>
+<li><p>compute the the discrete cosine transform (DCT) of each sub-image</p></li>
+<li><p>quantification of the DCT coefficients</p></li>
+</ul>
+<p>Other minor steps are also existing in the pipe-line of JPEG compression.
+Now let’s have a look on the previous major steps.</p>
+<div class="section" id="changing-the-color-space">
+<h3>Changing the color space<a class="headerlink" href="#changing-the-color-space" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/List_of_color_spaces_and_their_uses">Numerous color spaces</a> exist aside of the usual RGB one.
+Among them, the YCbCr is the one used in JPEG compression.
+YCbCr has also three channels:
+Y represents the luma (<em>i.e.</em> brightness or grayscale image), and Cb and Cr are the blue and red chroma components.</p>
+<p>FIGURE X represents the components R, G, B (top) and Y, Cb, Cr (bottom) of the same image, for a comparison.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">FIG</span> <span class="n">X</span>
+</pre></div>
+</div>
+<p>In FIGURE Y, the image is recomposed by using only two of the three channels, for each color space.
+As you can see, the image is visible in each recomposition, except the one where the channel Y is missing.
+Indeed, the human eye is more sensible to the brightness of an image (carried by Y) than another channel.
+Therefore, the idea is to compress the channel Y less than the chroma channels.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">FIG</span> <span class="n">Y</span>
+</pre></div>
+</div>
+<p>\begin{frame}{\sqnum{2}Sous-échantillonnage}</p>
+<p>L’\oe{}il humain est plus sensible à la luminosité d’une image (composante Y) qu’à la couleur (composantes Cb et Cr)\
+(95~% de bâtonnets pour la lumière~; 5~% de cônes pour la couleur).</p>
+<p>\medskip\pause</p>
+<p><span class="math notranslate nohighlight">\(\Rightarrow\)</span> Sous-échantillonnage des chrominances.</p>
+<p>\begin{center}
+\includegraphics[width=\textwidth]{Jab}</p>
+<p>\end{center}</p>
+<p>\end{frame}</p>
+<p>\begin{frame}{\sqnum{3}Découpage en sous-images 8 <span class="math notranslate nohighlight">\(\times\)</span> 8}</p>
+<p>Chaque canal (Y, Cb, Cr) est découpé en blocs de 8<span class="math notranslate nohighlight">\(\times\)</span>8 pixels.</p>
+<p>\end{frame}</p>
+<p>\begin{frame}{\sqnum{4}Application d’une transformée}</p>
+<p>L’énergie d’une image naturelle est principalement concentrée dans les basses fréquences,
+donc sur quelques coefficients de la transformée en cosinus discrète (DCT~: \textit{discrete cosine transform}).</p>
+<p>\bigskip</p>
+<p><span class="math notranslate nohighlight">\(\Rightarrow\)</span> compression dans le domaine de la DCT.</p>
+<p>\bigskip
+\pause</p>
+<p>Le format JPEG2000 utilise la transformée en ondelettes.</p>
+<p>\end{frame}</p>
+<p>\only<beamer>{
+\begin{frame}{\sqnum{4}Application d’une transformée}</p>
+<p>\includegraphics[width=\textwidth]{jpeg92vs2000}</p>
+<p>\end{frame}
+}</p>
+<p>\begin{frame}{\sqnum{4}Application de la DCT}</p>
+<p>Transformée en cosinus discrète de l’image <span class="math notranslate nohighlight">\(x\)</span> de taille <span class="math notranslate nohighlight">\(N \times N\)</span>~:
+{\small
+\begin{equation*}
+X(u,v) = \frac{2}{N} C(u) C(v) \sum_{m=0}^{N-1} \sum_{n=0}^{N-1}
+x(m, n) \cos\left[\frac{(2m+1)u\pi}{2N} \right] \cos\left[\frac{(2n+1)v\pi}{2N} \right]
+\end{equation*}}
+où
+\begin{equation*}
+C(u) =
+\begin{cases}
+\frac{1}{\sqrt{2}}  &amp;\text{pour <span class="math notranslate nohighlight">\(u = 0\)</span>}, \
+1                   &amp;\text{pour <span class="math notranslate nohighlight">\(u &gt; 0\)</span>}.
+\end{cases}
+\end{equation*}</p>
+<p>\end{frame}</p>
+<p>\begin{frame}{\sqnum{4}Application de la DCT}</p>
+<p>Décomposition de la sous-image 8<span class="math notranslate nohighlight">\(\times\)</span>8 en somme de cosinus 2D~:
+\begin{center}
+\includegraphics[width=5cm]{dct-8x8}
+\end{center}</p>
+<p>\end{frame}</p>
+<p>\begin{frame}{\sqnum{5}Quantification de la transformée}</p>
+<p>\begin{itemize}</p>
+<p>\item les coefficients <span class="math notranslate nohighlight">\(X(u,v)\)</span> de la DCT sont quantifiés~:
+\begin{equation*}
+X’(u,v) = \mathrm{round} \left( \frac{X(u,v)}{Q(u,v)} \right)
+\end{equation*}</p>
+<p>\item La quantification <span class="math notranslate nohighlight">\(Q(u,v)\)</span> est plus forte dans les hautes fréquences (l’\oe{}il y étant moins sensible).</p>
+<p>\end{itemize}</p>
+<p>\bigskip
+\pause</p>
+<p>Exemple (image 4<span class="math notranslate nohighlight">\(\times\)</span>4)~:
+\begin{equation*}
+X = \begin{bmatrix} 103,67 &amp; 42,42 \ 38,06 &amp; 28,45 \end{bmatrix}\quad\text{et}\quad
+Q = \begin{bmatrix} 10 &amp; 80 \ 80 &amp; 100 \end{bmatrix}\quad\Rightarrow\quad
+X’ = \only<beamer>{\begin{bmatrix} 10 &amp; 1 \ 0 &amp; 0 \end{bmatrix}}
+\only<handout>{\hspace*{3cm}}
+\end{equation*}</p>
+<p>\end{frame}</p>
+<p>\begin{frame}{\sqnum{6}Compression de la quantification}</p>
+<p>Un parcours en zig-zag des blocs produit une séquence où les fréquences similaires sont regroupées.
+\begin{center}
+\includegraphics[width=4cm]{zigzag}
+\end{center}</p>
+<p>\pause</p>
+<p>Au sein de cette séquence, les différences sont compressées avec l’algorithme RLE puis avec un code de Huffman.</p>
+<p>\end{frame}</p>
+</div>
+</div>
 </div>
 
     <script type="text/x-thebe-config">

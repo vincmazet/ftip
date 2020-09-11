@@ -62,6 +62,18 @@ Free license.
 
 
 
+```{figure} figs/greece.png
+---
+height: 150px
+align: left
+```
+**Greece**
+&copy; Daniel Seehausen.
+Free license.
+[Original picture](https://pixabay.com/illustrations/greece-map-black-only-greece-1613310/).
+
+
+
 ```{figure} figs/peppers.png
 ---
 height: 150px

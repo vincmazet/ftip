@@ -2,9 +2,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>07/10/2020 &#8212; Fundamental Tools for Image Processing</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="_static/css/index.css" rel="stylesheet">
@@ -16,9 +17,8 @@
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="_static/jbvinc.css" />
     <link rel="stylesheet" type="text/css" href="_static/.ipynb_checkpoints/jbvinc-checkpoint.css" />
-    <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-dropdown.css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script src="_static/sphinx-book-theme.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
@@ -26,12 +26,10 @@
     <script src="_static/togglebutton.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
-    <script src="_static/mystnb.js"></script>
     <script src="_static/sphinx-book-theme.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -42,7 +40,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="07/10/2020" href="labs/tp1-code.html" />
-    <link rel="prev" title="Pattern &amp; Co xxx" href="xxx_pattern.html" />
+    <link rel="prev" title="(Pattern &amp; Co)" href="xxx_pattern.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
@@ -148,7 +146,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="xxx_pattern.html">
-   Pattern &amp; Co xxx
+   (Pattern &amp; Co)
   </a>
  </li>
 </ul>
@@ -182,6 +180,13 @@
  </span>
 </p>
 <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://moodle3.unistra.fr/course/view.php?id=13708">
+   Moodle
+   <i class="fas fa-external-link-alt">
+   </i>
+  </a>
+ </li>
  <li class="toctree-l1">
   <a class="reference internal" href="python.html">
    Installing and Using Python
@@ -262,6 +267,22 @@
                     class="fas fa-expand"></i></button></a>
 
         <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/vincmazet/ftip/blob/master/tp1.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
 
     </div>
 
@@ -365,6 +386,7 @@ Try to write:</p>
 <p>This can be useful for inserting titles or keeping comments and notes.</p>
 </li>
 </ul>
+<p><a class="reference internal" href="labs/tp1-code.html"><span class="doc std std-doc">Correction</span></a></p>
 </div>
 <div class="section" id="display-a-saved-image">
 <h2>Display a saved image<a class="headerlink" href="#display-a-saved-image" title="Permalink to this headline">¶</a></h2>
@@ -408,10 +430,10 @@ Do you manage to find in this profile the different areas of the image?</p></li>
 <p>An RGB image is encoded in the form of a three-dimensional array:
 the first two dimensions are the spatial dimensions of the image, the third corresponds to the bands.</p>
 <ul>
-<li><p>Create the array corresponding to the RGB image <span class="math notranslate nohighlight">\(40 \times 80\)</span> sketched <a class="reference internal" href="#f-tp1-synthimage"><span class="std std-numref">Fig. 20</span></a>:</p>
+<li><p>Create the array corresponding to the RGB image <span class="math notranslate nohighlight">\(40 \times 80\)</span> sketched <a class="reference internal" href="#f-tp1-synthimage"><span class="std std-numref">Fig. 30</span></a>:</p>
 <div class="figure align-default" id="f-tp1-synthimage">
 <a class="reference internal image-reference" href="_images/synthimage.png"><img alt="_images/synthimage.png" src="_images/synthimage.png" style="width: 328.0px; height: 167.20000000000002px;" /></a>
-<p class="caption"><span class="caption-number">Fig. 20 </span><span class="caption-text">A simple image.</span><a class="headerlink" href="#f-tp1-synthimage" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-number">Fig. 30 </span><span class="caption-text">A simple image.</span><a class="headerlink" href="#f-tp1-synthimage" title="Permalink to this image">¶</a></p>
 </div>
 <p>To do this, create first a black image with the right dimensions
 (<code class="docutils literal notranslate"><span class="pre">numpy.zeros</span></code> generates an array filled with zeros).
@@ -492,7 +514,7 @@ Do you achieve the exercise goal?</p></li>
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="xxx_pattern.html" title="previous page">Pattern &amp; Co xxx</a>
+    <a class='left-prev' id="prev-link" href="xxx_pattern.html" title="previous page">(Pattern &amp; Co)</a>
     <a class='right-next' id="next-link" href="labs/tp1-code.html" title="next page">07/10/2020</a>
 
     </div>

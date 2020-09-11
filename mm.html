@@ -2,9 +2,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mathematical Morphology &#8212; Fundamental Tools for Image Processing</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="_static/css/index.css" rel="stylesheet">
@@ -16,9 +17,8 @@
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="_static/jbvinc.css" />
     <link rel="stylesheet" type="text/css" href="_static/.ipynb_checkpoints/jbvinc-checkpoint.css" />
-    <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-dropdown.css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script src="_static/sphinx-book-theme.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
@@ -26,12 +26,10 @@
     <script src="_static/togglebutton.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
-    <script src="_static/mystnb.js"></script>
     <script src="_static/sphinx-book-theme.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -148,7 +146,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="xxx_pattern.html">
-   Pattern &amp; Co xxx
+   (Pattern &amp; Co)
   </a>
  </li>
 </ul>
@@ -182,6 +180,13 @@
  </span>
 </p>
 <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://moodle3.unistra.fr/course/view.php?id=13708">
+   Moodle
+   <i class="fas fa-external-link-alt">
+   </i>
+  </a>
+ </li>
  <li class="toctree-l1">
   <a class="reference internal" href="python.html">
    Installing and Using Python
@@ -263,6 +268,22 @@
 
         <!-- Launch buttons -->
 
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/vincmazet/ftip/blob/master/mm.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
     </div>
 
     <!-- Table of contents -->
@@ -271,7 +292,58 @@
             <i class="fas fa-list"></i> Contents
         </div>
         <nav id="bd-toc-nav">
-            
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#basic-operators">
+   Basic operators
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#dilation">
+     Dilation
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#erosion">
+     Erosion
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#comparison">
+     Comparison
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#composition-of-basic-operators">
+   Composition of basic operators
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#opening">
+     Opening
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#closing">
+     Closing
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     Comparison
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#hit-or-miss-transform">
+     Hit-or-miss transform
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
         </nav>
     </div>
 </div>
@@ -282,7 +354,243 @@
                 
   <div class="section" id="mathematical-morphology">
 <h1>Mathematical Morphology<a class="headerlink" href="#mathematical-morphology" title="Permalink to this headline">¶</a></h1>
-<p>https://perso.esiee.fr/~perretb/I5FM/TAI/morpho/index.html 🇫🇷</p>
+<p>Mathematical morphology gathers several techniques that apply to binary images, such as the ones resulting for a thresholding.
+The pixels in binary images take only two values: 0 or 1, true or false, white or black, etc.
+There are extensions of these techniques to grayscale images, but this is beyond the scope of the course.
+In this chapter, we consider that the images contain objects (represented by white pixels) on a background (black pixels).
+We also consider that a binary image is equivalent to a set of pixels, the latter being the set of white pixels of the image.</p>
+<div class="figure align-default" id="mm-mickey">
+<img alt="_images/mickey.png" src="_images/mickey.png" />
+<p class="caption"><span class="caption-number">Fig. 21 </span><span class="caption-text">Example of binary image composed of on object (a famous mouse head) on a background.</span><a class="headerlink" href="#mm-mickey" title="Permalink to this image">¶</a></p>
+</div>
+<p>Before going further, it is necessary to recall the elementary operations that can be done on sets.
+Consider <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> as two sets.
+Then:</p>
+<ul class="simple">
+<li><p>The complement of <span class="math notranslate nohighlight">\(A\)</span> is denoted <span class="math notranslate nohighlight">\(A^\mathrm{c}\)</span> and is the set of pixels which are not in <span class="math notranslate nohighlight">\(A\)</span>:
+<span class="math notranslate nohighlight">\(A^\mathrm{c} = \{p \notin A \} \)</span></p></li>
+<li><p>The union <span class="math notranslate nohighlight">\(A \cup B \)</span> of the two sets <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> is the set of pixels present in <span class="math notranslate nohighlight">\(A\)</span> or <span class="math notranslate nohighlight">\(B\)</span> or both:
+<span class="math notranslate nohighlight">\(A \cup B = \{p \in A \, \mathrm{or} \, p \in B \} \)</span></p></li>
+<li><p>The intersection <span class="math notranslate nohighlight">\(A \cap B \)</span> is the set of pixels present simultaneously in <span class="math notranslate nohighlight">\(A\)</span> and in <span class="math notranslate nohighlight">\(B\)</span>:
+<span class="math notranslate nohighlight">\(A \cap B = \{p \in A \, \mathrm{and} \, p \in B \} \)</span></p></li>
+</ul>
+<div class="figure align-default" id="f-mm-set-operations">
+<div class="cell_output docutils container">
+<img alt="_images/mm_3_1.png" src="_images/mm_3_1.png" />
+</div>
+<p class="caption"><span class="caption-number">Fig. 22 </span><span class="caption-text">Illustration of operations on sets.</span><a class="headerlink" href="#f-mm-set-operations" title="Permalink to this image">¶</a></p>
+</div>
+<p>In addition to this, the operators of mathematical morphology need a socalled <em>structuring element</em>.
+A structuring element <span class="math notranslate nohighlight">\(E\)</span> is a set of pixels (so equivalent to a binary image) associated with an origin.
+Generally, the origin is located at the center of the structuring element.
+bu it may be elsewhere, even outside the pixels of the structuring element.
+In the sequel, we denote by <span class="math notranslate nohighlight">\(E_x\)</span> the structuring element centered on the pixel <span class="math notranslate nohighlight">\(x\)</span>.</p>
+<div class="section" id="basic-operators">
+<h2>Basic operators<a class="headerlink" href="#basic-operators" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="dilation">
+<h3>Dilation<a class="headerlink" href="#dilation" title="Permalink to this headline">¶</a></h3>
+<p>Having an image <span class="math notranslate nohighlight">\(I\)</span> and a structuring element <span class="math notranslate nohighlight">\(E\)</span>, the dilation of <span class="math notranslate nohighlight">\(I\)</span> by <span class="math notranslate nohighlight">\(E\)</span> is noted <span class="math notranslate nohighlight">\(I \oplus E\)</span>.
+The result of the dilation is obtained by moving the origin of the structuring element onto the white pixels of the image,
+and keeping the set of pixels of each displaced structuring element.</p>
+<p>Mathematically speaking:</p>
+<div class="math notranslate nohighlight">
+\[
+  I \oplus E = \{ E_x \mid x \in I \}
+\]</div>
+<div class="figure align-default" id="f-mm-dilation-toy">
+<div class="cell_output docutils container">
+<img alt="_images/mm_7_0.png" src="_images/mm_7_0.png" />
+</div>
+<p class="caption"><span class="caption-number">Fig. 23 </span><span class="caption-text">Example of a dilation on a small image <span class="math notranslate nohighlight">\(I\)</span> by the structuring element <span class="math notranslate nohighlight">\(E\)</span> (with origin at the center).</span><a class="headerlink" href="#f-mm-dilation-toy" title="Permalink to this image">¶</a></p>
+</div>
+<p>Question: how could you express the dilation as a convolution?</p>
+<div class="toggle docutils container">
+<p>You cannot.
+The dilation is a binary operation and is not linear.
+Therefore, it cannot be expressed as convolution which is a linear mathematical operator!</p>
+</div>
+<p><strong>Associativity</strong>  
+The application of two consecutive dilations can be done in any order:</p>
+<div class="math notranslate nohighlight">
+\[
+  (I \oplus  E_1 ) \oplus  E_2 = (I \oplus  E_2) \oplus  E_1 = I \oplus  (E_1 \oplus E_2)
+\]</div>
+<p><strong>Monotony</strong>  
+Dilation is a monotonous operations,
+that is to say that the relations of inclusions are conserved:</p>
+<div class="math notranslate nohighlight">
+\[
+  I_1 \subseteq I_2  \;\Rightarrow\;  I_1 \oplus E \subseteq I_2 \oplus E
+\]</div>
+</div>
+<div class="section" id="erosion">
+<h3>Erosion<a class="headerlink" href="#erosion" title="Permalink to this headline">¶</a></h3>
+<p>The erosion of <span class="math notranslate nohighlight">\(I\)</span> by <span class="math notranslate nohighlight">\(E\)</span> is noted <span class="math notranslate nohighlight">\(I \ominus E\)</span>.
+The result of the erosion is obtained by moving the structuring element into the white pixels of the image,
+and keeping only the origin of each displaced structuring element.</p>
+<p>Mathematically speaking:</p>
+<div class="math notranslate nohighlight">
+\[
+  I \ominus E = \{ x \mid E_x \subseteq I\}
+\]</div>
+<div class="figure align-default" id="f-mm-erosion-toy">
+<div class="cell_output docutils container">
+<img alt="_images/mm_7_1.png" src="_images/mm_7_1.png" />
+</div>
+<p class="caption"><span class="caption-number">Fig. 24 </span><span class="caption-text">Example of an erosion on a small image <span class="math notranslate nohighlight">\(I\)</span> by the structuring element <span class="math notranslate nohighlight">\(E\)</span> (with origin at the center).</span><a class="headerlink" href="#f-mm-erosion-toy" title="Permalink to this image">¶</a></p>
+</div>
+<p>Erosion has similar properties as dilation as stated below.</p>
+<p><strong>Associativity</strong>  
+The application of two consecutive erosions can be done in any order:</p>
+<div class="math notranslate nohighlight">
+\[
+  (I \ominus E_1 ) \ominus E_2 = (I \ominus E_2) \ominus E_1 = I \ominus (E_1 \oplus E_2)
+\]</div>
+<p><strong>Monotony</strong>  
+Erosion is a monotonous operations:</p>
+<div class="math notranslate nohighlight">
+\[
+  I_1 \subseteq I_2  \;\Rightarrow\;  I_1 \ominus E \subseteq I_2 \ominus E
+\]</div>
+<p>In addition to this, dilation and erosion are dual operators.
+Considering the background as the object and the object as background
+(<em>i.e.</em> by working with the complement of the image),
+the dilation is converted to erosion and vice versa:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+  I^\mathrm{c} \ominus E = (I \oplus E)^\mathrm{c} \\
+  I^\mathrm{c} \oplus E = (I \ominus E)^\mathrm{c}
+\end{split}\]</div>
+</div>
+<div class="section" id="comparison">
+<h3>Comparison<a class="headerlink" href="#comparison" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference internal" href="#f-mm-real-dilation-erosion"><span class="std std-numref">Fig. 25</span></a> shows the result of a dilation or an erosion on a binary image of Greece.</p>
+<p>As you can see, dilation:</p>
+<ul class="simple">
+<li><p>increase the size of objects (<em>e.g.</em> the islands are bigger),</p></li>
+<li><p>fill the small holes (<em>e.g.</em> the <a class="reference external" href="https://en.wikipedia.org/wiki/Gulf_of_Corinth">Gulf of Corinth</a> does not more exist after dilation),</p></li>
+<li><p>welds close objects (<em>e.g.</em> some islands are grouped into a larger island).</p></li>
+</ul>
+<p>On the contrary, erosion:</p>
+<ul class="simple">
+<li><p>decreases the size of objects (<em>e.g.</em> Crete is smaller),</p></li>
+<li><p>widens the holes (<em>e.g.</em> the Gulf of Corinth is bigger after erosion),</p></li>
+<li><p>separates the connected objects by a small bridge (<em>e.g.</em> the Peloponnese and mainland Greece are now disconnected),</p></li>
+<li><p>remove small items (<em>e.g.</em> small islands have disappeared).</p></li>
+</ul>
+<div class="figure align-default" id="f-mm-real-dilation-erosion">
+<div class="cell_output docutils container">
+<img alt="_images/mm_9_0.png" src="_images/mm_9_0.png" />
+</div>
+<p class="caption"><span class="caption-number">Fig. 25 </span><span class="caption-text">Dilation and erosion on a map of Greece (of size 300×300) by a disk of radius 4.</span><a class="headerlink" href="#f-mm-real-dilation-erosion" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+</div>
+<div class="section" id="composition-of-basic-operators">
+<h2>Composition of basic operators<a class="headerlink" href="#composition-of-basic-operators" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="opening">
+<h3>Opening<a class="headerlink" href="#opening" title="Permalink to this headline">¶</a></h3>
+<p>Opening consists in an erosion followed by a dilation.
+The erosion removes small objects but also decreases the size of bigger objects.
+To avoid this, the result is dilated with the same structuring element.</p>
+<div class="math notranslate nohighlight">
+\[
+  I \circ E = (I \ominus E) \oplus E
+\]</div>
+<div class="figure align-default" id="f-mm-opening-toy">
+<div class="cell_output docutils container">
+<img alt="_images/mm_7_2.png" src="_images/mm_7_2.png" />
+</div>
+<p class="caption"><span class="caption-number">Fig. 26 </span><span class="caption-text">Example of an opening on a small image <span class="math notranslate nohighlight">\(I\)</span> by the structuring element <span class="math notranslate nohighlight">\(E\)</span> (with origin at the center).</span><a class="headerlink" href="#f-mm-opening-toy" title="Permalink to this image">¶</a></p>
+</div>
+<p><strong>Idempotence</strong>  
+Opening is an idempotent operation, that is to say applying twice the same opening gives the same result as only one opening:</p>
+<div class="math notranslate nohighlight">
+\[
+  (I \circ E) \circ E = I \circ E
+\]</div>
+</div>
+<div class="section" id="closing">
+<h3>Closing<a class="headerlink" href="#closing" title="Permalink to this headline">¶</a></h3>
+<p>Contrary to opening, closing is firstly a dilation, then an erosion.
+Indeed, expansion closes holes but enlarges objects.
+To avoid the widening of the objects, an erosion can be applied with the same structuring element.</p>
+<div class="math notranslate nohighlight">
+\[
+  I \bullet E = (I \oplus E) \ominus E
+\]</div>
+<div class="figure align-default" id="f-mm-closing-toy">
+<div class="cell_output docutils container">
+<img alt="_images/mm_7_3.png" src="_images/mm_7_3.png" />
+</div>
+<p class="caption"><span class="caption-number">Fig. 27 </span><span class="caption-text">Example of a closing on a small image <span class="math notranslate nohighlight">\(I\)</span> by the structuring element <span class="math notranslate nohighlight">\(E\)</span> (with origin at the center).</span><a class="headerlink" href="#f-mm-closing-toy" title="Permalink to this image">¶</a></p>
+</div>
+<p><strong>Idempotence</strong>  
+Similarly to opening, closing is an idempotent operation:</p>
+<div class="math notranslate nohighlight">
+\[
+  (I \bullet E) \bullet E = I \bullet E
+\]</div>
+</div>
+<div class="section" id="id1">
+<h3>Comparison<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference internal" href="#f-mm-real-opening-closing"><span class="std std-numref">Fig. 28</span></a> shows the result of an opening and a closing on a binary image of Greece.</p>
+<div class="figure align-default" id="f-mm-real-opening-closing">
+<div class="cell_output docutils container">
+<img alt="_images/mm_9_1.png" src="_images/mm_9_1.png" />
+</div>
+<p class="caption"><span class="caption-number">Fig. 28 </span><span class="caption-text">Opening and closing on a map of Greece (of size 300×300) by a disk of radius 4.</span><a class="headerlink" href="#f-mm-real-opening-closing" title="Permalink to this image">¶</a></p>
+</div>
+<p>Even if the objects are slightly distorted, they conserve their respective size.</p>
+<p>Especially, opening:</p>
+<ul class="simple">
+<li><p>removes small objects (<em>e.g.</em> small islands have disappeared),</p></li>
+<li><p>smooth the contours (the coasts are no more jagged).</p></li>
+</ul>
+<p>Besides, closing:</p>
+<ul class="simple">
+<li><p>fill small holes (<em>e.g.</em> gulfs and lakes are removed)</p></li>
+<li><p>weld close shapes (<em>e.g.</em> some separated islands now form only one)</p></li>
+</ul>
+</div>
+<div class="section" id="hit-or-miss-transform">
+<h3>Hit-or-miss transform<a class="headerlink" href="#hit-or-miss-transform" title="Permalink to this headline">¶</a></h3>
+<p>The hit-or-miss transform is able to detect objects of a particular shape.
+It is the intersection of the two sets given by:</p>
+<ul class="simple">
+<li><p>the erosion by a first structuring element <span class="math notranslate nohighlight">\(E_1\)</span>: <span class="math notranslate nohighlight">\(I \ominus E_1\)</span>,</p></li>
+<li><p>and the erosion of the background by a second structuring element <span class="math notranslate nohighlight">\(E_2\)</span>: <span class="math notranslate nohighlight">\(I^\mathrm{c} \ominus E_2\)</span></p></li>
+</ul>
+<p>with <span class="math notranslate nohighlight">\(E_1 \cap E_2 = \emptyset\)</span> (the structuring elements are disjoints).</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+   I \otimes (E_1, E_2)
+   &amp;= (I \ominus E_1) \cap (I^\mathrm{c} \ominus E_2) \\
+   &amp;= (I \ominus E_1) \cap (I \oplus E_2)^\mathrm{c}
+\end{split}\]</div>
+<div class="figure align-default" id="f-mm-hit-or-miss">
+<a class="reference internal image-reference" href="_images/hit-or-miss.png"><img alt="_images/hit-or-miss.png" src="_images/hit-or-miss.png" style="height: 472px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 29 </span><span class="caption-text">Example of a hit-or-miss transform applied on image <span class="math notranslate nohighlight">\(I\)</span> by the structuring elements <span class="math notranslate nohighlight">\(E_1\)</span> and <span class="math notranslate nohighlight">\(E_2\)</span>.
+The origins of the structuring elements are maked by a dot.</span><a class="headerlink" href="#f-mm-hit-or-miss" title="Permalink to this image">¶</a></p>
+</div>
+<p>Sometimes, the two structuring elements are combined into a single structuring element whose pixels have the following values:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(1\)</span>: pixels that belongs to the object to detect,</p></li>
+<li><p><span class="math notranslate nohighlight">\(-1\)</span>: pixels that do not belong to the object to detect (<em>i.e</em> pixels of the background),</p></li>
+<li><p><span class="math notranslate nohighlight">\(0\)</span>: unused pixels (also called “don’t care pixels”).</p></li>
+</ul>
+<p>With this notation, the structuring element of the hit-or-miss transform in <a class="reference internal" href="#f-mm-hit-or-miss"><span class="std std-numref">Fig. 29</span></a> writes</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+  (E_1, E_2) =
+  \begin{bmatrix}
+    -1 &amp; -1 &amp; -1 &amp; -1 \\
+    -1 &amp;  1 &amp;  1 &amp; -1 \\
+    -1 &amp; -1 &amp; -1 &amp; -1
+  \end{bmatrix}
+\end{split}\]</div>
+</div>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
