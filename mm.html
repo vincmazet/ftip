@@ -19,6 +19,7 @@
     <link rel="stylesheet" type="text/css" href="_static/.ipynb_checkpoints/jbvinc-checkpoint.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-dropdown.css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/sphinx-book-theme.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
@@ -161,6 +162,31 @@
    07/10/2020
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="tp2.html">
+   14/10/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="tp3.html">
+   21/10/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="tp4.html">
+   04/11/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="tp5.html">
+   18/11/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="tp6.html">
+   25/11/2020
+  </a>
+ </li>
 </ul>
 <p class="caption">
  <span class="caption-text">
@@ -171,6 +197,31 @@
  <li class="toctree-l1">
   <a class="reference internal" href="labs/tp1-code.html">
    07/10/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="labs/tp2-code.html">
+   14/10/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="labs/tp3-code.html">
+   21/10/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="labs/tp4-code.html">
+   04/11/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="labs/tp5-code.html">
+   18/10/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="labs/tp6-code.html">
+   25/10/2020
   </a>
  </li>
 </ul>
@@ -354,14 +405,14 @@
                 
   <div class="section" id="mathematical-morphology">
 <h1>Mathematical Morphology<a class="headerlink" href="#mathematical-morphology" title="Permalink to this headline">¶</a></h1>
-<p>Mathematical morphology gathers several techniques that apply to binary images, such as the ones resulting for a thresholding.
+<p>Mathematical morphology gathers several techniques that apply to binary images, such as the ones resulting for thresholding.
 The pixels in binary images take only two values: 0 or 1, true or false, white or black, etc.
 There are extensions of these techniques to grayscale images, but this is beyond the scope of the course.
 In this chapter, we consider that the images contain objects (represented by white pixels) on a background (black pixels).
 We also consider that a binary image is equivalent to a set of pixels, the latter being the set of white pixels of the image.</p>
 <div class="figure align-default" id="mm-mickey">
 <img alt="_images/mickey.png" src="_images/mickey.png" />
-<p class="caption"><span class="caption-number">Fig. 21 </span><span class="caption-text">Example of binary image composed of on object (a famous mouse head) on a background.</span><a class="headerlink" href="#mm-mickey" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-number">Fig. 25 </span><span class="caption-text">Example of a binary image composed of on object (a famous mouse head) on a background.</span><a class="headerlink" href="#mm-mickey" title="Permalink to this image">¶</a></p>
 </div>
 <p>Before going further, it is necessary to recall the elementary operations that can be done on sets.
 Consider <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> as two sets.
@@ -378,19 +429,19 @@ Then:</p>
 <div class="cell_output docutils container">
 <img alt="_images/mm_3_1.png" src="_images/mm_3_1.png" />
 </div>
-<p class="caption"><span class="caption-number">Fig. 22 </span><span class="caption-text">Illustration of operations on sets.</span><a class="headerlink" href="#f-mm-set-operations" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-number">Fig. 26 </span><span class="caption-text">Illustration of operations on sets.</span><a class="headerlink" href="#f-mm-set-operations" title="Permalink to this image">¶</a></p>
 </div>
-<p>In addition to this, the operators of mathematical morphology need a socalled <em>structuring element</em>.
+<p>In addition to this, the operators of mathematical morphology need a so-called <em>structuring element</em>.
 A structuring element <span class="math notranslate nohighlight">\(E\)</span> is a set of pixels (so equivalent to a binary image) associated with an origin.
-Generally, the origin is located at the center of the structuring element.
-bu it may be elsewhere, even outside the pixels of the structuring element.
-In the sequel, we denote by <span class="math notranslate nohighlight">\(E_x\)</span> the structuring element centered on the pixel <span class="math notranslate nohighlight">\(x\)</span>.</p>
+Generally, the origin is located at the centre of the structuring element.
+but it may be elsewhere, even outside the pixels of the structuring element.
+In the sequel, we denote by <span class="math notranslate nohighlight">\(E_x\)</span> the structuring element centred on the pixel <span class="math notranslate nohighlight">\(x\)</span>.</p>
 <div class="section" id="basic-operators">
 <h2>Basic operators<a class="headerlink" href="#basic-operators" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="dilation">
 <h3>Dilation<a class="headerlink" href="#dilation" title="Permalink to this headline">¶</a></h3>
 <p>Having an image <span class="math notranslate nohighlight">\(I\)</span> and a structuring element <span class="math notranslate nohighlight">\(E\)</span>, the dilation of <span class="math notranslate nohighlight">\(I\)</span> by <span class="math notranslate nohighlight">\(E\)</span> is noted <span class="math notranslate nohighlight">\(I \oplus E\)</span>.
-The result of the dilation is obtained by moving the origin of the structuring element onto the white pixels of the image,
+The result of the dilation is obtained by moving the origin of the structuring element onto the white pixels of the image
 and keeping the set of pixels of each displaced structuring element.</p>
 <p>Mathematically speaking:</p>
 <div class="math notranslate nohighlight">
@@ -401,7 +452,7 @@ and keeping the set of pixels of each displaced structuring element.</p>
 <div class="cell_output docutils container">
 <img alt="_images/mm_7_0.png" src="_images/mm_7_0.png" />
 </div>
-<p class="caption"><span class="caption-number">Fig. 23 </span><span class="caption-text">Example of a dilation on a small image <span class="math notranslate nohighlight">\(I\)</span> by the structuring element <span class="math notranslate nohighlight">\(E\)</span> (with origin at the center).</span><a class="headerlink" href="#f-mm-dilation-toy" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-number">Fig. 27 </span><span class="caption-text">Example of dilation on a small image <span class="math notranslate nohighlight">\(I\)</span> by the structuring element <span class="math notranslate nohighlight">\(E\)</span> (with the origin at the centre).</span><a class="headerlink" href="#f-mm-dilation-toy" title="Permalink to this image">¶</a></p>
 </div>
 <p>Question: how could you express the dilation as a convolution?</p>
 <div class="toggle docutils container">
@@ -416,8 +467,8 @@ The application of two consecutive dilations can be done in any order:</p>
   (I \oplus  E_1 ) \oplus  E_2 = (I \oplus  E_2) \oplus  E_1 = I \oplus  (E_1 \oplus E_2)
 \]</div>
 <p><strong>Monotony</strong>  
-Dilation is a monotonous operations,
-that is to say that the relations of inclusions are conserved:</p>
+Dilation is a monotonous operation,
+that is to say, that the relations of inclusions are conserved:</p>
 <div class="math notranslate nohighlight">
 \[
   I_1 \subseteq I_2  \;\Rightarrow\;  I_1 \oplus E \subseteq I_2 \oplus E
@@ -426,7 +477,7 @@ that is to say that the relations of inclusions are conserved:</p>
 <div class="section" id="erosion">
 <h3>Erosion<a class="headerlink" href="#erosion" title="Permalink to this headline">¶</a></h3>
 <p>The erosion of <span class="math notranslate nohighlight">\(I\)</span> by <span class="math notranslate nohighlight">\(E\)</span> is noted <span class="math notranslate nohighlight">\(I \ominus E\)</span>.
-The result of the erosion is obtained by moving the structuring element into the white pixels of the image,
+The result of the erosion is obtained by moving the structuring element into the white pixels of the image
 and keeping only the origin of each displaced structuring element.</p>
 <p>Mathematically speaking:</p>
 <div class="math notranslate nohighlight">
@@ -437,7 +488,7 @@ and keeping only the origin of each displaced structuring element.</p>
 <div class="cell_output docutils container">
 <img alt="_images/mm_7_1.png" src="_images/mm_7_1.png" />
 </div>
-<p class="caption"><span class="caption-number">Fig. 24 </span><span class="caption-text">Example of an erosion on a small image <span class="math notranslate nohighlight">\(I\)</span> by the structuring element <span class="math notranslate nohighlight">\(E\)</span> (with origin at the center).</span><a class="headerlink" href="#f-mm-erosion-toy" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-number">Fig. 28 </span><span class="caption-text">Example of erosion on a small image <span class="math notranslate nohighlight">\(I\)</span> by the structuring element <span class="math notranslate nohighlight">\(E\)</span> (with the origin at the centre).</span><a class="headerlink" href="#f-mm-erosion-toy" title="Permalink to this image">¶</a></p>
 </div>
 <p>Erosion has similar properties as dilation as stated below.</p>
 <p><strong>Associativity</strong>  
@@ -447,7 +498,7 @@ The application of two consecutive erosions can be done in any order:</p>
   (I \ominus E_1 ) \ominus E_2 = (I \ominus E_2) \ominus E_1 = I \ominus (E_1 \oplus E_2)
 \]</div>
 <p><strong>Monotony</strong>  
-Erosion is a monotonous operations:</p>
+Erosion is a monotonous operation:</p>
 <div class="math notranslate nohighlight">
 \[
   I_1 \subseteq I_2  \;\Rightarrow\;  I_1 \ominus E \subseteq I_2 \ominus E
@@ -464,7 +515,7 @@ the dilation is converted to erosion and vice versa:</p>
 </div>
 <div class="section" id="comparison">
 <h3>Comparison<a class="headerlink" href="#comparison" title="Permalink to this headline">¶</a></h3>
-<p><a class="reference internal" href="#f-mm-real-dilation-erosion"><span class="std std-numref">Fig. 25</span></a> shows the result of a dilation or an erosion on a binary image of Greece.</p>
+<p><a class="reference internal" href="#f-mm-real-dilation-erosion"><span class="std std-numref">Fig. 29</span></a> shows the result of dilation and erosion on a binary image of Greece.</p>
 <p>As you can see, dilation:</p>
 <ul class="simple">
 <li><p>increase the size of objects (<em>e.g.</em> the islands are bigger),</p></li>
@@ -482,7 +533,7 @@ the dilation is converted to erosion and vice versa:</p>
 <div class="cell_output docutils container">
 <img alt="_images/mm_9_0.png" src="_images/mm_9_0.png" />
 </div>
-<p class="caption"><span class="caption-number">Fig. 25 </span><span class="caption-text">Dilation and erosion on a map of Greece (of size 300×300) by a disk of radius 4.</span><a class="headerlink" href="#f-mm-real-dilation-erosion" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-number">Fig. 29 </span><span class="caption-text">Dilation and erosion on a map of Greece (of size 300×300) by a disk of radius 4.</span><a class="headerlink" href="#f-mm-real-dilation-erosion" title="Permalink to this image">¶</a></p>
 </div>
 </div>
 </div>
@@ -490,7 +541,7 @@ the dilation is converted to erosion and vice versa:</p>
 <h2>Composition of basic operators<a class="headerlink" href="#composition-of-basic-operators" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="opening">
 <h3>Opening<a class="headerlink" href="#opening" title="Permalink to this headline">¶</a></h3>
-<p>Opening consists in an erosion followed by a dilation.
+<p>Opening consists of an erosion followed by a dilation.
 The erosion removes small objects but also decreases the size of bigger objects.
 To avoid this, the result is dilated with the same structuring element.</p>
 <div class="math notranslate nohighlight">
@@ -501,10 +552,10 @@ To avoid this, the result is dilated with the same structuring element.</p>
 <div class="cell_output docutils container">
 <img alt="_images/mm_7_2.png" src="_images/mm_7_2.png" />
 </div>
-<p class="caption"><span class="caption-number">Fig. 26 </span><span class="caption-text">Example of an opening on a small image <span class="math notranslate nohighlight">\(I\)</span> by the structuring element <span class="math notranslate nohighlight">\(E\)</span> (with origin at the center).</span><a class="headerlink" href="#f-mm-opening-toy" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-number">Fig. 30 </span><span class="caption-text">Example of an opening on a small image <span class="math notranslate nohighlight">\(I\)</span> by the structuring element <span class="math notranslate nohighlight">\(E\)</span> (with the origin at the centre).</span><a class="headerlink" href="#f-mm-opening-toy" title="Permalink to this image">¶</a></p>
 </div>
 <p><strong>Idempotence</strong>  
-Opening is an idempotent operation, that is to say applying twice the same opening gives the same result as only one opening:</p>
+Opening is an idempotent operation, that is to say, applying twice the same opening gives the same result as only one opening:</p>
 <div class="math notranslate nohighlight">
 \[
   (I \circ E) \circ E = I \circ E
@@ -523,7 +574,7 @@ To avoid the widening of the objects, an erosion can be applied with the same st
 <div class="cell_output docutils container">
 <img alt="_images/mm_7_3.png" src="_images/mm_7_3.png" />
 </div>
-<p class="caption"><span class="caption-number">Fig. 27 </span><span class="caption-text">Example of a closing on a small image <span class="math notranslate nohighlight">\(I\)</span> by the structuring element <span class="math notranslate nohighlight">\(E\)</span> (with origin at the center).</span><a class="headerlink" href="#f-mm-closing-toy" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-number">Fig. 31 </span><span class="caption-text">Example of closing on a small image <span class="math notranslate nohighlight">\(I\)</span> by the structuring element <span class="math notranslate nohighlight">\(E\)</span> (with yhe origin at the centre).</span><a class="headerlink" href="#f-mm-closing-toy" title="Permalink to this image">¶</a></p>
 </div>
 <p><strong>Idempotence</strong>  
 Similarly to opening, closing is an idempotent operation:</p>
@@ -534,12 +585,12 @@ Similarly to opening, closing is an idempotent operation:</p>
 </div>
 <div class="section" id="id1">
 <h3>Comparison<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
-<p><a class="reference internal" href="#f-mm-real-opening-closing"><span class="std std-numref">Fig. 28</span></a> shows the result of an opening and a closing on a binary image of Greece.</p>
+<p><a class="reference internal" href="#f-mm-real-opening-closing"><span class="std std-numref">Fig. 32</span></a> shows the result of an opening and a closing on a binary image of Greece.</p>
 <div class="figure align-default" id="f-mm-real-opening-closing">
 <div class="cell_output docutils container">
 <img alt="_images/mm_9_1.png" src="_images/mm_9_1.png" />
 </div>
-<p class="caption"><span class="caption-number">Fig. 28 </span><span class="caption-text">Opening and closing on a map of Greece (of size 300×300) by a disk of radius 4.</span><a class="headerlink" href="#f-mm-real-opening-closing" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-number">Fig. 32 </span><span class="caption-text">Opening and closing on a map of Greece (of size 300×300) by a disk of radius 4.</span><a class="headerlink" href="#f-mm-real-opening-closing" title="Permalink to this image">¶</a></p>
 </div>
 <p>Even if the objects are slightly distorted, they conserve their respective size.</p>
 <p>Especially, opening:</p>
@@ -561,7 +612,7 @@ It is the intersection of the two sets given by:</p>
 <li><p>the erosion by a first structuring element <span class="math notranslate nohighlight">\(E_1\)</span>: <span class="math notranslate nohighlight">\(I \ominus E_1\)</span>,</p></li>
 <li><p>and the erosion of the background by a second structuring element <span class="math notranslate nohighlight">\(E_2\)</span>: <span class="math notranslate nohighlight">\(I^\mathrm{c} \ominus E_2\)</span></p></li>
 </ul>
-<p>with <span class="math notranslate nohighlight">\(E_1 \cap E_2 = \emptyset\)</span> (the structuring elements are disjoints).</p>
+<p>with <span class="math notranslate nohighlight">\(E_1 \cap E_2 = \emptyset\)</span> (the structuring elements are disjointed).</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
    I \otimes (E_1, E_2)
@@ -570,16 +621,16 @@ It is the intersection of the two sets given by:</p>
 \end{split}\]</div>
 <div class="figure align-default" id="f-mm-hit-or-miss">
 <a class="reference internal image-reference" href="_images/hit-or-miss.png"><img alt="_images/hit-or-miss.png" src="_images/hit-or-miss.png" style="height: 472px;" /></a>
-<p class="caption"><span class="caption-number">Fig. 29 </span><span class="caption-text">Example of a hit-or-miss transform applied on image <span class="math notranslate nohighlight">\(I\)</span> by the structuring elements <span class="math notranslate nohighlight">\(E_1\)</span> and <span class="math notranslate nohighlight">\(E_2\)</span>.
-The origins of the structuring elements are maked by a dot.</span><a class="headerlink" href="#f-mm-hit-or-miss" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-number">Fig. 33 </span><span class="caption-text">Example of a hit-or-miss transform applied on image <span class="math notranslate nohighlight">\(I\)</span> by the structuring elements <span class="math notranslate nohighlight">\(E_1\)</span> and <span class="math notranslate nohighlight">\(E_2\)</span>.
+The origins of the structuring elements are marked by a dot.</span><a class="headerlink" href="#f-mm-hit-or-miss" title="Permalink to this image">¶</a></p>
 </div>
 <p>Sometimes, the two structuring elements are combined into a single structuring element whose pixels have the following values:</p>
 <ul class="simple">
-<li><p><span class="math notranslate nohighlight">\(1\)</span>: pixels that belongs to the object to detect,</p></li>
+<li><p><span class="math notranslate nohighlight">\(1\)</span>: pixels that belong to the object to detect,</p></li>
 <li><p><span class="math notranslate nohighlight">\(-1\)</span>: pixels that do not belong to the object to detect (<em>i.e</em> pixels of the background),</p></li>
 <li><p><span class="math notranslate nohighlight">\(0\)</span>: unused pixels (also called “don’t care pixels”).</p></li>
 </ul>
-<p>With this notation, the structuring element of the hit-or-miss transform in <a class="reference internal" href="#f-mm-hit-or-miss"><span class="std std-numref">Fig. 29</span></a> writes</p>
+<p>With this notation, the structuring element of the hit-or-miss transform in <a class="reference internal" href="#f-mm-hit-or-miss"><span class="std std-numref">Fig. 33</span></a> writes</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
   (E_1, E_2) =

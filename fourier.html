@@ -19,6 +19,7 @@
     <link rel="stylesheet" type="text/css" href="_static/.ipynb_checkpoints/jbvinc-checkpoint.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-dropdown.css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/sphinx-book-theme.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
@@ -161,6 +162,31 @@
    07/10/2020
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="tp2.html">
+   14/10/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="tp3.html">
+   21/10/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="tp4.html">
+   04/11/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="tp5.html">
+   18/11/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="tp6.html">
+   25/11/2020
+  </a>
+ </li>
 </ul>
 <p class="caption">
  <span class="caption-text">
@@ -171,6 +197,31 @@
  <li class="toctree-l1">
   <a class="reference internal" href="labs/tp1-code.html">
    07/10/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="labs/tp2-code.html">
+   14/10/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="labs/tp3-code.html">
+   21/10/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="labs/tp4-code.html">
+   04/11/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="labs/tp5-code.html">
+   18/10/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="labs/tp6-code.html">
+   25/10/2020
   </a>
  </li>
 </ul>
@@ -324,7 +375,7 @@
 We recall that the Fourier transform decompose a signal into a sum of sinusoids,
 thus highlighting the frequencies contained in this signal.</p>
 <div class="section" id="definition">
-<h2>Definition<a class="headerlink" href="#definition" title="Permalink to this headline">¶</a></h2>
+<span id="c-fourier-definition"></span><h2>Definition<a class="headerlink" href="#definition" title="Permalink to this headline">¶</a></h2>
 <p>The discrete Fourier transform (DFT) of an image <span class="math notranslate nohighlight">\(f\)</span> of size <span class="math notranslate nohighlight">\(M \times N\)</span> is an image <span class="math notranslate nohighlight">\(F\)</span> of same size computed with the following definition:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -360,10 +411,12 @@ On the contrary, the tail is a high frequency area because the pixel intensity s
     \qquad\text{where}\; a,b\in\mathbb{C}.
   \]</div>
 </li>
-<li><p>The convolution of two images is equivalent to the multiplication of the DFT of the images:
-\begin{equation*}
-f * g = \mathcal{F}^{-1}[F \times G]
-\end{equation*}</p></li>
+<li><p>The convolution of two images is equivalent to the multiplication of the DFT of the images:</p>
+<div class="math notranslate nohighlight">
+\[
+    f * g = \mathcal{F}^{-1}[F \times G]
+  \]</div>
+</li>
 <li><p>Separability: the 2D DFT can be obtained by computing a 1D DFT on the rows, then a 1D DFT on the columns.</p></li>
 <li><p>The DTF is periodic with periods <span class="math notranslate nohighlight">\(M\)</span> and <span class="math notranslate nohighlight">\(N\)</span>:</p>
 <div class="math notranslate nohighlight">
@@ -372,10 +425,12 @@ f * g = \mathcal{F}^{-1}[F \times G]
     \qquad\text{where}\; k_m, k_n \in \mathbb{Z}.
   \]</div>
 </li>
-<li><p>A translation on the image implies a phase shift on the DFT:
-\begin{equation*}
-\mathcal{F}[f(m-m_0,n-n_0)] = F(u,v) \exp\left(-j2\pi\left(\frac{um_0}{M}+\frac{vn_0}{N}\right)\right)
-\end{equation*}</p></li>
+<li><p>A translation on the image implies a phase shift on the DFT:</p>
+<div class="math notranslate nohighlight">
+\[
+    \mathcal{F}[f(m-m_0,n-n_0)] = F(u,v) \exp\left(-j2\pi\left(\frac{um_0}{M}+\frac{vn_0}{N}\right)\right)
+  \]</div>
+</li>
 <li><p>A rotation on the image implies the same rotation on the DFT.</p></li>
 </ul>
 </div>

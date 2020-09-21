@@ -19,6 +19,7 @@
     <link rel="stylesheet" type="text/css" href="_static/.ipynb_checkpoints/jbvinc-checkpoint.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-dropdown.css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/sphinx-book-theme.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
@@ -161,6 +162,31 @@
    07/10/2020
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="tp2.html">
+   14/10/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="tp3.html">
+   21/10/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="tp4.html">
+   04/11/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="tp5.html">
+   18/11/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="tp6.html">
+   25/11/2020
+  </a>
+ </li>
 </ul>
 <p class="caption">
  <span class="caption-text">
@@ -171,6 +197,31 @@
  <li class="toctree-l1">
   <a class="reference internal" href="labs/tp1-code.html">
    07/10/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="labs/tp2-code.html">
+   14/10/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="labs/tp3-code.html">
+   21/10/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="labs/tp4-code.html">
+   04/11/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="labs/tp5-code.html">
+   18/10/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="labs/tp6-code.html">
+   25/10/2020
   </a>
  </li>
 </ul>
@@ -321,8 +372,23 @@
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#changing-the-color-space">
-     Changing the color space
+    <a class="reference internal nav-link" href="#principle">
+     Principle
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-discrete-cosine-transform">
+     The discrete cosine transform
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#example-of-the-dct-of-an-image">
+     Example of the DCT of an image
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#other-steps-in-jpeg-compression">
+     Other steps in JPEG compression
     </a>
    </li>
   </ul>
@@ -358,8 +424,8 @@ This definition is currently still used and needs to model the problem by using 
 (<em>i.e.</em> the original image and the compressed image are perfectly identical.
 It is possible to reach a compression ratio up to 1/10
 (the size in bytes of the compressed image is 1/10 times the original one).</p></li>
-<li><p>In <strong>lossy compression</strong>, we accept to loose information during compression
-(while ensuring that the original image still remain close to the original one).
+<li><p>In <strong>lossy compression</strong>, we accept to lose information during compression
+(while ensuring that the original image remains close to the original one).
 The compression ratio can reach 1/100!</p></li>
 </ul>
 </div>
@@ -369,18 +435,18 @@ The compression ratio can reach 1/100!</p></li>
 <div class="section" id="run-length-encoding">
 <h3>Run-length encoding<a class="headerlink" href="#run-length-encoding" title="Permalink to this headline">¶</a></h3>
 <p>RLE (run-length encoding) replaces a sequence of pixels of the same color with the number of pixels in that sequence.
-Therefore, the image</p>
-<div class="figure align-default" id="f-compression-rle">
-<div class="cell_output docutils container">
-<img alt="_images/compression_7_0.png" src="_images/compression_7_0.png" />
-</div>
-<p class="caption"><span class="caption-number">Fig. 20 </span><span class="caption-text">A 3 × 3 image.</span><a class="headerlink" href="#f-compression-rle" title="Permalink to this image">¶</a></p>
-</div>
-<p>is encoding without compression with 9 bytes:</p>
+Therefore, the image <a class="reference internal" href="#f-compression-rle"><span class="std std-numref">Fig. 20</span></a> needs 9 bytes to be stored without any compression.
+The bytes are:</p>
 <div class="math notranslate nohighlight">
 \[
   \begin{pmatrix} 0 &amp; 0 &amp; 0 &amp; 255 &amp; 255 &amp; 255 &amp; 255 &amp; 128 &amp; 128 \end{pmatrix}.
 \]</div>
+<div class="figure align-default" id="f-compression-rle">
+<div class="cell_output docutils container">
+<img alt="_images/compression_6_0.png" src="_images/compression_6_0.png" />
+</div>
+<p class="caption"><span class="caption-number">Fig. 20 </span><span class="caption-text">A 3 × 3 image.</span><a class="headerlink" href="#f-compression-rle" title="Permalink to this image">¶</a></p>
+</div>
 <p>By reading the image column after column, we see 3 pixels with intensity 0, 4 pixels with intensity 255, and 2 pixels with intensity 128.
 Thus the image is encoded in RLE with only 6 bytes:</p>
 <div class="math notranslate nohighlight">
@@ -393,124 +459,104 @@ Thus the image is encoded in RLE with only 6 bytes:</p>
 <div class="section" id="lempel-ziv-welch-algorithm">
 <h3>Lempel-Ziv-Welch Algorithm<a class="headerlink" href="#lempel-ziv-welch-algorithm" title="Permalink to this headline">¶</a></h3>
 <p>The LZW algorithm (Lempel-Ziv-Welch, 1984) is an improvement of the LZ78 algorithm (1978).
-The principle is to build a dictionary of existing groups of pixels and to assign a code to each group.
 It is used in format like GIF or TIFF.</p>
-<p>The algorithm is the following one:</p>
-<pre>
-Initialize the dictionary with all the possible intensities
-For each pixel:
-  Look to the longest sequence in the dictionary that starts at this pixel
-  Replace this sequence with the corresponding code
-  Add to the dictionary the sequence followed by the next pixel
-</pre></div>
+</div>
 </div>
 <div class="section" id="lossy-compression">
 <h2>Lossy compression<a class="headerlink" href="#lossy-compression" title="Permalink to this headline">¶</a></h2>
-<p>The most famous compression format for images is JPEG.
-The JPEG format was created by the Joint Photographic Experts Group in 1992.</p>
-<p>The main idea of JPEG compression is to apply a specific tranform on the image (namely, the discrete cosine transform)
-and to cancel some coefficients of the transform.
-Actually, the JPEG compression is a sequence of several steps, including:</p>
+<div class="section" id="principle">
+<h3>Principle<a class="headerlink" href="#principle" title="Permalink to this headline">¶</a></h3>
+<p>The most famous compression format for images is JPEG,
+created in 1992 by the Joint Photographic Experts Group.
+The idea of JPEG compression is to apply a specific transform on the image,
+such that most coefficients of the transformed are very small and can be cancelled,
+thus gaining storage at the price of a very little visual degradation.
+This principle is also used in lossy compression of audio (MP3) and video (MPEG).</p>
+<p>Most of the energy of usual pictures are concentrated in low frequencies,
+so the <a class="reference internal" href="fourier.html#c-fourier"><span class="std std-ref">discrete Fourier transform</span></a> (DFT) could be a good idea to perform lossy compression.
+It appears though that the so-called <em>discrete cosine transform</em> (DCT) is a better choice for computational reasons.
+Note that JPEG2000 (which is a newer but rarely used version of JPEG) used a wavelet transform.</p>
+</div>
+<div class="section" id="the-discrete-cosine-transform">
+<h3>The discrete cosine transform<a class="headerlink" href="#the-discrete-cosine-transform" title="Permalink to this headline">¶</a></h3>
+<p>The DCT of an image <span class="math notranslate nohighlight">\(f\)</span> of size <span class="math notranslate nohighlight">\(N \times N\)</span> is an image <span class="math notranslate nohighlight">\(F\)</span> of same size defined as:</p>
+<div class="math notranslate nohighlight">
+\[
+  F(u,v) = \frac{2}{N} C(u) C(v) \sum_{m=0}^{N-1} \sum_{n=0}^{N-1}
+  f(m, n) \cos\left[\frac{(2m+1)u\pi}{2N} \right] \cos\left[\frac{(2n+1)v\pi}{2N} \right]
+\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+  C(u) =
+  \begin{cases}
+    \frac{1}{\sqrt{2}}  &amp;\text{if}\; u = 0, \\
+    1                   &amp;\text{if}\; u &gt; 0.
+  \end{cases}
+\end{split}\]</div>
+<p>The DCT is similar to <a class="reference internal" href="fourier.html#c-fourier-definition"><span class="std std-ref">DFT</span></a> except that the complex exponentials are replaced by cosine.</p>
+<p>The DCT decomposes an image into 2D cosines of different frequencies.
+Considering an image of size 8 × 8, the 64 possible cosines of the DCT are represented <a class="reference internal" href="#f-compression-dct-coefficients"><span class="std std-numref">Fig. 21</span></a>.</p>
+<div class="figure align-default" id="f-compression-dct-coefficients">
+<div class="cell_output docutils container">
+<img alt="_images/compression_11_0.png" src="_images/compression_11_0.png" />
+</div>
+<p class="caption"><span class="caption-number">Fig. 21 </span><span class="caption-text">The 64 coefficients of a DCT of size 8 × 8.</span><a class="headerlink" href="#f-compression-dct-coefficients" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+<div class="section" id="example-of-the-dct-of-an-image">
+<h3>Example of the DCT of an image<a class="headerlink" href="#example-of-the-dct-of-an-image" title="Permalink to this headline">¶</a></h3>
+<p>To illustrate the DCT applied to an image, consider the image given in <a class="reference internal" href="#f-compression-squirrel-crop"><span class="std std-numref">Fig. 22</span></a>,
+which is a crop of size 8 × 8 centered on the squirrel snout.</p>
+<div class="figure align-default" id="f-compression-squirrel-crop">
+<div class="cell_output docutils container">
+<img alt="_images/compression_13_1.png" src="_images/compression_13_1.png" />
+</div>
+<p class="caption"><span class="caption-number">Fig. 22 </span><span class="caption-text">The 8 × 8 image to be transformed with DCT (right).</span><a class="headerlink" href="#f-compression-squirrel-crop" title="Permalink to this image">¶</a></p>
+</div>
+<p>The 64 coefficients of the DCT of the crop are shown in <a class="reference internal" href="#f-compression-squirrel-coefficients"><span class="std std-numref">Fig. 23</span></a>.
+As you can see, the coefficient at the top left, which correspond at the lower frequencies
+(see <a class="reference internal" href="#f-compression-dct-coefficients"><span class="std std-numref">Fig. 21</span></a>) are the largest.</p>
+<div class="figure align-default" id="f-compression-squirrel-coefficients">
+<div class="cell_output docutils container">
+<img alt="_images/compression_13_0.png" src="_images/compression_13_0.png" />
+</div>
+<p class="caption"><span class="caption-number">Fig. 23 </span><span class="caption-text">The 64 coefficients of the DCT applied to <a class="reference internal" href="#f-compression-squirrel-crop"><span class="std std-numref">Fig. 22</span></a>.
+Those which are cancelled are stroked out with a red cross.</span><a class="headerlink" href="#f-compression-squirrel-coefficients" title="Permalink to this image">¶</a></p>
+</div>
+<p>Because the human eye is less sensitive to high frequencies than low frequencies,
+the idea of JPEG compression is to cancel the coefficients at the bottom right in <a class="reference internal" href="#f-compression-squirrel-coefficients"><span class="std std-numref">Fig. 23</span></a>.</p>
+<p>So, we cancel the coefficients stroked with a red cross, and reconstruct the image by using the inverse DCT
+(the expression of the inverse DCT is not given here but is similar to what the inverse Fourier transform is for the Fourier transform).
+The reconstructed image with only 28 coefficients (over 64) is shown in <a class="reference internal" href="#f-compression-squirrel-comparison"><span class="std std-numref">Fig. 24</span></a> (right).
+As you can see, the result is very similar to the original image, while less than 50 % coefficients are conserved!
+This small example shows the interest of going into the domain of a transformation and cancelling certain coefficients</p>
+<div class="figure align-default" id="f-compression-squirrel-comparison">
+<div class="cell_output docutils container">
+<img alt="_images/compression_13_2.png" src="_images/compression_13_2.png" />
+</div>
+<p class="caption"><span class="caption-number">Fig. 24 </span><span class="caption-text">The original image (left) and the compressed one (right).</span><a class="headerlink" href="#f-compression-squirrel-comparison" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+<div class="section" id="other-steps-in-jpeg-compression">
+<h3>Other steps in JPEG compression<a class="headerlink" href="#other-steps-in-jpeg-compression" title="Permalink to this headline">¶</a></h3>
+<p>Computing the DCT of the image and using only the low-frequency coefficients for the reconstruction
+is at the heart of the JPEG compression.
+To gain even more in terms of compression, other steps are added in the real JPEG compression.
+Here are some of them.</p>
 <ul class="simple">
-<li><p>use another color space instead of the usual RGB representation,</p></li>
-<li><p>downsample the image</p></li>
-<li><p>split the image into 8 <span class="math notranslate nohighlight">\(\times\)</span> 8 sub-images</p></li>
-<li><p>compute the the discrete cosine transform (DCT) of each sub-image</p></li>
-<li><p>quantification of the DCT coefficients</p></li>
+<li><p>Color images are coded with three channels, the well-known red-green-blue color space.
+<a class="reference external" href="https://en.wikipedia.org/wiki/List_of_color_spaces_and_their_uses">Numerous color spaces</a> exist aside from the usual RGB one.
+Especially, the YCbCr is the one used in JPEG compression
+because the Y channel codes the brightness of the image and contains important information for the human eye.
+In consequence, the two other channels (Cb and Cr) are sub-sampled to have less pixel to store.</p></li>
+<li><p>The image is split in sub-image of size 8 × 8, and one DCT is computed on each of the sub-images.</p></li>
+<li><p>In the previous section, the high-frequency coefficients are cancelled.
+In reality, a quantification is made on every coefficient of each DCT,
+but the quantification is fine for low-frequency coefficients and rough for high-frequency ones.</p></li>
+<li><p>The array composed of the 64 coefficients of each sub-image is compressed with a lossless compression method
+(namely, <a class="reference external" href="https://en.wikipedia.org/wiki/Huffman_coding">Huffman coding</a>)</p></li>
 </ul>
-<p>Other minor steps are also existing in the pipe-line of JPEG compression.
-Now let’s have a look on the previous major steps.</p>
-<div class="section" id="changing-the-color-space">
-<h3>Changing the color space<a class="headerlink" href="#changing-the-color-space" title="Permalink to this headline">¶</a></h3>
-<p><a class="reference external" href="https://en.wikipedia.org/wiki/List_of_color_spaces_and_their_uses">Numerous color spaces</a> exist aside of the usual RGB one.
-Among them, the YCbCr is the one used in JPEG compression.
-YCbCr has also three channels:
-Y represents the luma (<em>i.e.</em> brightness or grayscale image), and Cb and Cr are the blue and red chroma components.</p>
-<p>FIGURE X represents the components R, G, B (top) and Y, Cb, Cr (bottom) of the same image, for a comparison.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">FIG</span> <span class="n">X</span>
-</pre></div>
-</div>
-<p>In FIGURE Y, the image is recomposed by using only two of the three channels, for each color space.
-As you can see, the image is visible in each recomposition, except the one where the channel Y is missing.
-Indeed, the human eye is more sensible to the brightness of an image (carried by Y) than another channel.
-Therefore, the idea is to compress the channel Y less than the chroma channels.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">FIG</span> <span class="n">Y</span>
-</pre></div>
-</div>
-<p>\begin{frame}{\sqnum{2}Sous-échantillonnage}</p>
-<p>L’\oe{}il humain est plus sensible à la luminosité d’une image (composante Y) qu’à la couleur (composantes Cb et Cr)\
-(95~% de bâtonnets pour la lumière~; 5~% de cônes pour la couleur).</p>
-<p>\medskip\pause</p>
-<p><span class="math notranslate nohighlight">\(\Rightarrow\)</span> Sous-échantillonnage des chrominances.</p>
-<p>\begin{center}
-\includegraphics[width=\textwidth]{Jab}</p>
-<p>\end{center}</p>
-<p>\end{frame}</p>
-<p>\begin{frame}{\sqnum{3}Découpage en sous-images 8 <span class="math notranslate nohighlight">\(\times\)</span> 8}</p>
-<p>Chaque canal (Y, Cb, Cr) est découpé en blocs de 8<span class="math notranslate nohighlight">\(\times\)</span>8 pixels.</p>
-<p>\end{frame}</p>
-<p>\begin{frame}{\sqnum{4}Application d’une transformée}</p>
-<p>L’énergie d’une image naturelle est principalement concentrée dans les basses fréquences,
-donc sur quelques coefficients de la transformée en cosinus discrète (DCT~: \textit{discrete cosine transform}).</p>
-<p>\bigskip</p>
-<p><span class="math notranslate nohighlight">\(\Rightarrow\)</span> compression dans le domaine de la DCT.</p>
-<p>\bigskip
-\pause</p>
-<p>Le format JPEG2000 utilise la transformée en ondelettes.</p>
-<p>\end{frame}</p>
-<p>\only<beamer>{
-\begin{frame}{\sqnum{4}Application d’une transformée}</p>
-<p>\includegraphics[width=\textwidth]{jpeg92vs2000}</p>
-<p>\end{frame}
-}</p>
-<p>\begin{frame}{\sqnum{4}Application de la DCT}</p>
-<p>Transformée en cosinus discrète de l’image <span class="math notranslate nohighlight">\(x\)</span> de taille <span class="math notranslate nohighlight">\(N \times N\)</span>~:
-{\small
-\begin{equation*}
-X(u,v) = \frac{2}{N} C(u) C(v) \sum_{m=0}^{N-1} \sum_{n=0}^{N-1}
-x(m, n) \cos\left[\frac{(2m+1)u\pi}{2N} \right] \cos\left[\frac{(2n+1)v\pi}{2N} \right]
-\end{equation*}}
-où
-\begin{equation*}
-C(u) =
-\begin{cases}
-\frac{1}{\sqrt{2}}  &amp;\text{pour <span class="math notranslate nohighlight">\(u = 0\)</span>}, \
-1                   &amp;\text{pour <span class="math notranslate nohighlight">\(u &gt; 0\)</span>}.
-\end{cases}
-\end{equation*}</p>
-<p>\end{frame}</p>
-<p>\begin{frame}{\sqnum{4}Application de la DCT}</p>
-<p>Décomposition de la sous-image 8<span class="math notranslate nohighlight">\(\times\)</span>8 en somme de cosinus 2D~:
-\begin{center}
-\includegraphics[width=5cm]{dct-8x8}
-\end{center}</p>
-<p>\end{frame}</p>
-<p>\begin{frame}{\sqnum{5}Quantification de la transformée}</p>
-<p>\begin{itemize}</p>
-<p>\item les coefficients <span class="math notranslate nohighlight">\(X(u,v)\)</span> de la DCT sont quantifiés~:
-\begin{equation*}
-X’(u,v) = \mathrm{round} \left( \frac{X(u,v)}{Q(u,v)} \right)
-\end{equation*}</p>
-<p>\item La quantification <span class="math notranslate nohighlight">\(Q(u,v)\)</span> est plus forte dans les hautes fréquences (l’\oe{}il y étant moins sensible).</p>
-<p>\end{itemize}</p>
-<p>\bigskip
-\pause</p>
-<p>Exemple (image 4<span class="math notranslate nohighlight">\(\times\)</span>4)~:
-\begin{equation*}
-X = \begin{bmatrix} 103,67 &amp; 42,42 \ 38,06 &amp; 28,45 \end{bmatrix}\quad\text{et}\quad
-Q = \begin{bmatrix} 10 &amp; 80 \ 80 &amp; 100 \end{bmatrix}\quad\Rightarrow\quad
-X’ = \only<beamer>{\begin{bmatrix} 10 &amp; 1 \ 0 &amp; 0 \end{bmatrix}}
-\only<handout>{\hspace*{3cm}}
-\end{equation*}</p>
-<p>\end{frame}</p>
-<p>\begin{frame}{\sqnum{6}Compression de la quantification}</p>
-<p>Un parcours en zig-zag des blocs produit une séquence où les fréquences similaires sont regroupées.
-\begin{center}
-\includegraphics[width=4cm]{zigzag}
-\end{center}</p>
-<p>\pause</p>
-<p>Au sein de cette séquence, les différences sont compressées avec l’algorithme RLE puis avec un code de Huffman.</p>
-<p>\end{frame}</p>
 </div>
 </div>
 </div>
