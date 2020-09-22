@@ -19,7 +19,6 @@
     <link rel="stylesheet" type="text/css" href="_static/.ipynb_checkpoints/jbvinc-checkpoint.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-dropdown.css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script src="_static/sphinx-book-theme.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
@@ -355,8 +354,8 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#module-et-phase-de-la-transformee-de-fourier">
-   module et phase de la transformée de Fourier}
+  <a class="reference internal nav-link" href="#magnitude-and-phase-of-the-fourier-transform">
+   Magnitude and phase of the Fourier transform
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -398,59 +397,69 @@ Before applying the convolutions, you need to convert the image into float (<cod
 <div class="section" id="properties-of-the-fourier-transform">
 <h2>Properties of the Fourier transform<a class="headerlink" href="#properties-of-the-fourier-transform" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>Load the image <span class="xref myst">s1.png</span> and compute its discrete Fourier tranform (DFT) with <code class="docutils literal notranslate"><span class="pre">scipy.fft.fft2</span></code>.</p></li>
+<li><p>Load the image <a class="reference external" href="https://vincmazet.github.io/ftip/labs/s1.png">s1.png</a> and compute its discrete Fourier tranform (DFT) with <code class="docutils literal notranslate"><span class="pre">scipy.fft.fft2</span></code>.</p></li>
 <li><p>Show the DFT of the image with low frequencies at the center (<code class="docutils literal notranslate"><span class="pre">scipy.fft.fftshift</span></code>).
 The magnitude and angle are obtained with <code class="docutils literal notranslate"><span class="pre">numpy.absolute</span></code> and <code class="docutils literal notranslate"><span class="pre">numpy.angle</span></code>.</p></li>
-<li><p>Repeat the same operations with images <span class="xref myst">s2.png</span>, <span class="xref myst">s3.png</span>, <span class="xref myst">s4.png</span>, and <span class="xref myst">s5.png</span>.
+<li><p>Repeat the same operations with images <a class="reference external" href="https://vincmazet.github.io/ftip/labs/s2.png">s2.png</a>,
+<a class="reference external" href="https://vincmazet.github.io/ftip/labs/s3.png">s3.png</a>, <a class="reference external" href="https://vincmazet.github.io/ftip/labs/s4.png">s4.png</a>,
+and <a class="reference external" href="https://vincmazet.github.io/ftip/labs/s5.png">s5.png</a>.
 Analyse the specificities of the images: chat can you say about the DFT?</p></li>
 </ul>
 </div>
-<div class="section" id="module-et-phase-de-la-transformee-de-fourier">
-<h2>module et phase de la transformée de Fourier}<a class="headerlink" href="#module-et-phase-de-la-transformee-de-fourier" title="Permalink to this headline">¶</a></h2>
-<p>\begin{questions}</p>
-<p>\item Chargez l’image lena.tiff et convertissez-la en niveaux de gris.</p>
-<p>\item Calculez sa TFD.</p>
-<p>\item Reconstruisez l’image à partir de la TFD inverse, mais en utilisant un module constant.
-Pour cela, il vous faut reconstruire la TFD à partir du module et de la phase, sachant que
-<span class="math notranslate nohighlight">\(X = \rho \exp(j\theta)\)</span>
-où <span class="math notranslate nohighlight">\(X\)</span> est la TFD, <span class="math notranslate nohighlight">\(\rho\)</span> est son module et <span class="math notranslate nohighlight">\(\theta\)</span> sa phase.
-En Python, l’exponentielle est \syntax{numpy.exp} et la multiplication est \syntax{*}.
-Pour définir un module constant et de même taille que la TFD, vous pouvez par exemple utiliser le code~:
-\begin{code}
-numpy.ones(F.shape)
-\end{code}
-L’image résultante est obtenue en calculant la TFD inverse (\syntax{nupy.fft.ifft2}).
-En raison des calculs effectués, il est possible que des erreurs numériques rendent le résultat à valeurs complexes.
-Pour éviter cela, affichez la partie réelle (\syntax{numpy.real}) de l’image obtenue.</p>
-<p>\item Même question en utilisant le module de la TFD initiale mais une phase constante.</p>
-<p>\item Que concluez-vous~?</p>
-<p>\end{questions}</p>
+<div class="section" id="magnitude-and-phase-of-the-fourier-transform">
+<h2>Magnitude and phase of the Fourier transform<a class="headerlink" href="#magnitude-and-phase-of-the-fourier-transform" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p>Load the image lena.tiff and convert it to grayscale.</p></li>
+<li><p>Compute its DFT.</p></li>
+<li><p>Reconstruct the image by using the inverse DTF, but using a constant argument.
+To do that, you have to define the DTF from the magnitude and the argument, considering that</p>
+<div class="math notranslate nohighlight">
+\[
+    X = \rho \exp(j\theta)
+  \]</div>
+<p>where <span class="math notranslate nohighlight">\(X\)</span> is the DFT, <span class="math notranslate nohighlight">\(\rho\)</span> the magnitude and <span class="math notranslate nohighlight">\(\theta\)</span> the phase.
+In Python, the exponential is <code class="docutils literal notranslate"><span class="pre">numpy.exp</span></code> and the multiplication is simply <code class="docutils literal notranslate"><span class="pre">*</span></code>.
+To define a constant magnitude with the same size as the DFT,
+you can use the code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">numpy</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>It is possible that the image is complex, because of numerical errors.
+To avoid this, display the real part (<code class="docutils literal notranslate"><span class="pre">numpy.real</span></code>) of the image.</p>
+</li>
+<li><p>Same question, but using the initial magnitude but a constant argument.</p></li>
+<li><p>What do you conclude?</p></li>
+</ul>
 </div>
 <div class="section" id="lossy-compression">
 <h2>Lossy compression<a class="headerlink" href="#lossy-compression" title="Permalink to this headline">¶</a></h2>
-<p>Le c\oe{}ur de la compression JPEG consiste à annuler les coefficients faibles
+<p>Le cœur de la compression JPEG consiste à annuler les coefficients faibles
 de la transformée en cosinus discrète (DCT) de l’image.
-Dans cet exercice, une version simplifiée de la compression JPEG est mise en \oe{}uvre
-en annulant les pixels de la DCT situés à l’extérieur d’un carré situé dans les basses fréquences et de côté~<span class="math notranslate nohighlight">\(C\)</span>.</p>
-<p>\begin{questions}</p>
-<p>\item Calculez et affichez la DCT (\syntax{scipy.fftpack.dctn}) de l’image lena.tiff.
-Attention, utilisez l’option \syntax{norm=’ortho’} de la fonction~!
-Pour simplifier la mise en \oe{}uvre, utilisez l’image en niveaux de gris.</p>
-<p>\item Le code ci-dessous génère un masque binaire de même taille que l’image~:
-\begin{code}
-Mask = zeros(Y.shape)
-Mask[:C,:C] = 1
-\end{code}
-Ce masque permet d’annuler les pixels à l’extérieur du carré~:
+Dans cet exercice, une version simplifiée de la compression JPEG est mise en œuvre
+en annulant les pixels de la DCT situés à l’extérieur d’un carré situé dans les basses fréquences et de côté <span class="math notranslate nohighlight">\(C\)</span>.</p>
+<ul>
+<li><p>Calculez et affichez la DCT (<code class="docutils literal notranslate"><span class="pre">scipy.fftpack.dctn</span></code>) de l’image lena.tiff.
+Attention, utilisez l’option <code class="docutils literal notranslate"><span class="pre">norm='ortho'</span></code> de la fonction !
+Pour simplifier la mise en œuvre, utilisez l’image en niveaux de gris.</p></li>
+<li><p>Le code ci-dessous génère un masque binaire de même taille que l’image :</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">Mask</span><span class="p">[:</span><span class="n">C</span><span class="p">,:</span><span class="n">C</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>Ce masque permet d’annuler les pixels à l’extérieur du carré :
 affichez-le pour une valeur de <span class="math notranslate nohighlight">\(C\)</span> choisie.</p>
-<p>\item Annulez les coefficients de la DCT à l’aide du masque généré.</p>
-<p>\item Affichez l’image compressée en utilisant la DCT inverse
-(\syntax{scipy.fftpack.idctn}, toujours avec l’option \syntax{norm=’ortho’}).
-Calculez son PSNR.</p>
-<p>\item Analysez l’évolution du PSNR en fonction du taux de compression, défini comme~:
-\begin{equation*}
-\tau = \frac{\text{Taille de l’image compressée}}{\text{Taille de l’image originale}}
-\end{equation*}</p>
+</li>
+<li><p>Annulez les coefficients de la DCT à l’aide du masque généré.</p></li>
+<li><p>Affichez l’image compressée en utilisant la DCT inverse
+(<code class="docutils literal notranslate"><span class="pre">scipy.fftpack.idctn</span></code>, toujours avec l’option <code class="docutils literal notranslate"><span class="pre">norm='ortho'</span></code>).
+Calculez son PSNR.</p></li>
+<li><p>Analysez l’évolution du PSNR en fonction du taux de compression, défini comme :</p>
+<div class="math notranslate nohighlight">
+\[
+    \tau = \frac{\text{Taille de l'image compressée}}{\text{Taille de l'image originale}}
+  \]</div>
+</li>
+</ul>
 </div>
 </div>
 

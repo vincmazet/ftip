@@ -19,7 +19,6 @@
     <link rel="stylesheet" type="text/css" href="_static/.ipynb_checkpoints/jbvinc-checkpoint.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-dropdown.css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script src="_static/sphinx-book-theme.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
@@ -343,14 +342,7 @@
             <i class="fas fa-list"></i> Contents
         </div>
         <nav id="bd-toc-nav">
-            <ul class="nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#detection-de-caracteristiques-sur-des-images-binaires">
-   Detection de caractéristiques sur des images binaires
-  </a>
- </li>
-</ul>
-
+            
         </nav>
     </div>
 </div>
@@ -361,77 +353,8 @@
                 
   <div class="section" id="pattern-co">
 <h1>(Pattern &amp; Co)<a class="headerlink" href="#pattern-co" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="detection-de-caracteristiques-sur-des-images-binaires">
-<h2>Detection de caractéristiques sur des images binaires<a class="headerlink" href="#detection-de-caracteristiques-sur-des-images-binaires" title="Permalink to this headline">¶</a></h2>
-<p>Images binaires =&gt; on peut utiliser la MM</p>
-<p>Les objets binaires peuvent être caractérisés par des descripteurs de forme, par exemple :</p>
-<ul>
-<li><p>le centroïde : coordonnées du barycentre</p></li>
-<li><p>la surface : nombre de pixels de l’objet</p></li>
-<li><p>la boîte englobante \eng{bounding box} : le plus petit rectangle contenant l’objet</p></li>
-<li><p>le périmètre : la longueur de la ligne reliant les pixels du contour
-on peut caluler le périmètre en comptant le nombre de pixels du contour,
-que l’on peut obtenir en enlevant l’image érodée de l’image originale~:</p>
-<div class="math notranslate nohighlight">
-\[
-    \partial I = I \setminus (I \ominus E)
-  \]</div>
-<p>Une alternative est d’enlever l’image originale à sa dilatée~:</p>
-<div class="math notranslate nohighlight">
-\[
-    \partial I = (I \oplus E) \setminus I
-  \]</div>
-<p>(exemple avec le mannele)</p>
-</li>
-<li><p>compacité~:</p>
-<div class="math notranslate nohighlight">
-\[
-    C = \frac{4 \pi \times \text{surface}}{\text{périmètre}^2}
-  \]</div>
-<p><span class="math notranslate nohighlight">\(C = 1\)</span> pour un disque, <span class="math notranslate nohighlight">\(C = 4\pi/16 \approx 0,20\)</span> pour un carré.</p>
-</li>
-</ul>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">skimage.io</span> <span class="kn">import</span> <span class="n">imread</span><span class="p">,</span> <span class="n">imsave</span>
-<span class="kn">from</span> <span class="nn">skimage.color</span> <span class="kn">import</span> <span class="n">rgb2gray</span>
-<span class="kn">from</span> <span class="nn">skimage.transform</span> <span class="kn">import</span> <span class="n">resize</span>
-<span class="kn">from</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">import</span> <span class="n">imshow</span><span class="p">,</span> <span class="n">show</span>
-<span class="kn">from</span> <span class="nn">skimage.morphology</span> <span class="kn">import</span> <span class="n">binary_erosion</span><span class="p">,</span> <span class="n">binary_dilation</span>
-
-<span class="n">img</span> <span class="o">=</span> <span class="n">imread</span><span class="p">(</span><span class="s1">&#39;figs/bonhomme.png&#39;</span><span class="p">)</span>
-<span class="n">img2</span> <span class="o">=</span> <span class="n">rgb2gray</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
-<span class="n">N</span> <span class="o">=</span> <span class="mi">40</span>
-<span class="n">img3</span> <span class="o">=</span> <span class="n">resize</span><span class="p">(</span><span class="n">img2</span><span class="p">,</span> <span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="n">N</span><span class="p">))</span>
-<span class="n">img4</span> <span class="o">=</span> <span class="n">img3</span><span class="o">&lt;</span><span class="mf">0.8</span>
-<span class="n">imshow</span><span class="p">(</span><span class="n">img4</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
-<span class="c1"># imsave(&#39;contour-img.png&#39;, img4*255)</span>
-
-<span class="n">se</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span> \
-    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> \
-    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> \
-    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="p">])</span>
-<span class="n">imshow</span><span class="p">(</span><span class="n">se</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
-
-<span class="n">img5</span> <span class="o">=</span> <span class="n">binary_erosion</span><span class="p">(</span><span class="n">img4</span><span class="p">,</span><span class="n">se</span><span class="p">)</span>
-<span class="n">imshow</span><span class="p">(</span><span class="n">img5</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
-<span class="c1"># imsave(&#39;contour-erosion.png&#39;, img5*255)</span>
-
-<span class="n">img6</span> <span class="o">=</span> <span class="n">img4</span><span class="o">*</span><span class="mi">1</span> <span class="o">-</span> <span class="n">img5</span><span class="o">*</span><span class="mi">1</span>
-<span class="n">imshow</span><span class="p">(</span><span class="n">img6</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
-<span class="c1"># imsave(&#39;contour-result.png&#39;, img6*255)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x7f59cbff5940&gt;
-</pre></div>
-</div>
-<img alt="_images/xxx_pattern_2_1.png" src="_images/xxx_pattern_2_1.png" />
-</div>
-</div>
-</div>
+<p><a class="reference external" href="https://vincmazet.github.io/ftip/_static/slides/reconnaissance-slides.pdf">Ancien cours</a>
+<a class="reference external" href="https://vincmazet.github.io/ftip/_static/slides/detection-slides.pdf">Ancien cours</a></p>
 </div>
 
     <script type="text/x-thebe-config">

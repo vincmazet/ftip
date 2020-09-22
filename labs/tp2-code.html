@@ -19,7 +19,6 @@
     <link rel="stylesheet" type="text/css" href="../_static/.ipynb_checkpoints/jbvinc-checkpoint.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-dropdown.css" />
     <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script src="../_static/sphinx-book-theme.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
@@ -369,15 +368,20 @@
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#tp-1-exercice-8-proprietes-de-la-transformee-de-fourier">
-   TP 1 – exercice 8 : propriétés de la transformée de Fourier
+  <a class="reference internal nav-link" href="#magnitude-and-phase-of-the-fourier-transform">
+   Magnitude and phase of the Fourier transform
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#tp-5-exercice-2-compression-d-image-avec-perte">
-   TP 5 – exercice 2 : compression d’image avec perte
+  <a class="reference internal nav-link" href="#lossy-compression">
+   Lossy compression
   </a>
   <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     Objectives
+    </a>
+   </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#images-de-base-de-la-dct">
      Images de base de la DCT
@@ -393,12 +397,12 @@
      Évolution du PSNR
     </a>
    </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#compression-d-image-avec-perte-imagettes-de-88">
+     compression d’image avec perte (imagettes de 8×8)
+    </a>
+   </li>
   </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#tp-5-exercice-2-compression-d-image-avec-perte-imagettes-de-88">
-   TP 5 – exercice 2 : compression d’image avec perte (imagettes de 8×8)
-  </a>
  </li>
 </ul>
 
@@ -412,6 +416,18 @@
                 
   <div class="section" id="id1">
 <h1>14/10/2020<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="cell tag_hide docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">skimage</span> <span class="k">as</span> <span class="nn">ski</span>
+<span class="kn">import</span> <span class="nn">skimage.io</span> <span class="k">as</span> <span class="nn">io</span>
+<span class="kn">import</span> <span class="nn">skimage.filters</span> <span class="k">as</span> <span class="nn">filters</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy</span> <span class="k">as</span> <span class="nn">sp</span>
+</pre></div>
+</div>
+</div>
+</div>
 <div class="section" id="convolution">
 <h2>Convolution<a class="headerlink" href="#convolution" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="objectives">
@@ -442,18 +458,6 @@ Indeed, this image is equivalent to a Dirac pulse <span class="math notranslate 
 </div>
 </div>
 <p>The results of the convolutions are shown below, for both the “Dirac pulse” and the smiley.</p>
-<div class="cell tag_hide docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">skimage</span> <span class="k">as</span> <span class="nn">ski</span>
-<span class="kn">import</span> <span class="nn">skimage.io</span> <span class="k">as</span> <span class="nn">io</span>
-<span class="kn">import</span> <span class="nn">skimage.filters</span> <span class="k">as</span> <span class="nn">filters</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">scipy</span> <span class="k">as</span> <span class="nn">sp</span>
-</pre></div>
-</div>
-</div>
-</div>
 <div class="cell tag_hide docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Filtres à appliquer</span>
@@ -549,7 +553,7 @@ We will reuse such a filter in the course on edge detection.</p>
 <h3>Objectives<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>manipulation of <code class="docutils literal notranslate"><span class="pre">fft2</span></code> et <code class="docutils literal notranslate"><span class="pre">fftshift</span></code></p></li>
-<li><p>display adequatly the magnitude of the Fourier transform to see the details</p></li>
+<li><p>display adequately the magnitude of the Fourier transform to see the details</p></li>
 <li><p>observe the effect of a contraction-dilation</p></li>
 <li><p>observe the effect of a rotation</p></li>
 <li><p>observe the effect of a translation</p></li>
@@ -563,121 +567,21 @@ We will reuse such a filter in the course on edge detection.</p>
 </div>
 </div>
 </div>
-<p>Quelques notes :</p>
+<p>Some remarks:</p>
 <ul class="simple">
-<li><p>Après avoir calculé la transformée de Fourier de l’image avec <code class="docutils literal notranslate"><span class="pre">numpy.fft.fft2</span></code>,
-utilisez la fonction <code class="docutils literal notranslate"><span class="pre">numpy.fft.fftshift</span></code> pour décaler les fréquences nulles au centre de l’image.</p></li>
-<li><p>La transformée de Fourier étant à valeurs complexes, on ne peut la
-tracer directement : il faut donc afficher son module (<code class="docutils literal notranslate"><span class="pre">numpy.absolute</span></code>) et sa phase (<code class="docutils literal notranslate"><span class="pre">numpy.angle</span></code>).</p></li>
-<li><p>Les intensités du modules sont « écrasées » par l’intensité de la fréquence nulle, qui est très grande.
-Pour obtenir un affichage lisible, il faut appliquer une transformation d’histogramme sur le module,
-par exemple avec <code class="docutils literal notranslate"><span class="pre">numpy.log</span></code>.</p></li>
+<li><p>After computing the Fourier transform with <code class="docutils literal notranslate"><span class="pre">numpy.fft.fft2</span></code>,
+use the function <code class="docutils literal notranslate"><span class="pre">numpy.fft.fftshift</span></code> to shift the zero frequencies at the centre of the image.</p></li>
+<li><p>The Fourier transform being complex, its display is not straightforward:
+so one need to show its magnitude (<code class="docutils literal notranslate"><span class="pre">numpy.absolute</span></code>) and argument (<code class="docutils literal notranslate"><span class="pre">numpy.angle</span></code>).</p></li>
+<li><p>The magnitude intensities are crushed by the intensity at the zero frequency, which is very large.
+To get a readable display, one has to apply an histogram transform on the magnitude, for example with <code class="docutils literal notranslate"><span class="pre">numpy.log</span></code>.</p></li>
 </ul>
 <div class="cell tag_hide docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Supprime les warnings indiquant les log(0)</span>
-<span class="c1">#import warnings</span>
-<span class="c1">#warnings.filterwarnings(&#39;ignore&#39;)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell tag_hide docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
-    
-    <span class="c1"># Chargement</span>
-    <span class="n">img</span> <span class="o">=</span> <span class="s2">&quot;s</span><span class="si">%d</span><span class="s2">.png&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">f</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+<span class="c1"># import warnings</span>
+<span class="c1"># warnings.filterwarnings(&#39;ignore&#39;)</span>
 
-    <span class="c1"># Transformée de Fourier</span>
-    <span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft2</span><span class="p">(</span><span class="n">f</span><span class="p">);</span>
-    
-    <span class="c1"># Ramener les basses fréquences au centre de l&#39;image</span>
-    <span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftshift</span><span class="p">(</span><span class="n">F</span><span class="p">)</span>
-    
-    <span class="c1"># Affichage</span>
-    <span class="c1"># Pensez à afficher le logarithme du module afin de voir quelque chose</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="n">F</span><span class="p">)),</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Module (log)&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">F</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Phase&quot;</span><span class="p">)</span>
-    
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/tp2-code_19_0.png" src="../_images/tp2-code_19_0.png" />
-<img alt="../_images/tp2-code_19_1.png" src="../_images/tp2-code_19_1.png" />
-<img alt="../_images/tp2-code_19_2.png" src="../_images/tp2-code_19_2.png" />
-<img alt="../_images/tp2-code_19_3.png" src="../_images/tp2-code_19_3.png" />
-<img alt="../_images/tp2-code_19_4.png" src="../_images/tp2-code_19_4.png" />
-</div>
-</div>
-<p>Cet exercice a permis notamment de mettre en évidence quelques propriétés de la transformée de Fourier.</p>
-<ul class="simple">
-<li><p>Ainsi, les images <code class="docutils literal notranslate"><span class="pre">s1</span></code> et <code class="docutils literal notranslate"><span class="pre">s2</span></code> illustrent le fait qu’une « contraction » dans le domaine spatial
-(entre <code class="docutils literal notranslate"><span class="pre">s1</span></code> à <code class="docutils literal notranslate"><span class="pre">s2</span></code> les bandes se rapprochent et deviennent plus étroites)
-se traduit par une « dilatation » dans le domaine fréquentiel
-(les points s’écartent, mais le motif reste globalement le même, que ce soit sur le module ou la phase).</p></li>
-<li><p>Une rotation dans le domaine spatial (la différence entre les images <code class="docutils literal notranslate"><span class="pre">s2</span></code> et <code class="docutils literal notranslate"><span class="pre">s3</span></code> est une rotation de 90°)
-se traduit par une rotation identique dans le domaine fréquentiel.</p></li>
-<li><p>Lorsque l’image est décalée spatialement (le carré blanc des images
-<code class="docutils literal notranslate"><span class="pre">s4</span></code> et <code class="docutils literal notranslate"><span class="pre">s5</span></code> a été translaté), seule la phase de la transformée de Fourier est modifiée :
-on parle de <em>déphasage</em>.</p></li>
-</ul>
-<p>Outils fondamentaux en traitement d’images – Université de Strasbourg 2019 – <a class="reference external" href="mailto:vincent&#46;mazet&#37;&#52;&#48;unistra&#46;fr">vincent<span>&#46;</span>mazet<span>&#64;</span>unistra<span>&#46;</span>fr</a></p>
-</div>
-</div>
-<div class="section" id="tp-1-exercice-8-proprietes-de-la-transformee-de-fourier">
-<h2>TP 1 – exercice 8 : propriétés de la transformée de Fourier<a class="headerlink" href="#tp-1-exercice-8-proprietes-de-la-transformee-de-fourier" title="Permalink to this headline">¶</a></h2>
-<p>Les objectifs de cet exercice sont :</p>
-<ul class="simple">
-<li><p>la manipulation des fonctions <code class="docutils literal notranslate"><span class="pre">fft2</span></code> et <code class="docutils literal notranslate"><span class="pre">fftshift</span></code></p></li>
-<li><p>l’affichage du module d’une transformée de Fourier, de façon à y voir quelque chose</p></li>
-<li><p>d’observer l’effet de contraction-dilatation</p></li>
-<li><p>d’observer l’effet de rotation</p></li>
-<li><p>d’observer l’effet de translation</p></li>
-</ul>
-<div class="cell tag_hide docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># hide</span>
-<span class="kn">import</span> <span class="nn">skimage.io</span> <span class="k">as</span> <span class="nn">io</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>Quelques notes :</p>
-<ul class="simple">
-<li><p>Après avoir calculé la transformée de Fourier de l’image avec <code class="docutils literal notranslate"><span class="pre">numpy.fft.fft2</span></code>,
-utilisez la fonction <code class="docutils literal notranslate"><span class="pre">numpy.fft.fftshift</span></code> pour décaler les fréquences nulles au centre de l’image.</p></li>
-<li><p>La transformée de Fourier étant à valeurs complexes, on ne peut la
-tracer directement : il faut donc afficher son module (<code class="docutils literal notranslate"><span class="pre">numpy.absolute</span></code>) et sa phase (<code class="docutils literal notranslate"><span class="pre">numpy.angle</span></code>).</p></li>
-<li><p>Les intensités du modules sont « écrasées » par l’intensité de la fréquence nulle, qui est très grande.
-Pour obtenir un affichage lisible, il faut appliquer une transformation d’histogramme sur le module,
-par exemple avec <code class="docutils literal notranslate"><span class="pre">numpy.log</span></code>.</p></li>
-</ul>
-<div class="cell tag_hide docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># hide</span>
-<span class="c1"># Supprime les warnings indiquant les log(0)</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
-<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell tag_hide docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># hide</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
     
     <span class="c1"># Chargement</span>
@@ -698,144 +602,198 @@ par exemple avec <code class="docutils literal notranslate"><span class="pre">nu
     <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="n">F</span><span class="p">)),</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Module (log)&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Magnitude (log)&quot;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">F</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Phase&quot;</span><span class="p">)</span>
-    
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Argument&quot;</span><span class="p">)</span>    
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/tp2-code_27_0.png" src="../_images/tp2-code_27_0.png" />
-<img alt="../_images/tp2-code_27_1.png" src="../_images/tp2-code_27_1.png" />
-<img alt="../_images/tp2-code_27_2.png" src="../_images/tp2-code_27_2.png" />
-<img alt="../_images/tp2-code_27_3.png" src="../_images/tp2-code_27_3.png" />
-<img alt="../_images/tp2-code_27_4.png" src="../_images/tp2-code_27_4.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/vincent/anaconda3/lib/python3.7/site-packages/ipykernel_launcher.py:24: RuntimeWarning: divide by zero encountered in log
+</pre></div>
+</div>
+<img alt="../_images/tp2-code_18_1.png" src="../_images/tp2-code_18_1.png" />
+<img alt="../_images/tp2-code_18_2.png" src="../_images/tp2-code_18_2.png" />
+<img alt="../_images/tp2-code_18_3.png" src="../_images/tp2-code_18_3.png" />
+<img alt="../_images/tp2-code_18_4.png" src="../_images/tp2-code_18_4.png" />
+<img alt="../_images/tp2-code_18_5.png" src="../_images/tp2-code_18_5.png" />
 </div>
 </div>
-<p>Cet exercice a permis notamment de mettre en évidence quelques propriétés de la transformée de Fourier.</p>
+<p>This exercise highlights some properties of the Fourier transform.</p>
 <ul class="simple">
-<li><p>Ainsi, les images <code class="docutils literal notranslate"><span class="pre">s1</span></code> et <code class="docutils literal notranslate"><span class="pre">s2</span></code> illustrent le fait qu’une « contraction » dans le domaine spatial
-(entre <code class="docutils literal notranslate"><span class="pre">s1</span></code> à <code class="docutils literal notranslate"><span class="pre">s2</span></code> les bandes se rapprochent et deviennent plus étroites)
-se traduit par une « dilatation » dans le domaine fréquentiel
-(les points s’écartent, mais le motif reste globalement le même, que ce soit sur le module ou la phase).</p></li>
-<li><p>Une rotation dans le domaine spatial (la différence entre les images <code class="docutils literal notranslate"><span class="pre">s2</span></code> et <code class="docutils literal notranslate"><span class="pre">s3</span></code> est une rotation de 90°)
-se traduit par une rotation identique dans le domaine fréquentiel.</p></li>
-<li><p>Lorsque l’image est décalée spatialement (le carré blanc des images
-<code class="docutils literal notranslate"><span class="pre">s4</span></code> et <code class="docutils literal notranslate"><span class="pre">s5</span></code> a été translaté), seule la phase de la transformée de Fourier est modifiée :
-on parle de <em>déphasage</em>.</p></li>
+<li><p>The images <code class="docutils literal notranslate"><span class="pre">s1</span></code> and<code class="docutils literal notranslate"> <span class="pre">s2</span></code> show that a “contraction” in the spatial domain
+(the bands from <code class="docutils literal notranslate"><span class="pre">s1</span></code> to<code class="docutils literal notranslate"> <span class="pre">s2</span></code> get closer and narrower) results in “dilation” in the frequency domain
+(the points diverge, even if the pattern remains overall the same, whether on the magnitude and the argument).</p></li>
+<li><p>A rotation in the spatial domain results in an identical rotation in the frequency domain
+(<code class="docutils literal notranslate"><span class="pre">s3</span></code> is a rotation of 90 ° of <code class="docutils literal notranslate"><span class="pre">s2</span></code>).</p></li>
+<li><p>A spatial shift implies a modification on the argument (but not on the magnitude), hence the name of <em>phase shift</em>
+(the white square of the images <code class="docutils literal notranslate"><span class="pre">s4</span></code> and<code class="docutils literal notranslate"> <span class="pre">s5</span></code> has been translated).</p></li>
 </ul>
-<p>Outils fondamentaux en traitement d’images – Université de Strasbourg 2019 – <a class="reference external" href="mailto:vincent&#46;mazet&#37;&#52;&#48;unistra&#46;fr">vincent<span>&#46;</span>mazet<span>&#64;</span>unistra<span>&#46;</span>fr</a></p>
 </div>
-<div class="section" id="tp-5-exercice-2-compression-d-image-avec-perte">
-<h2>TP 5 – exercice 2 : compression d’image avec perte<a class="headerlink" href="#tp-5-exercice-2-compression-d-image-avec-perte" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="magnitude-and-phase-of-the-fourier-transform">
+<h2>Magnitude and phase of the Fourier transform<a class="headerlink" href="#magnitude-and-phase-of-the-fourier-transform" title="Permalink to this headline">¶</a></h2>
+<p>L’objectif de cet exercice est d’observer l’influence du module et de la phase sur la transformée de Fourier.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">scipy</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">scipy</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">skimage.io</span> <span class="k">as</span> <span class="nn">io</span>
+<span class="kn">import</span> <span class="nn">skimage.color</span> <span class="k">as</span> <span class="nn">clr</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s2">&quot;lena.tiff&quot;</span><span class="p">)</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">clr</span><span class="o">.</span><span class="n">rgb2gray</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft2</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="n">module</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="n">F</span><span class="p">)</span>
+<span class="n">phase</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">F</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.1.0
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">60</span><span class="n">c787a9af7e</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">f</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s2">&quot;lena.tiff&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">f</span> <span class="o">=</span> <span class="n">clr</span><span class="o">.</span><span class="n">rgb2gray</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft2</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">module</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="n">F</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">phase</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">F</span><span class="p">)</span>
+
+<span class="nn">~/anaconda3/lib/python3.7/site-packages/skimage/io/_io.py</span> in <span class="ni">imread</span><span class="nt">(fname, as_gray, plugin, **plugin_args)</span>
+<span class="g g-Whitespace">     </span><span class="mi">46</span> 
+<span class="g g-Whitespace">     </span><span class="mi">47</span>     <span class="k">with</span> <span class="n">file_or_url_context</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span> <span class="k">as</span> <span class="n">fname</span><span class="p">:</span>
+<span class="ne">---&gt; </span><span class="mi">48</span>         <span class="n">img</span> <span class="o">=</span> <span class="n">call_plugin</span><span class="p">(</span><span class="s1">&#39;imread&#39;</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">plugin</span><span class="o">=</span><span class="n">plugin</span><span class="p">,</span> <span class="o">**</span><span class="n">plugin_args</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">49</span> 
+<span class="g g-Whitespace">     </span><span class="mi">50</span>     <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="s1">&#39;ndim&#39;</span><span class="p">):</span>
+
+<span class="nn">~/anaconda3/lib/python3.7/site-packages/skimage/io/manage_plugins.py</span> in <span class="ni">call_plugin</span><span class="nt">(kind, *args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">208</span>                                <span class="p">(</span><span class="n">plugin</span><span class="p">,</span> <span class="n">kind</span><span class="p">))</span>
+<span class="g g-Whitespace">    </span><span class="mi">209</span> 
+<span class="ne">--&gt; </span><span class="mi">210</span>     <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">211</span> 
+<span class="g g-Whitespace">    </span><span class="mi">212</span> 
+
+<span class="nn">~/anaconda3/lib/python3.7/site-packages/skimage/io/_plugins/tifffile_plugin.py</span> in <span class="ni">imread</span><span class="nt">(fname, dtype, **kwargs)</span>
+<span class="g g-Whitespace">     </span><span class="mi">46</span> 
+<span class="g g-Whitespace">     </span><span class="mi">47</span>     <span class="c1"># read and return tiff as numpy array</span>
+<span class="ne">---&gt; </span><span class="mi">48</span>     <span class="k">with</span> <span class="n">TiffFile</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs_tiff</span><span class="p">)</span> <span class="k">as</span> <span class="n">tif</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">49</span>         <span class="k">return</span> <span class="n">tif</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">~/anaconda3/lib/python3.7/site-packages/skimage/external/tifffile/tifffile.py</span> in <span class="ni">__init__</span><span class="nt">(self, arg, name, offset, size, multifile, multifile_close, pages, fastij, is_ome)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1328</span> 
+<span class="g g-Whitespace">   </span><span class="mi">1329</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_fh</span> <span class="o">=</span> <span class="n">FileHandle</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;rb&#39;</span><span class="p">,</span>
+<span class="ne">-&gt; </span><span class="mi">1330</span>                               <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1331</span>         <span class="bp">self</span><span class="o">.</span><span class="n">offset_size</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="g g-Whitespace">   </span><span class="mi">1332</span>         <span class="bp">self</span><span class="o">.</span><span class="n">pages</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="nn">~/anaconda3/lib/python3.7/site-packages/skimage/external/tifffile/tifffile.py</span> in <span class="ni">__init__</span><span class="nt">(self, file, mode, name, offset, size)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3517</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_close</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="g g-Whitespace">   </span><span class="mi">3518</span>         <span class="bp">self</span><span class="o">.</span><span class="n">is_file</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="ne">-&gt; </span><span class="mi">3519</span>         <span class="bp">self</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+<span class="g g-Whitespace">   </span><span class="mi">3520</span> 
+<span class="g g-Whitespace">   </span><span class="mi">3521</span>     <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<span class="nn">~/anaconda3/lib/python3.7/site-packages/skimage/external/tifffile/tifffile.py</span> in <span class="ni">open</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3528</span>             <span class="bp">self</span><span class="o">.</span><span class="n">_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_file</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3529</span>             <span class="bp">self</span><span class="o">.</span><span class="n">_dir</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_file</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">3530</span>             <span class="bp">self</span><span class="o">.</span><span class="n">_fh</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_file</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3531</span>             <span class="bp">self</span><span class="o">.</span><span class="n">_close</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="g g-Whitespace">   </span><span class="mi">3532</span>             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_offset</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+
+<span class="ne">FileNotFoundError</span>: [Errno 2] No such file or directory: &#39;/home/vincent/Ecole/FTIP/book/labs/lena.tiff&#39;
 </pre></div>
 </div>
 </div>
 </div>
-<div class="cell tag_hide docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
-<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>Les objectifs de cet exercice sont :</p>
+<p>La transformée de Fourier étant complexe, elle peut s’écrire <span class="math notranslate nohighlight">\(\rho e^{j\theta}\)</span>. Il est donc possible de construire une image particulière en choisissant une valeur spécifique pour <span class="math notranslate nohighlight">\(\rho\)</span> ou pour <span class="math notranslate nohighlight">\(\theta\)</span>.</p>
+<p>On choisira donc :</p>
 <ul class="simple">
-<li><p>de savoir mettre en oeuvre le principe de base de la compression JPEG</p></li>
-<li><p>d’utiliser la transformée en cosinus discrète</p></li>
-<li><p>d’analyser l’effet de la compression sur la qualité visuelle et le PSNR</p></li>
+<li><p>pour la première image, <span class="math notranslate nohighlight">\(\rho\)</span> et <span class="math notranslate nohighlight">\(\theta\)</span> sont les module et phase de la transformée de Fourier de Lena,</p></li>
+<li><p>pour la deuxième image, <span class="math notranslate nohighlight">\(\rho\)</span> est fixé à 1 et <span class="math notranslate nohighlight">\(\theta\)</span> est la phase de la transformée de Fourier de Lena,</p></li>
+<li><p>pour la troisième image, <span class="math notranslate nohighlight">\(\rho\)</span> est le module de la transformée de Fourier de Lena et <span class="math notranslate nohighlight">\(\theta\)</span> est égal à 1.</p></li>
 </ul>
 <div class="cell tag_hide docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">pi</span><span class="p">,</span> <span class="n">log10</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># hide</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
 
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">zeros</span><span class="p">,</span> <span class="n">log</span><span class="p">,</span> <span class="n">absolute</span><span class="p">,</span> <span class="n">linspace</span><span class="p">,</span> <span class="n">meshgrid</span><span class="p">,</span> <span class="n">count_nonzero</span><span class="p">,</span> <span class="nb">round</span>
-<span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="kn">import</span> <span class="n">norm</span>
+<span class="c1"># Fonction pour calculer une image dont la transformée de Fourier est le mélange</span>
+<span class="c1"># d&#39;un module (m) et d&#39;une phase (p) donnés en arguments</span>
+<span class="k">def</span> <span class="nf">melange</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">p</span><span class="p">):</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span> <span class="n">m</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">p</span><span class="p">))</span>  <span class="c1"># TFD de l&#39;image g</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifft2</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>                <span class="c1"># TFD inverse</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>                  <span class="c1"># Ne retourne que la partie réelle</span>
+    
+<span class="c1"># Vrais module et phase</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">melange</span><span class="p">(</span><span class="n">module</span><span class="p">,</span><span class="n">phase</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Module et phase originaux&#39;</span><span class="p">)</span>
 
-<span class="kn">from</span> <span class="nn">scipy.fftpack</span> <span class="kn">import</span> <span class="n">dctn</span><span class="p">,</span> <span class="n">idctn</span>
+<span class="c1"># Module constant</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">melange</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span> <span class="n">phase</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Module constant&#39;</span><span class="p">)</span>
 
-<span class="kn">from</span> <span class="nn">skimage.io</span> <span class="kn">import</span> <span class="n">imread</span>
-<span class="kn">from</span> <span class="nn">skimage.color</span> <span class="kn">import</span> <span class="n">rgb2gray</span>
-
-<span class="kn">from</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">import</span> <span class="n">figure</span><span class="p">,</span> <span class="n">imshow</span><span class="p">,</span> <span class="n">show</span><span class="p">,</span> <span class="n">subplot</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">plot</span><span class="p">,</span> <span class="n">xlabel</span><span class="p">,</span> <span class="n">ylabel</span> <span class="c1">#, , , show, plot, axis, axis</span>
+<span class="c1"># Phase constante</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">melange</span><span class="p">(</span> <span class="n">module</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Phase constante&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
+</div>
+<p>Observations &amp; conclusions :</p>
+<ul class="simple">
+<li><p>Heureusement, la reconstruction avec les véritables modules et phase est égale à l’image originale. Ce n’est pas le cas lorsque le module et la phase sont modifiés.</p></li>
+<li><p>Lorsque seule la phase est conservée (module constant), les bords de l’image sont conservés,
+mais pas les zones plus ou moins constantes de l’image sont mal reconstruites.
+L’œil est pourtant capable de reconnaître l’image originale.</p></li>
+<li><p>Lorsqu’au contraire seul le module est conservé pour la reconstruction, l’image est méconnaissable.
+Elle paraît toute noire, mais ce n’est pas le cas !
+Vérifiez : La plupart des pixels de cette image ne sont pas nuls.
+(Comment peut-on faire pour observer les autres pixels ?).</p></li>
+</ul>
+<p>Cet exemple montre l’importance de la phase dans la perception de l’image. Vous pouvez aller plus loin en effectuant une reconstruction à partir du module d’une première image et de la phase d’une autre image !</p>
+</div>
+<div class="section" id="lossy-compression">
+<h2>Lossy compression<a class="headerlink" href="#lossy-compression" title="Permalink to this headline">¶</a></h2>
+<div class="cell tag_hide docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># import warnings</span>
+<span class="c1"># warnings.filterwarnings(&quot;ignore&quot;)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id3">
+<h3>Objectives<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>savoir mettre en oeuvre le principe de base de la compression JPEG</p></li>
+<li><p>utiliser la transformée en cosinus discrète</p></li>
+<li><p>analyser l’effet de la compression sur la qualité visuelle et le PSNR</p></li>
+</ul>
 </div>
 <div class="section" id="images-de-base-de-la-dct">
 <h3>Images de base de la DCT<a class="headerlink" href="#images-de-base-de-la-dct" title="Permalink to this headline">¶</a></h3>
 <p>Avant de commencer, il est intéressant d’afficher les images de base de la DCT.</p>
 <p>Puisque les images de la base correspondent à un unique coefficient non nul dans le domaine de la transformée, une solution pour afficher ces images est de créer des images nulles dans le domaine de la transformée, sauf en un seul pixel. La fonction <code class="docutils literal notranslate"><span class="pre">scipy.fftpack.idctn</span></code> permet alors de représenter le cosinus 2D correspondant. Les basses fréquences se situent en haut à gauche.</p>
 <p>Voici quelques exemples d’images de la base (sur la première ligne) et de leur DCT (sur la seconde ligne) pour une taille de 8×8 pixels.</p>
-<div class="cell tag_hide docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Pour afficher toute la base</span>
-<span class="c1"># i = 0</span>
-<span class="c1"># figure(figsize=(15,15))</span>
-<span class="c1"># for r in range(8):</span>
-<span class="c1">#     for c in range(8):</span>
-<span class="c1">#         i += 1</span>
-<span class="c1">#         X = zeros((8,8))</span>
-<span class="c1">#         X[r,c] = 1</span>
-<span class="c1">#         x = idctn(X)</span>
-<span class="c1">#         subplot(8,8,i)</span>
-<span class="c1">#         imshow(x, cmap=&quot;gray&quot;)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Pixels (dans le domaine de la DCT) à considérer</span>
-<span class="n">px</span> <span class="o">=</span> <span class="p">(</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">7</span><span class="p">)</span> <span class="p">)</span>
-<span class="n">I</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">px</span><span class="p">)</span>
-
-<span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">17</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
-
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">px</span><span class="p">):</span>
-    
-    <span class="c1"># DCT (nulle partout sauf au pixel p)</span>
-    <span class="n">X</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">((</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
-    <span class="n">X</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-    
-    <span class="c1"># DCT inverse (ne pas oublier l&#39;option norm=&#39;ortho&#39; !)</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">idctn</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="s1">&#39;ortho&#39;</span><span class="p">)</span>
-    
-    <span class="c1"># Affichage de l&#39;image de la base</span>
-    <span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">I</span><span class="p">,</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">imshow</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
-    <span class="n">title</span><span class="p">(</span><span class="s1">&#39;Image&#39;</span><span class="p">)</span>
-    
-    <span class="c1"># Affichage de la DCT</span>
-    <span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">I</span><span class="p">,</span><span class="n">i</span><span class="o">+</span><span class="n">I</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">imshow</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
-    <span class="n">title</span><span class="p">(</span><span class="s1">&#39;DCT&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/tp2-code_38_0.png" src="../_images/tp2-code_38_0.png" />
-</div>
-</div>
 <p>On constate bien que les pixels en haut à gauche de la DCT (proches de l’origine, donc) correspondent à une fréquence basse puisqu’ils se traduisent par un cosinus bidimensionnel de basse fréquence dans le domaine spatial. À l’inverse, le pixel en bas à droite est la composante très haute fréquence : l’intensité des pixels évolue très vite dans l’image.</p>
 </div>
 <div class="section" id="application-du-principe-jpeg-a-une-image">
 <h3>Application du principe JPEG à une image<a class="headerlink" href="#application-du-principe-jpeg-a-une-image" title="Permalink to this headline">¶</a></h3>
 <p>Pour simplifier, la compression JPEG est appliquée sur une image carrée à niveau de gris.</p>
 <p>Contrairement à la transformée de Fourier qui décompose une image sur une base d’exponentielles complexes, la DCT décompose une image sur une base de cosinus réels : le résultat est donc bien réel et il est inutile de distinguer module et phase lors de l’affichage. En revanche, le coefficient de fréquence nulle étant beaucoup plus grand que les autres, le contraste de la DCT est à modifier (comment ?) pour pouvoir la visualiser.</p>
-<div class="cell tag_hide docutils container">
+<div class="cell tag_remove-output docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">imread</span><span class="p">(</span><span class="s2">&quot;lena.tiff&quot;</span><span class="p">)</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">rgb2gray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -852,13 +810,10 @@ on parle de <em>déphasage</em>.</p></li>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/tp2-code_42_0.png" src="../_images/tp2-code_42_0.png" />
-</div>
 </div>
 <p>On peut remarquer (même si ça ne saute pas aux yeux) que les coefficients de fréquence faible sont plus énergétiques que les autres. Cela signifie que l’image est plutôt composée de basses fréquences.</p>
 <p>Pour effectuer la compression, on choisit ici d’annuler les pixels haute fréquence à l’aide d’un masque carré de côté <span class="math notranslate nohighlight">\(C\)</span>. La taille du carré relativement à celle de l’image correspond au taux de compression.</p>
-<div class="cell tag_hide docutils container">
+<div class="cell tag_remove-output docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Taille (en pixels) du carré utilisé pour le masque</span>
 <span class="n">C</span> <span class="o">=</span> <span class="mi">200</span>
@@ -872,17 +827,10 @@ on parle de <em>déphasage</em>.</p></li>
 </div>
 </div>
 </div>
-<div class="cell tag_hide docutils container">
+<div class="cell tag_remove-output docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Copie de la DCT</span>
-<span class="n">Y</span> <span class="o">=</span> <span class="n">X</span>
-        <span class="c1">###############################</span>
-        <span class="c1">###############################</span>
-        <span class="c1">###############################</span>
-        <span class="c1">###############################</span>
-        <span class="c1">###############################</span>
-<span class="c1"># [Hugo] Attention : Or la copie n&#39;est pas faite sans &quot;.copy()&quot; par exemple:</span>
-<span class="c1"># Y est juste une référence sur X. Mais c&#39;est sans conséquence dans le code car finalement Y n&#39;est pas modifée</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
 <span class="c1"># Masque</span>
 <span class="n">Mask</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
@@ -902,12 +850,9 @@ on parle de <em>déphasage</em>.</p></li>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/tp2-code_46_0.png" src="../_images/tp2-code_46_0.png" />
-</div>
 </div>
 <p>Avec pourtant un taux de compression très élevé, le résultat visuel est très bon : il est très difficile d’observer des différences entre les deux images. Cette observation est d’ailleurs confirmée par la valeur élevée du PSNR :</p>
-<div class="cell tag_hide docutils container">
+<div class="cell tag_remove-output docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Delta</span> <span class="o">=</span> <span class="mi">255</span>
 <span class="n">b</span> <span class="o">=</span> <span class="n">z</span> <span class="o">-</span> <span class="n">x</span>
@@ -928,9 +873,6 @@ on parle de <em>déphasage</em>.</p></li>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/tp2-code_48_0.png" src="../_images/tp2-code_48_0.png" />
-</div>
 </div>
 <p>L’image de différence est intéressante, car on peut voir que les erreurs sont principalement situées dans les zones de l’image qui possèdent des hautes fréquences (contours, plumes du chapeau…). C’est logique puisque c’est justement ces hautes fréquences qui ont été annulées.</p>
 <p>Le compression JPEG joue sur le fait que l’oeil humain n’est pas sensible à ces changements à haute fréquence.</p>
@@ -938,7 +880,7 @@ on parle de <em>déphasage</em>.</p></li>
 <div class="section" id="evolution-du-psnr">
 <h3>Évolution du PSNR<a class="headerlink" href="#evolution-du-psnr" title="Permalink to this headline">¶</a></h3>
 <p>La procédure précédente est utilisée pour différentes valeurs de <span class="math notranslate nohighlight">\(C\)</span>, afin de calculer le PSNR et l’EQM entre l’image compressée et l’image originale.</p>
-<div class="cell tag_hide docutils container">
+<div class="cell tag_remove-output docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Delta</span> <span class="o">=</span> <span class="mi">255</span><span class="p">;</span>
 <span class="n">taux</span> <span class="o">=</span> <span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">50</span><span class="p">)</span>
@@ -985,12 +927,6 @@ on parle de <em>déphasage</em>.</p></li>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;EQM&#39;)
-</pre></div>
-</div>
-<img alt="../_images/tp2-code_52_1.png" src="../_images/tp2-code_52_1.png" />
-</div>
 </div>
 <p>L’analyse des courbes permet d’aboutir aux conclusions suivantes.</p>
 <ul class="simple">
@@ -1002,38 +938,10 @@ lorsque le taux de compression augmente, la différence devient de plus en plus 
 il chute rapidement. Cela dit, leurs valeurs restent supérieures à 80 dB,
 ce qui correspond tout de même à une très bonne qualité.</p></li>
 </ul>
-<p>Dans une compression classique JPEG, la DCT n’est pas directement calculée sur toute l’image, mais sur des imagettes de taille 8×8, comme cela est fait dans <a class="reference external" href="http://miv.u-strasbg.fr/mazet/ofti/correcs/tp5ex3.html">ce notebook</a>.</p>
-<p>Outils fondamentaux en traitement d’images – Université de Strasbourg 2019 – <a class="reference external" href="mailto:vincent&#46;mazet&#37;&#52;&#48;unistra&#46;fr">vincent<span>&#46;</span>mazet<span>&#64;</span>unistra<span>&#46;</span>fr</a></p>
+<p>Dans une compression classique JPEG, la DCT n’est pas directement calculée sur toute l’image, mais sur des imagettes de taille 8×8, comme cela est fait ci-après.</p>
 </div>
-</div>
-<div class="section" id="tp-5-exercice-2-compression-d-image-avec-perte-imagettes-de-88">
-<h2>TP 5 – exercice 2 : compression d’image avec perte (imagettes de 8×8)<a class="headerlink" href="#tp-5-exercice-2-compression-d-image-avec-perte-imagettes-de-88" title="Permalink to this headline">¶</a></h2>
-<div class="cell tag_hide docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">pi</span><span class="p">,</span> <span class="n">log10</span>
-
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">zeros</span><span class="p">,</span> <span class="n">log</span><span class="p">,</span> <span class="n">absolute</span><span class="p">,</span> <span class="n">linspace</span><span class="p">,</span> <span class="n">meshgrid</span><span class="p">,</span> <span class="n">count_nonzero</span>
-<span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="kn">import</span> <span class="n">norm</span>
-
-<span class="kn">from</span> <span class="nn">scipy.fftpack</span> <span class="kn">import</span> <span class="n">dctn</span><span class="p">,</span> <span class="n">idctn</span>
-
-<span class="kn">from</span> <span class="nn">skimage.io</span> <span class="kn">import</span> <span class="n">imread</span>
-<span class="kn">from</span> <span class="nn">skimage.color</span> <span class="kn">import</span> <span class="n">rgb2gray</span>
-
-<span class="kn">from</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">import</span> <span class="n">figure</span><span class="p">,</span> <span class="n">imshow</span><span class="p">,</span> <span class="n">show</span><span class="p">,</span> <span class="n">subplot</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">plot</span><span class="p">,</span> <span class="n">xlabel</span><span class="p">,</span> <span class="n">ylabel</span> <span class="c1">#, , , show, plot, axis, axis</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell tag_hide docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">imread</span><span class="p">(</span><span class="s2">&quot;lena.tiff&quot;</span><span class="p">)</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">rgb2gray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
-</pre></div>
-</div>
-</div>
-</div>
+<div class="section" id="compression-d-image-avec-perte-imagettes-de-88">
+<h3>compression d’image avec perte (imagettes de 8×8)<a class="headerlink" href="#compression-d-image-avec-perte-imagettes-de-88" title="Permalink to this headline">¶</a></h3>
 <p>L’image est découpée en blocs de 8×8 pixels, sur lesquels est calculée la DCT dont les hautes fréquences sont ensuite annulées. Le rayon du masque binaire doit donc être ajusté en conséquence. Pour mettre en évidence l’effet de bloc qui peut apparaître lorsque la compression est très forte, le rayon est petit par rapport à la taille des imagettes.</p>
 <div class="cell tag_hide docutils container">
 <div class="cell_input docutils container">
@@ -1084,11 +992,8 @@ ce qui correspond tout de même à une très bonne qualité.</p></li>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/tp2-code_59_0.png" src="../_images/tp2-code_59_0.png" />
 </div>
 </div>
-<p>Outils fondamentaux en traitement d’images – Université de Strasbourg 2019 – <a class="reference external" href="mailto:vincent&#46;mazet&#37;&#52;&#48;unistra&#46;fr">vincent<span>&#46;</span>mazet<span>&#64;</span>unistra<span>&#46;</span>fr</a></p>
 </div>
 </div>
 
