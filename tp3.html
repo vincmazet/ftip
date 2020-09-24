@@ -342,7 +342,14 @@
             <i class="fas fa-list"></i> Contents
         </div>
         <nav id="bd-toc-nav">
-            
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#mathematical-morphology">
+   Mathematical Morphology
+  </a>
+ </li>
+</ul>
+
         </nav>
     </div>
 </div>
@@ -353,6 +360,27 @@
                 
   <div class="section" id="id1">
 <h1>21/10/2020<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="mathematical-morphology">
+<h2>Mathematical Morphology<a class="headerlink" href="#mathematical-morphology" title="Permalink to this headline">¶</a></h2>
+<p>L’objectif de cet exercice est de trouver puis de compter le nombre de piscines visibles dans l’image satellitaire
+<a class="reference external" href="https://vincmazet.github.io/ftip/_static/data/moliets.png">moliets.png</a>.
+Dans un premier temps, ne cherchez pas à trouver parfaitement toutes les piscines :
+implémentez une première méthode qui donne un résultat approximatif de manière automatique.
+La plupart des fonctions utiles sont à importer depuis le module <code class="docutils literal notranslate"><span class="pre">skimage.morphology</span></code>.</p>
+<ul class="simple">
+<li><p>Appliquez un seuillage sur l’image pour mettre en évidence les piscines.
+Posez-vous la question de l’image à utiliser : vaut-il mieux travailler avec l’image initiale,
+l’image en niveau de gris, une bande particulière… ?</p></li>
+<li><p>Appliquez les opérateurs morphologiques vus en cours (érosion, dilatation, ouverture, fermeture)
+pour observer leur influence et en déduire l’opérateur le plus adapté au problème.</p></li>
+<li><p>Que permet de faire la fonction <code class="docutils literal notranslate"><span class="pre">skimage.measure.regionprops</span></code> ? En quoi peut-elle être utile
+pour compter le nombre de piscines ?
+Appliquez-la pour déterminer le nombre de piscines.</p></li>
+<li><p>Déterminez la surface des piscines, sachant que l’image est de résolution 50 cm.</p></li>
+<li><p>Critiquez la méthode implémentée : identifiez les bons résultats de la méthode et ses limites.
+Proposez des améliorations.</p></li>
+</ul>
+</div>
 </div>
 
     <script type="text/x-thebe-config">

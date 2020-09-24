@@ -342,7 +342,36 @@
             <i class="fas fa-list"></i> Contents
         </div>
         <nav id="bd-toc-nav">
-            
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#mathematical-morphology">
+   Mathematical morphology
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#objectives">
+     Objectives
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#etude-des-differents-operateurs">
+     Étude des différents opérateurs
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#detection-des-piscines">
+     Détection des piscines
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#critique-de-la-methode">
+     Critique de la méthode
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
         </nav>
     </div>
 </div>
@@ -353,6 +382,153 @@
                 
   <div class="section" id="id1">
 <h1>21/10/2020<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="mathematical-morphology">
+<h2>Mathematical morphology<a class="headerlink" href="#mathematical-morphology" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="objectives">
+<h3>Objectives<a class="headerlink" href="#objectives" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>appliquer et comparer les opérations de base (érosion, dilatation, ouverture, fermeture)</p></li>
+<li><p>évaluer les influences des paramètres de ces opérations</p></li>
+<li><p>utiliser les composantes connexes à bon escient</p></li>
+</ul>
+<div class="cell tag_remove-input docutils container">
+</div>
+<p>L’image moliets.png est une vue satellitaire d’une petite commune des Landes. C’est une image RVB de résolution 50 cm.</p>
+<div class="cell tag_remove-input docutils container">
+</div>
+<p>Étant donné que les objets recherchés sont plutôt bleus, et qu’aucun autre objet de la scène n’est de cette couleur, il peut être intéressant de travailler uniquement sur la bande bleue des images (où les piscines apparaîtrons très lumineuses) plutôt que, par exemple, sur l’image à niveau de gris. Cela permet une première discrimination entre les piscines et le reste.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">blue</span> <span class="o">=</span> <span class="n">img</span><span class="p">[:,:,</span><span class="mi">2</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp3-code_8_0.png" src="../_images/tp3-code_8_0.png" />
+</div>
+</div>
+<p>Les opérateurs de morphologie mathématique vu en cours fonctionnent sur des images binaires. La bande bleue peut dont être binarisée en la seuillant, et le seuil peut peut être choisi en observant l’histogramme de la bande bleue. Or, il s’avère que pour cette image, l’histogramme ne nous aide pas car on ne distingue pas deux classes dinstinctes.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp3-code_10_0.png" src="../_images/tp3-code_10_0.png" />
+</div>
+</div>
+<p>Le seuil est donc réglé « à la main », en procédant par essais-erreurs de manière à obtenir un résultat satisfaisant . On choisit un seuil égal à 240.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">binarized</span> <span class="o">=</span> <span class="p">(</span><span class="n">blue</span> <span class="o">&gt;</span> <span class="mi">240</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp3-code_13_0.png" src="../_images/tp3-code_13_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="etude-des-differents-operateurs">
+<h3>Étude des différents opérateurs<a class="headerlink" href="#etude-des-differents-operateurs" title="Permalink to this headline">¶</a></h3>
+<p>Dans cette partie, les opérateurs de la morphologie mathématique seront appliqués à la portion encadrée de l’image, reproduite ci-dessous.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp3-code_16_0.png" src="../_images/tp3-code_16_0.png" />
+</div>
+</div>
+<p>Pour commencer, nous choisissons comme élément structurant un disque de rayon 4 pixels.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp3-code_18_0.png" src="../_images/tp3-code_18_0.png" />
+</div>
+</div>
+<p>Les quatre opérateurs de base appliqués sur l’image produisent les résultats ci-dessous.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp3-code_20_0.png" src="../_images/tp3-code_20_0.png" />
+</div>
+</div>
+<ul class="simple">
+<li><p>Quel(s) opérateur(s) tend(ent) à boucher les trous des objets ?</p></li>
+<li><p>Au contraire, quel(s) opérateur(s) tend(ent) à supprimer les petits objets ?</p></li>
+<li><p>Quel(s) opérateur(s) conserve(nt) (à peu près) la forme des objets ?</p></li>
+</ul>
+<p>Même chose avec un disque de rayon 10 pixels :</p>
+<div class="cell tag_remove-input docutils container">
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp3-code_24_0.png" src="../_images/tp3-code_24_0.png" />
+</div>
+</div>
+<p>N’hésitez pas à tester d’autres éléments structurants pour observer leur influence.</p>
+</div>
+<div class="section" id="detection-des-piscines">
+<h3>Détection des piscines<a class="headerlink" href="#detection-des-piscines" title="Permalink to this headline">¶</a></h3>
+<p>Dans la suite, on travaille avec le résultat d’une fermeture avec comme élément structurant un disque de rayon 10 pixels.</p>
+<p>La fonction <code class="docutils literal notranslate"><span class="pre">skimage.morphology.label</span></code> retourne une labellisation des différentes composantes connexes, et la fonction <code class="docutils literal notranslate"><span class="pre">skimage.measure.regionprops</span></code> permet de mesurer certaines propriétés des composantes connexes, comme leur surface ou leur position.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Élément structurant</span>
+<span class="n">selem</span> <span class="o">=</span> <span class="n">disk</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="c1"># Fermeture</span>
+<span class="n">img_closing</span> <span class="o">=</span> <span class="n">binary_closing</span><span class="p">(</span><span class="n">binarized</span><span class="p">,</span> <span class="n">selem</span><span class="p">)</span>
+
+<span class="c1"># Labellisation des composantes connexes</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">label</span><span class="p">(</span><span class="n">img_closing</span><span class="p">,</span> <span class="n">connectivity</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Mesure des propriétés des composantes connexes</span>
+<span class="n">props</span> <span class="o">=</span> <span class="n">regionprops</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+
+<span class="c1"># Nombre de composantes connexes</span>
+<span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">props</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Nombre de composantes connexes, donc de piscines détectées : </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">N</span><span class="p">))</span>
+
+<span class="c1"># Quelques propriétés de la région 0</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;La région </span><span class="si">{}</span><span class="s1"> contient </span><span class="si">{}</span><span class="s1"> pixels et son centroïde a pour coordonnées </span><span class="si">{}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+    <span class="n">n</span><span class="p">,</span> <span class="n">props</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">.</span><span class="n">area</span><span class="p">,</span> <span class="n">props</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">.</span><span class="n">centroid</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Nombre de composantes connexes, donc de piscines détectées : 69
+La région 0 contient 29 pixels et son centroïde a pour coordonnées (1.0344827586206897, 624.4137931034483).
+</pre></div>
+</div>
+</div>
+</div>
+<p>Les centres des composantes connexes sont représentés dans l’image ci-dessous par les points rouges.</p>
+<p>Bien sûr il n’y a pas autant de piscines dans l’image : une grande partie des composantes connexes sont en fait des petits groupes de pixels qui ne correspondent pas à des piscines.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp3-code_30_0.png" src="../_images/tp3-code_30_0.png" />
+</div>
+</div>
+<p>Une amélioration est de considérer uniquement les composantes connexes dont le nombre de pixels est supérieur à un certain seuil. Dans notre cas, nous avons choisi de considérer comme étant des piscines les composantes connexes dont l’aire est supérieure à 20 pixels.</p>
+<p>Par ailleurs, comme un pixel représente une surface de 0,5 x 0,5 m<sup>2</sup>, on en déduit la surface moyenne des piscines détectées.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Nombre de piscines détectées : 36
+Surface moyenne des piscines détectées : 40.89 m²
+</pre></div>
+</div>
+<img alt="../_images/tp3-code_32_1.png" src="../_images/tp3-code_32_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="critique-de-la-methode">
+<h3>Critique de la méthode<a class="headerlink" href="#critique-de-la-methode" title="Permalink to this headline">¶</a></h3>
+<p>Bien entendu, la méthode développée ici est simple et peu robuste : les piscines ombragées ou cachées en partie par un arbre ne sont pas toujours détectées. À l’inverse, certains objets peuvent être considérés comme des piscines car ils sont très lumineux dans la bande bleue et de taille importante. Aussi, quelques améliorations sont listées ci-dessous (la liste n’est pas exhaustive !) :</p>
+<ul class="simple">
+<li><p>la méthode proposée ne se base que sur la couleur bleue. Elle pourrait également prendre en compte la géométrie des composantes connexes : les piscines sont des objets bleus, suffisamment gros, et de forme plutôt rectangulaire (la notion de <a class="reference external" href="http://scikit-image.org/docs/dev/auto_examples/segmentation/plot_label.html"><em>bounding box</em></a> peut alors être utile) ;</p></li>
+<li><p>le choix du seuil est fixé et fonctionne bien sur cette image. Mais rien n’assure que la valeur choisie puisse s’appliquer sur une autre image : rien ne permet de dire que cette méthode est robuste à la résolution du capteur, à la luminosité lors de la prise de vue, au type de piscine, etc. ;</p></li>
+<li><p>la binarisation de l’image pourrait prendre en compte, en plus de la luminosité des pixels, la classe dans laquelle se trouvent les pxels voisins. Ce principe est souvent modélisé à l’aide de champs de Markov.</p></li>
+</ul>
+</div>
+</div>
 </div>
 
     <script type="text/x-thebe-config">

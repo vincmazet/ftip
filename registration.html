@@ -299,9 +299,9 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/registration.ipynb"><button type="button"
+        <a class="dropdown-buttons" href="_sources/registration.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.ipynb</button></a>
+                data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
             onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
@@ -318,22 +318,6 @@
 
         <!-- Launch buttons -->
 
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
-    <div class="dropdown-buttons">
-        
-        
-        
-        <a class="colab-button" href="https://colab.research.google.com/github/vincmazet/ftip/blob/master/registration.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
-                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
-                    src="_static/images/logo_colab.png"
-                    alt="Interact on Colab">Colab</button></a>
-        
-        
-    </div>
-</div>
-
     </div>
 
     <!-- Table of contents -->
@@ -342,7 +326,92 @@
             <i class="fas fa-list"></i> Contents
         </div>
         <nav id="bd-toc-nav">
-            
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introduction">
+   Introduction
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#caracteristiques-de-recalage">
+   Caractéristiques de recalage
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#approche-iconique">
+     Approche iconique
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#approche-geometrique">
+     Approche géométrique
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#modele-de-deformation">
+   Modèle de déformation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#deformation-rigide">
+     Déformation rigide
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#deformation-affine">
+     Déformation affine
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#deformation-perspective">
+     Déformation perspective
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#deformation-non-lineaire">
+     Déformation non linéaire
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#interpolation-de-l-image-recalee">
+   Interpolation de l’image recalée
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#critere-de-similarite">
+   Critère de similarité
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     Approche iconique
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#aapproche-geometrique">
+     Aapproche géométrique
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#optimisation-du-critere-de-similarite">
+   Optimisation du critère de similarité
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#approches-hierarchiques">
+     Approches hiérarchiques
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
         </nav>
     </div>
 </div>
@@ -353,7 +422,295 @@
                 
   <div class="section" id="registration">
 <h1>Registration<a class="headerlink" href="#registration" title="Permalink to this headline">¶</a></h1>
-<p><a class="reference external" href="https://vincmazet.github.io/ftip/_static/slides/recalage-slides.pdf">Ancien cours</a></p>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>Le recalage de deux images consiste à trouver la correspondance entre deux images représentant la même zone.
+Les figures ci-dessous présentent quelques applications dans lesquelles le recalage est indispensable.</p>
+<div class="figure align-default" id="f-registration-remote-sensing">
+<a class="reference internal image-reference" href="_images/vincent4.png"><img alt="_images/vincent4.png" src="_images/vincent4.png" style="height: 250px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 34 </span><span class="caption-text">Recalage d’images de télédétection :
+comment combiner ces deux acquisitions différentes de la même zone pour former une grande image ?</span><a class="headerlink" href="#f-registration-remote-sensing" title="Permalink to this image">¶</a></p>
+</div>
+<div class="figure align-default" id="f-registration-medical">
+<a class="reference internal image-reference" href="_images/vincent6.png"><img alt="_images/vincent6.png" src="_images/vincent6.png" style="height: 250px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 35 </span><span class="caption-text">Recalage en imagerie médicale :
+pour détecter des changements entre deux examens,
+il faut que les images soient recalées (le patient n’est jamais exactement dans la même position).</span><a class="headerlink" href="#f-registration-medical" title="Permalink to this image">¶</a></p>
+</div>
+<div class="figure align-default" id="f-registration-mosaicing">
+<a class="reference internal image-reference" href="_images/vincent13.png"><img alt="_images/vincent13.png" src="_images/vincent13.png" style="height: 300px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 36 </span><span class="caption-text">Mosaïque d’image (<em>image mosaicing</em>) :
+combiner plusieurs images pour en faire une seule grande, en photographie.</span><a class="headerlink" href="#f-registration-mosaicing" title="Permalink to this image">¶</a></p>
+</div>
+<p>La <a class="reference internal" href="#f-registration-bigpicture"><span class="std std-numref">Fig. 37</span></a> représente le schéma classique pour effectuer le recalage entre deux images.
+Tout l’enjeu est d’estimer la transformation spatiale qui fait correspondre deux images.
+Les différentes étapes représentées dans cette figure sont détaillées dans la suite de ce chapitre.</p>
+<div class="figure align-default" id="f-registration-bigpicture">
+<a class="reference internal image-reference" href="_images/bigpicture.png"><img alt="_images/bigpicture.png" src="_images/bigpicture.png" style="height: 300px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 37 </span><span class="caption-text">Schéma classique du recalage de deux images.</span><a class="headerlink" href="#f-registration-bigpicture" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+<div class="section" id="caracteristiques-de-recalage">
+<h2>Caractéristiques de recalage<a class="headerlink" href="#caracteristiques-de-recalage" title="Permalink to this headline">¶</a></h2>
+<p>La déformation à appliquer sur l’image source est basée sur des caractéristiques de cette image.
+Le choix des caractéristiques utilisées conduit à l’une des deux méthodes de recalage décrite ci-après.</p>
+<div class="section" id="approche-iconique">
+<h3>Approche iconique<a class="headerlink" href="#approche-iconique" title="Permalink to this headline">¶</a></h3>
+<p>L’approche iconique (<em>intensity-based registration</em>)
+se base directement sur l’intensité des pixels de l’image.
+Ainsi, toute l’information contenue dans l’intensité des pixels est utilisée.
+À la place de l’image elle-même, on peut aussi utiliser une de ses transformations (Fourier, ondelette, gradient…).</p>
+<p>L’avantage de l’approche iconique est quelle est relativement bien automatisée.</p>
+<p>Les inconvénients de l’approche iconique sont
+le coût calculatoire important et la mémoire nécessaire,
+mais elle est également sensible au bruit et aux variations d’intensité entre les images.</p>
+</div>
+<div class="section" id="approche-geometrique">
+<h3>Approche géométrique<a class="headerlink" href="#approche-geometrique" title="Permalink to this headline">¶</a></h3>
+<p>Dans l’approche géométrique (<em>feature-based registration</em>),
+la déformation à appliquer à l’image source n’est pas définie à partir des intensités des pixels,
+mais à partir de primitives particulières de l’image.
+Ces primitives peuvent être :</p>
+<ul class="simple">
+<li><p>intrinsèques à l’image : on se base sur les coins, les contours des objets, etc.</p></li>
+<li><p>extrinsèques à l’image : on se base sur des marqueurs insérés sur les objets.
+Il faut ensuite apparier les primitives (<em>feature matching</em>).</p></li>
+</ul>
+<div class="figure align-default" id="f-registration-feature-based">
+<a class="reference internal image-reference" href="_images/vincent18.png"><img alt="_images/vincent18.png" src="_images/vincent18.png" style="height: 200px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 38 </span><span class="caption-text">Appariement de primitives entre deux images.</span><a class="headerlink" href="#f-registration-feature-based" title="Permalink to this image">¶</a></p>
+</div>
+<p>Les avantages de l’approche géométrique sont d’utiliser peu de données de l’image,
+impliquant un coût calculatoire faible.</p>
+<p>Les inconvénients de l’approche géométrique sont que :</p>
+<ul class="simple">
+<li><p>l’appariement des primitives peut être difficile à effectuer,</p></li>
+<li><p>la qualité du recalage dépend de la précision de l’extraction des primitives,</p></li>
+<li><p>la précision du recalage n’est garantie qu’au voisinage des primitives.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="modele-de-deformation">
+<h2>Modèle de déformation<a class="headerlink" href="#modele-de-deformation" title="Permalink to this headline">¶</a></h2>
+<p>Concrètement, l’image source est déformée grâce à une transformation mathématique qui peut être linéaire ou non.</p>
+<p>Une transformation linéaire s’écrit :</p>
+<div class="math notranslate nohighlight">
+\[
+  p' = M p
+\]</div>
+<p>où</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(p = [x \; y \; 1]^T\)</span> regroupe les coordonnées du pixel <span class="math notranslate nohighlight">\((x,y)\)</span> de l’image source,</p></li>
+<li><p><span class="math notranslate nohighlight">\(p' = [x' \; y' \; 1]^T\)</span> regroupe les coordonnées du pixel <span class="math notranslate nohighlight">\((x',y')\)</span> de l’image déformée,</p></li>
+<li><p><span class="math notranslate nohighlight">\(M \in \mathbb{R}^{3\times3}\)</span> est la matrice de transformation.</p></li>
+</ul>
+<p>Par exemple, si la matrice de déformation est</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+  M = \begin{bmatrix}
+    1 &amp; 0 &amp; t_x \\
+    0 &amp; 1 &amp; t_y \\
+    0 &amp; 0 &amp; 1
+  \end{bmatrix}
+\end{split}\]</div>
+<p>alors</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+  p' = \begin{bmatrix}
+    x' \\
+    y' \\
+    1
+  \end{bmatrix}
+  = \begin{bmatrix}
+    x + t_x \\
+    y + t_y \\
+    1
+  \end{bmatrix}
+\end{split}\]</div>
+<p>Les coordonnées du pixel <span class="math notranslate nohighlight">\(p'\)</span> de l’image transformée
+correspondent à celle du pixel <span class="math notranslate nohighlight">\(p\)</span> de l’image source
+après une translation de de <span class="math notranslate nohighlight">\(t_x\)</span> pixels en <span class="math notranslate nohighlight">\(x\)</span> et <span class="math notranslate nohighlight">\(t_y\)</span> pixels en <span class="math notranslate nohighlight">\(y\)</span>.</p>
+<p>Les exemples ci-dessous représentent l’effet de déformations particulières
+sur l’image représentée <a class="reference internal" href="#f-registration-lena-defnull"><span class="std std-numref">Fig. 39</span></a>.</p>
+<div class="figure align-default" id="f-registration-lena-defnull">
+<a class="reference internal image-reference" href="_images/lena-defnull.png"><img alt="_images/lena-defnull.png" src="_images/lena-defnull.png" style="width: 211.0px; height: 211.0px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 39 </span><span class="caption-text">Image Lena.</span><a class="headerlink" href="#f-registration-lena-defnull" title="Permalink to this image">¶</a></p>
+</div>
+<div class="section" id="deformation-rigide">
+<h3>Déformation rigide<a class="headerlink" href="#deformation-rigide" title="Permalink to this headline">¶</a></h3>
+<p>Une déformation rigide est une transformation linéaire
+définie avec 3 paramètres : <span class="math notranslate nohighlight">\(\theta=\{\alpha,t_x,t_y\}\)</span>.
+La matrice de déformation s’écrit :</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+  M\!=\!\begin{pmatrix}
+    \cos\alpha &amp; \sin\alpha &amp; t_x \\
+    -\sin\alpha &amp; \cos\alpha &amp; t_y \\
+    0 &amp; 0 &amp; 1
+  \end{pmatrix}
+\end{split}\]</div>
+<div class="figure align-default" id="f-registration-lena-defrigide">
+<a class="reference internal image-reference" href="_images/lena-defrigide.png"><img alt="_images/lena-defrigide.png" src="_images/lena-defrigide.png" style="width: 210.0px; height: 210.0px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 40 </span><span class="caption-text">Déformation rigide.</span><a class="headerlink" href="#f-registration-lena-defrigide" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+<div class="section" id="deformation-affine">
+<h3>Déformation affine<a class="headerlink" href="#deformation-affine" title="Permalink to this headline">¶</a></h3>
+<p>Une déformation affine est une transformation bilinéaire définie
+avec 6 paramètres : <span class="math notranslate nohighlight">\(\theta=\{m_{11}, m_{12}, m_{13}, m_{21}, m_{22}, m_{23}\}\)</span>.
+La matrice de déformation s’écrit :</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+  M\!=\!\begin{pmatrix}
+    m_{11} &amp; m_{12} &amp; m_{13} \\
+    m_{21} &amp; m_{22} &amp; m_{23} \\
+    0 &amp; 0 &amp; 1
+  \end{pmatrix}
+\end{split}\]</div>
+<div class="figure align-default" id="f-registration-lena-defaffine">
+<a class="reference internal image-reference" href="_images/lena-defaffine.png"><img alt="_images/lena-defaffine.png" src="_images/lena-defaffine.png" style="width: 211.0px; height: 211.0px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 41 </span><span class="caption-text">Déformation affine.</span><a class="headerlink" href="#f-registration-lena-defaffine" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+<div class="section" id="deformation-perspective">
+<h3>Déformation perspective<a class="headerlink" href="#deformation-perspective" title="Permalink to this headline">¶</a></h3>
+<p>Une déformation perspective est une transformation linéaire définie
+avec 9 paramètres : <span class="math notranslate nohighlight">\(\theta=\{m_{11}, m_{12}, m_{13}, m_{21}, m_{22}, m_{23}, m_{31}, m_{32}, m_{33}\}\)</span>.
+La matrice de déformation s’écrit :</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+  M\!=\!\begin{pmatrix}
+    m_{11} &amp; m_{12} &amp; m_{13} \\
+    m_{21} &amp; m_{22} &amp; m_{23} \\
+    m_{31} &amp; m_{32} &amp; m_{33}
+  \end{pmatrix}
+\end{split}\]</div>
+<div class="figure align-default" id="f-registration-lena-persp">
+<a class="reference internal image-reference" href="_images/lena-persp.png"><img alt="_images/lena-persp.png" src="_images/lena-persp.png" style="width: 211.0px; height: 211.0px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 42 </span><span class="caption-text">Déformation perspective.</span><a class="headerlink" href="#f-registration-lena-persp" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+<div class="section" id="deformation-non-lineaire">
+<h3>Déformation non linéaire<a class="headerlink" href="#deformation-non-lineaire" title="Permalink to this headline">¶</a></h3>
+<p>On peut définir tout autre type de déformation sans passer par une transformation linéaire.
+Ainsi, l’utilisation de fonctions 2D spécifiques (polynôme, sinusoïde, spline, ondelette…)
+ou carrément d’un champ de déformation non paramétrique est envisageable.</p>
+<p>Il peut alors être nécessaire d’introduire des contraintes sur le modèle de déformation
+(préservation de la topologie, douceur, symétrie…).</p>
+<div class="figure align-default" id="f-registration-lena-deffnonlin">
+<a class="reference internal image-reference" href="_images/lena-deffnonlin.png"><img alt="_images/lena-deffnonlin.png" src="_images/lena-deffnonlin.png" style="width: 210.0px; height: 210.0px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 43 </span><span class="caption-text">Déformation non linéaire.</span><a class="headerlink" href="#f-registration-lena-deffnonlin" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+</div>
+<div class="section" id="interpolation-de-l-image-recalee">
+<h2>Interpolation de l’image recalée<a class="headerlink" href="#interpolation-de-l-image-recalee" title="Permalink to this headline">¶</a></h2>
+<p>L’<a class="reference internal" href="interpolation.html#c-interpolation"><span class="std std-ref">Interpolation</span></a> a été vue dans le chapitre précédent et ne sera pas détaillé ici.</p>
+</div>
+<div class="section" id="critere-de-similarite">
+<h2>Critère de similarité<a class="headerlink" href="#critere-de-similarite" title="Permalink to this headline">¶</a></h2>
+<p>Le critère de similarité <span class="math notranslate nohighlight">\(E(\theta)\)</span> représente la distance (au sens mathématique)
+entre l’image de référence <span class="math notranslate nohighlight">\(g\)</span> et l’image déformée <span class="math notranslate nohighlight">\(f\)</span>
+(obtenue an appliquant le modèle de déformation de paramètres <span class="math notranslate nohighlight">\(\theta\)</span> sur l’image source <span class="math notranslate nohighlight">\(f\)</span>).
+Cette distance est minimale lorsque les deux images se superposent au mieux,
+c’est-à-dire lorsque la similarité entre l’image de référence <span class="math notranslate nohighlight">\(g\)</span> et l’image déformée <span class="math notranslate nohighlight">\(f\,'\)</span> est maximale.</p>
+<p>L’objectif du recalage est de trouver les paramètres <span class="math notranslate nohighlight">\(\theta\)</span> qui minimisent le critère de similarité <span class="math notranslate nohighlight">\(E(\theta)\)</span> :
+c’est donc un problème d’optimisation qui sera abordé dans la <a class="reference internal" href="#c-registration-optimisation"><span class="std std-ref">section suivante</span></a>.</p>
+<p>Le choix de <span class="math notranslate nohighlight">\(E\)</span> dépend du choix de l’approche choisie.</p>
+<div class="section" id="id1">
+<h3>Approche iconique<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>Dans le cas d’une approche iconique (basée sur l’intensité des pixels),
+on utilisera un critères de similarité dit <em>dense</em>.
+Il existe plusieurs hypothèses sur les liens entre les intensités des deux images.
+Dans le cas le plus simple, on suppose que les intensités des pixels
+sont égales à un bruit additif gaussien près, donc :</p>
+<div class="math notranslate nohighlight">
+\[
+  E(\theta) = \sum_{m=1}^M \sum_{n=1}^N \big(f\,'(m,n) - g(m,n)\big)^2
+\]</div>
+</div>
+<div class="section" id="aapproche-geometrique">
+<h3>Aapproche géométrique<a class="headerlink" href="#aapproche-geometrique" title="Permalink to this headline">¶</a></h3>
+<p>Dans le cas d’une approche géométrique (basée sur des primitives),
+on utilisera une distance entre ces primitives.</p>
+<ul>
+<li><p>Par exemple, dans le cas où les primitives sont des pixels particuliers,
+on peut considérer la distance entre ces pixels avec la norme euclidienne :</p>
+<div class="math notranslate nohighlight">
+\[
+    E(\theta) = \sum_{n=1}^N (x_n-x'_n)^2 + (y_n-y'_n)^2
+  \]</div>
+<p>où <span class="math notranslate nohighlight">\((x_n,y_n)\)</span> et <span class="math notranslate nohighlight">\((x'_n,y'_n)\)</span> sont les coordonnées des pixels appariés.</p>
+</li>
+<li><p>Un autre exemple est le cas où les primitives sont des courbes.
+L’algorithme ICP (<em>Iterative Closest Point</em>) peut être utilisé pour déterminer une distance entre ces deux courbes, définie comme</p>
+<div class="math notranslate nohighlight">
+\[
+    E(\theta) = \sum_{n=1}^N d_n^2
+  \]</div>
+<p>où <span class="math notranslate nohighlight">\(d_n\)</span> est la distance entre chaque point de la courbe 1 avec le point le plus proche de la courbe 2.</p>
+<div class="figure align-default" id="f-registration-icp">
+<a class="reference internal image-reference" href="_images/icp.png"><img alt="_images/icp.png" src="_images/icp.png" style="height: 150px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 44 </span><span class="caption-text">Distance entre deux courbes avec l’algorithme ICP.</span><a class="headerlink" href="#f-registration-icp" title="Permalink to this image">¶</a></p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="optimisation-du-critere-de-similarite">
+<span id="c-registration-optimisation"></span><h2>Optimisation du critère de similarité<a class="headerlink" href="#optimisation-du-critere-de-similarite" title="Permalink to this headline">¶</a></h2>
+<p>Comme on l’a dit, précédemment, on cherche les valeurs des paramètres <span class="math notranslate nohighlight">\(\theta\)</span>
+de la transformation qui minimise <span class="math notranslate nohighlight">\(E(\theta)\)</span>.
+Mathématiquement, le problème s’écrit :</p>
+<div class="math notranslate nohighlight">
+\[
+  \hat{\theta} = \arg \min_{\theta} E(\theta)
+\]</div>
+<div class="figure align-default" id="f-registration-optim">
+<a class="reference internal image-reference" href="_images/optim.png"><img alt="_images/optim.png" src="_images/optim.png" style="height: 200px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 45 </span><span class="caption-text">Principe de l’optimisation d’un critère <span class="math notranslate nohighlight">\(E\)</span> :
+exemple pour <span class="math notranslate nohighlight">\(\theta=\alpha\)</span> dans le cas d’une simple rotation.</span><a class="headerlink" href="#f-registration-optim" title="Permalink to this image">¶</a></p>
+</div>
+<p>Il existe énormément de méthodes d’optimisation dont la description dépasse le cadre de ce cours :</p>
+<ul class="simple">
+<li><p>Solution explicite (en annulant la dérivée de <span class="math notranslate nohighlight">\(E\)</span>),</p></li>
+<li><p>Recherche exhaustive (toutes les possibilités sont testées),</p></li>
+<li><p>Méthodes déterministes :
+algorithme du simplexe, descente de gradient, gradient conjugué,
+algorithme de Levenberg-Marquardt, etc.</p></li>
+<li><p>Méthodes stochastiques :
+recuit simulé, algorithmes génétiques, gradient stochastique, etc.</p></li>
+</ul>
+<div class="section" id="approches-hierarchiques">
+<h3>Approches hiérarchiques<a class="headerlink" href="#approches-hierarchiques" title="Permalink to this headline">¶</a></h3>
+<p>L’idée des approches hiérarchiques (<em>hierarchical / coarse to fine approaches</em>)
+est de décomposer le problème initial en plusieurs petits problèmes de complexité moindre.
+Cela a tendance à réduire le risque de convergence vers un minimum local et à accélérer le calcul.</p>
+<ul>
+<li><p>Dans le cas de données complexes, on adoptera une approche par multi-résolution :
+on commence par effectuer l’optimisation sur une image très sous-échantillonnée (niveau 0),
+et refaire l’optimisation à différentes échelles jusqu’à l’image originale.
+Chaque algorithme d’optimisation est initialisé avec la valeurs de <span class="math notranslate nohighlight">\(\theta\)</span> obtenue
+au niveau précédent.</p>
+<div class="figure align-default" id="f-registration-multiresolution">
+<a class="reference internal image-reference" href="_images/multiresolution.png"><img alt="_images/multiresolution.png" src="_images/multiresolution.png" style="height: 200px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 46 </span><span class="caption-text">Exemple : pyramide gaussienne.</span><a class="headerlink" href="#f-registration-multiresolution" title="Permalink to this image">¶</a></p>
+</div>
+</li>
+<li><p>Dans le cas d’un Modèle de déformation complexe,
+on privilégiera une complexification de ce modèle.
+Par exemple, on pourra commencer par considérer une déformation rigide,
+qui sera affinée ensuite en déformation affine voire non rigide.
+On peut aussi utiliser une approche multi-échelle (<em>multiscale approach</em>)
+illustrée <a class="reference internal" href="#f-registration-multiscale"><span class="std std-numref">Fig. 47</span></a>.</p>
+<div class="figure align-default" id="f-registration-multiscale">
+<a class="reference internal image-reference" href="_images/multiscale.png"><img alt="_images/multiscale.png" src="_images/multiscale.png" style="height: 100px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 47 </span><span class="caption-text">Approche multi-échelle.</span><a class="headerlink" href="#f-registration-multiscale" title="Permalink to this image">¶</a></p>
+</div>
+</li>
+</ul>
+</div>
+</div>
 </div>
 
     <script type="text/x-thebe-config">

@@ -86,6 +86,16 @@ Free license.
 [Original picture](https://unsplash.com/photos/0PUoXmsCSDQ/).
 
 
+```{figure} labs/santamonica.jpg
+---
+height: 150px
+align: left
+```
+**SantaMonica**
+&copy; Vincent Mazet, 2016.
+Public domain.
+
+
 
 ```{figure} figs/smiley-face.png
 ---

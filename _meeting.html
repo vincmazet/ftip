@@ -1,0 +1,533 @@
+
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Réunion enseignants OFTI &#8212; Fundamental Tools for Image Processing</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+    <link href="_static/css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="_static/sphinx-book-theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/jbvinc.css" />
+    <link rel="stylesheet" type="text/css" href="_static/.ipynb_checkpoints/jbvinc-checkpoint.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-dropdown.css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/sphinx-book-theme.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="en">
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="index.html">
+  
+  
+  <h1 class="site-logo" id="site-title">Fundamental Tools for Image Processing</h1>
+  
+</a>
+</div>
+
+<form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="preface.html">
+   Preface
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Courses
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="definition.html">
+   What is a Digital Image?
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="operations.html">
+   Arithmetic Operations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="histogram.html">
+   Histogram
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="convolution.html">
+   Convolution
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="fourier.html">
+   Fourier Transform
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="compression.html">
+   Compression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="mm.html">
+   Mathematical Morphology
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="interpolation.html">
+   Interpolation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="registration.html">
+   Registration
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="segmentation.html">
+   Segmentation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="deconvolution.html">
+   Deconvolution
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="denoising.html">
+   Denoising
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="xxx_pattern.html">
+   (Pattern &amp; Co)
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  In-Class Sessions
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="tp1.html">
+   07/10/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="tp2.html">
+   14/10/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="tp3.html">
+   21/10/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="tp4.html">
+   04/11/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="tp5.html">
+   18/11/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="tp6.html">
+   25/11/2020
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Corrections
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="labs/tp1-code.html">
+   07/10/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="labs/tp2-code.html">
+   14/10/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="labs/tp3-code.html">
+   21/10/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="labs/tp4-code.html">
+   04/11/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="labs/tp5-code.html">
+   18/10/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="labs/tp6-code.html">
+   25/10/2020
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Appendices
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://moodle3.unistra.fr/course/view.php?id=13708">
+   Moodle
+   <i class="fas fa-external-link-alt">
+   </i>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="python.html">
+   Installing and Using Python
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="glossary.html">
+   Glossary
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="biblio.html">
+   References
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="license.html">
+   License
+  </a>
+ </li>
+</ul>
+
+</nav>
+
+ <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        <div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/_meeting.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+    
+</div>
+        <!-- Source interaction buttons -->
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#objectifs-du-module">
+   Objectifs du module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#organisation">
+   Organisation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cours-en-anglais">
+   Cours en anglais
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#evaluation">
+   Évaluation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#tp">
+   TP
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#projet">
+   Projet
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#enseignement-a-distance">
+   Enseignement à distance
+  </a>
+ </li>
+</ul>
+
+        </nav>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="reunion-enseignants-ofti">
+<h1>Réunion enseignants OFTI<a class="headerlink" href="#reunion-enseignants-ofti" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="objectifs-du-module">
+<h2>Objectifs du module<a class="headerlink" href="#objectifs-du-module" title="Permalink to this headline">¶</a></h2>
+<p>Enseigner les bases du traitement d’images en M2 IRIV (AR, MPHOT, TOPO, IRMC) + quelques 3A TPS.
+Public très varié avec des prérequis et des attentes différentes !</p>
+<p>J’ai choisi de couvrir l’ensemble des problématiques du traitement d’images :</p>
+<ul class="simple">
+<li><p>bases (histogramme, convolution, transformée de Fourier…)</p></li>
+<li><p>segmentation</p></li>
+<li><p>restauration (déconvolution, débruitage)</p></li>
+<li><p>morphologie mathématique (même si ce n’est pas un problème mais un ensemble de techniques)</p></li>
+<li><p>segmentation</p></li>
+<li><p>détection de caractéristiques (contours, lignes, coins)</p></li>
+<li><p>détection d’objets (<em>peut être</em>)</p></li>
+<li><p>classification (un peu_)</p></li>
+<li><p>recalage (<em>un peu</em>)</p></li>
+<li><p>interpolation (<em>peut être</em>)</p></li>
+<li><p>…</p></li>
+</ul>
+</div>
+<div class="section" id="organisation">
+<h2>Organisation<a class="headerlink" href="#organisation" title="Permalink to this headline">¶</a></h2>
+<p>Classe inversée (🎉 NEW !) :</p>
+<ul class="simple">
+<li><p>avant la classe :</p>
+<ul>
+<li><p>les étudiants étudient le cours chez eux (https://vincmazet.github.io/ftip/)</p></li>
+<li><p>auto-évaluation (QCM sur Moodle)</p></li>
+</ul>
+</li>
+<li><p>pendant la classe :</p>
+<ul>
+<li><p>6 TP (4 groupes, 4 enseignants) constitués de plusieurs exercices de mise en application
+et commençant par une évaluation (QCM sur Moodle)</p></li>
+<li><p>2 séances de projet
+En présentiel ou à distance (Zoom)
+Pour forcer les étudiants</p></li>
+</ul>
+</li>
+</ul>
+<p>Donc :</p>
+<ul class="simple">
+<li><p>organisation, QCM, dépôt du rapport de projet : http://moodle.unistra.fr/</p></li>
+<li><p>cours, énoncés de TP, correction de TP : https://vincmazet.github.io/ftip/</p></li>
+</ul>
+</div>
+<div class="section" id="cours-en-anglais">
+<h2>Cours en anglais<a class="headerlink" href="#cours-en-anglais" title="Permalink to this headline">¶</a></h2>
+<p>Demande du responsable MPHOT.
+Discours en français.
+Finalement, pas d’anglophone cette année.
+Je n’arriverai pas à tout passer en anglais cette année.</p>
+<p>(NB : je n’arriverai peut être pas à rédiger certains chapitres tout court)</p>
+</div>
+<div class="section" id="evaluation">
+<h2>Évaluation<a class="headerlink" href="#evaluation" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>6 QCM Moodle (5 %)
+Durée : 10 min, commencent pile à l’heure !</p></li>
+<li><p>1 rapport de projet (40 %)
+sous forme de notebook
+en binôme</p></li>
+<li><p>1 examen final (30 %)
+examen classique
+sur feuille
+peut être réduit à 1h au lieu d’1h45
+(je souhaite privilégier la pratique à la théorie, sur laquelle ils auront déjà été interrogés pendant les QCM)</p></li>
+</ul>
+</div>
+<div class="section" id="tp">
+<h2>TP<a class="headerlink" href="#tp" title="Permalink to this headline">¶</a></h2>
+<p>Correction disponibles sur le web de le début : aux étudiants de s’y référer.
+Notre rôle :</p>
+<ul class="simple">
+<li><p>répondre aux questions des étudiants (concernant des problèmes de TI ou des problèmes techniques)</p></li>
+<li><p>poser des questions (y’a pas de raison que seuls les étudiants en pose, non mais !)</p></li>
+</ul>
+<p>SD avec moi, ou sinon ED avec moi.</p>
+</div>
+<div class="section" id="projet">
+<h2>Projet<a class="headerlink" href="#projet" title="Permalink to this headline">¶</a></h2>
+<p>Constat :</p>
+<ul class="simple">
+<li><p>je n’ai pas assez de matière pour durer sur 8 séances 😬</p></li>
+<li><p>j’observe une tendance en TP à passer à la question suivante sans réfléchir au résultat obtenu</p></li>
+<li><p>plus tard (en stage ou en poste), la connaissance est disponible mais pas la façon de travailler</p></li>
+</ul>
+<p>⇒ L’objectif est de développer leur pensée critique et de leur enseigner la démarche scientifique</p>
+<p>Donc (🎉 NEW !) :</p>
+<ul class="simple">
+<li><p>lecture d’un article scientifique présentant une méthode (simple)</p></li>
+<li><p>implémentation de la méthode proposée</p></li>
+<li><p>évaluation de la méthode (observation, interprétation, conclusion) et comparaison avec l’état de l’art (dont la publi initiale)</p></li>
+<li><p>proposition d’amélioration de la méthode</p></li>
+<li><p>(éventuellement) implémentation de ces proposition et évaluation</p></li>
+</ul>
+</div>
+<div class="section" id="enseignement-a-distance">
+<h2>Enseignement à distance<a class="headerlink" href="#enseignement-a-distance" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>100 % EAD : ?</p></li>
+<li><p>hybride : ?</p></li>
+<li><p>l’un de nous est en quarantaine : ?</p></li>
+</ul>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Vincent Mazet (University of Strasbourg, France)<br/>
+        
+            &copy; Copyright 2020.<br/>
+          <div class="extra_footer">
+            Fundamental Tools for Image Processing &mdash; Vincent Mazet (Université de Strasbourg), 2020 &mdash; <a href="license.html">CC BY-NC 4.0</a>.
+          </div>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    <script src="_static/js/index.js"></script>
+    
+  </body>
+</html>

@@ -397,19 +397,21 @@ Before applying the convolutions, you need to convert the image into float (<cod
 <div class="section" id="properties-of-the-fourier-transform">
 <h2>Properties of the Fourier transform<a class="headerlink" href="#properties-of-the-fourier-transform" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>Load the image <a class="reference external" href="https://vincmazet.github.io/ftip/labs/s1.png">s1.png</a> and compute its discrete Fourier tranform (DFT) with <code class="docutils literal notranslate"><span class="pre">scipy.fft.fft2</span></code>.</p></li>
+<li><p>Load the image <a class="reference external" href="https://vincmazet.github.io/ftip/_static/data/s1.png">s1.png</a> and compute its discrete Fourier tranform (DFT) with <code class="docutils literal notranslate"><span class="pre">scipy.fft.fft2</span></code>.</p></li>
 <li><p>Show the DFT of the image with low frequencies at the center (<code class="docutils literal notranslate"><span class="pre">scipy.fft.fftshift</span></code>).
 The magnitude and angle are obtained with <code class="docutils literal notranslate"><span class="pre">numpy.absolute</span></code> and <code class="docutils literal notranslate"><span class="pre">numpy.angle</span></code>.</p></li>
-<li><p>Repeat the same operations with images <a class="reference external" href="https://vincmazet.github.io/ftip/labs/s2.png">s2.png</a>,
-<a class="reference external" href="https://vincmazet.github.io/ftip/labs/s3.png">s3.png</a>, <a class="reference external" href="https://vincmazet.github.io/ftip/labs/s4.png">s4.png</a>,
-and <a class="reference external" href="https://vincmazet.github.io/ftip/labs/s5.png">s5.png</a>.
-Analyse the specificities of the images: chat can you say about the DFT?</p></li>
+<li><p>Repeat the same operations with images
+<a class="reference external" href="https://vincmazet.github.io/ftip/_static/data/s2.png">s2.png</a>,
+<a class="reference external" href="https://vincmazet.github.io/ftip/_static/data/s3.png">s3.png</a>,
+<a class="reference external" href="https://vincmazet.github.io/ftip/_static/data/s4.png">s4.png</a>, and
+<a class="reference external" href="https://vincmazet.github.io/ftip/_static/data/s5.png">s5.png</a>.
+Analyse the specificities of the images: what can you say about the DFT?</p></li>
 </ul>
 </div>
 <div class="section" id="magnitude-and-phase-of-the-fourier-transform">
 <h2>Magnitude and phase of the Fourier transform<a class="headerlink" href="#magnitude-and-phase-of-the-fourier-transform" title="Permalink to this headline">¶</a></h2>
 <ul>
-<li><p>Load the image lena.tiff and convert it to grayscale.</p></li>
+<li><p>Load the image <a class="reference external" href="https://vincmazet.github.io/ftip/_static/data/lena.tiff">lena.tiff</a> and convert it to grayscale.</p></li>
 <li><p>Compute its DFT.</p></li>
 <li><p>Reconstruct the image by using the inverse DTF, but using a constant argument.
 To do that, you have to define the DTF from the magnitude and the argument, considering that</p>
