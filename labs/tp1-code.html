@@ -643,10 +643,10 @@ A more precise alternative is to use the <code class="docutils literal notransla
 </div>
 </div>
 <p>What’s that weird grayscale image? It’s rather green… 😲</p>
-<p>Actually, this does be a grayscale image (the image has only one band).
-But the default colormap with <code class="docutils literal notranslate"><span class="pre">imshow</span></code> is a gradient of blue and green.
+<p>This actually <em>is</em> a grayscale image (the image has only one band).
+But the default colormap provided with <code class="docutils literal notranslate"><span class="pre">imshow</span></code> is a gradient of blue and green.
 To display it in real gray levels, you must specify the option <code class="docutils literal notranslate"><span class="pre">cmap</span></code> in<code class="docutils literal notranslate"> <span class="pre">imshow</span></code>.
-A large number of palettes are available see. <a class="reference external" href="https://matplotlib.org/examples/color/colormaps_reference.html">catalog</a>);
+A large number of palettes are available (see <a class="reference external" href="https://matplotlib.org/examples/color/colormaps_reference.html">catalog</a>);
 here we choose the classic <code class="docutils literal notranslate"><span class="pre">gray</span></code>:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -678,7 +678,7 @@ Max : 0.9116803921568628
 </div>
 </div>
 </div>
-<p>One can also redefine the range of colors by specifying the intensities corresponding to black (<code class="docutils literal notranslate"><span class="pre">vmin</span></code>) and white (<code class="docutils literal notranslate"> <span class="pre">vmax</span></code>):</p>
+<p>The range of colors can also be redefined by specifying the intensities corresponding to black (<code class="docutils literal notranslate"><span class="pre">vmin</span></code>) and white (<code class="docutils literal notranslate"> <span class="pre">vmax</span></code>):</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">);</span>
@@ -804,7 +804,7 @@ Thus, yellow is obtained by combining green and red.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x7faa504fc978&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x7fb9cdbfdcc0&gt;
 </pre></div>
 </div>
 <img alt="../_images/tp1-code_41_1.png" src="../_images/tp1-code_41_1.png" />
@@ -835,14 +835,14 @@ Thus, yellow is obtained by combining green and red.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x7faa50ee3e48&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x7fb9cdb74358&gt;
 </pre></div>
 </div>
 <img alt="../_images/tp1-code_45_1.png" src="../_images/tp1-code_45_1.png" />
 </div>
 </div>
-<p>This image corresponds to a portion of the sky in the southern hemisphere called the <a class="reference external" href="http://muse-vlt.eu/science/hdfs-v1-0/"><em>Hubble Deep Field South</em></a>. It comes from the <a class="reference external" href="http://muse-vlt.eu/science/">MUSE sensor</a> installed on the VLT in Chile. It is obtained by averaging around 4000 bands of the original image: we speak of a hyperspectral image. (Source: <a class="reference external" href="https://www.aanda.org/articles/aa/abs/2015/03/aa25419-14/aa25419-14.html">Bacon et al., “The MUSE 3D view of the Hubble Deep Field South”, <em>Astronomy &amp; Astrophysics</em>, 2015</a>).</p>
-<p>You can see just a small star, however there are many other objects. Because these objects are very distant, they are very faint. In astronomy, as in many other science fields, the pixel intensity is not limited to 256 values. In this case, the intensities lie over the range given below:</p>
+<p>This image corresponds to a portion of the sky in the southern hemisphere called the <a class="reference external" href="http://muse-vlt.eu/science/hdfs-v1-0/"><em>Hubble Deep Field South</em></a>. It was acquired by the <a class="reference external" href="http://muse-vlt.eu/science/">MUSE sensor</a> installed on the VLT in Chile. It is obtained by averaging around 4000 bands of the original image: we speak of a hyperspectral image. (Source: <a class="reference external" href="https://www.aanda.org/articles/aa/abs/2015/03/aa25419-14/aa25419-14.html">Bacon et al., “The MUSE 3D view of the Hubble Deep Field South”, <em>Astronomy &amp; Astrophysics</em>, 2015</a>).</p>
+<p>Although only a small star can be seen, there are many other objects. Since these objects are very distant, they are very faint. In astronomy, as in many other science fields, the pixel intensity is not limited to 256 values. In this case, the intensities lie over the range given below:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Mininmal intensity: </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">f</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
@@ -866,7 +866,7 @@ It’s up to you to find these values to get an image like the one below, where 
 (and the brightest star is saturated).</p>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x7faa502d5fd0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x7fb9cdad8780&gt;
 </pre></div>
 </div>
 <img alt="../_images/tp1-code_50_1.png" src="../_images/tp1-code_50_1.png" />
@@ -875,7 +875,7 @@ It’s up to you to find these values to get an image like the one below, where 
 <p>Another possibility is to use colors to increase the dynamics of the intensities observed. The <code class="docutils literal notranslate"><span class="pre">jet</span></code> colormap is used in the example below, with the the same <code class="docutils literal notranslate"><span class="pre">vmin</span></code> and <code class="docutils literal notranslate"><span class="pre">vmax</span></code> as before. We observe a few more objects.</p>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x7faa50235e80&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x7fb9cdabd2e8&gt;
 </pre></div>
 </div>
 <img alt="../_images/tp1-code_52_1.png" src="../_images/tp1-code_52_1.png" />
@@ -905,7 +905,7 @@ It’s up to you to find these values to get an image like the one below, where 
 As this function calculates the image from a vector, it must be used on the vectorized image, and not the image itself.
 The vectorized image is obtained with <code class="docutils literal notranslate"><span class="pre">numpy.ravel</span></code>.
 The pixels in a vectorized image are arrange in one dimension.</p>
-<p>The histogram of the image is not unique: the number of bins must be specified
+<p>The histogram of the image is not unique: the number of bins must be specified.
 Generally, we choose as many bins as gray levels, but this is not mandatory.
 The following histograms are obtained with 16, 64 and 256 bins.
 Note that the intensities of the image are not between 0 and 255: do you know why (ask the teacher if you cannot get the solution)?</p>
@@ -916,9 +916,9 @@ Note that the intensities of the image are not between 0 and 255: do you know wh
 <img alt="../_images/tp1-code_58_2.png" src="../_images/tp1-code_58_2.png" />
 </div>
 </div>
-<p>One one hand, we easily observe that if the number of bars is low, then the distribution is coarse and some details
+<p>On the one hand, we easily observe that if the number of bars is low, then the distribution is coarse and some details
 (such as the presence of two modes after 0.5) are not visible.
-On the other hand, if the bin number is high, then we may have too many details for analysing the result.
+On the other hand, if the bin number is high, then we may have too much detail to analyse the result.
 In conclusion, the bin number does not necessarily have to be equal to the number of gray levels in the image,
 it depends on what we are going to do with the histogram!</p>
 </div>

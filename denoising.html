@@ -354,7 +354,49 @@
   <div class="section" id="denoising">
 <span id="c-denoising"></span><h1>Denoising<a class="headerlink" href="#denoising" title="Permalink to this headline">¶</a></h1>
 <p><a class="reference external" href="https://vincmazet.github.io/ftip/_static/slides/restauration-slides.pdf">Ancien cours</a></p>
-</div>
+<!-- 
+% \subsubsection*{Démonstration~: débruitage par moyenne d'images}
+%
+% On dispose de $I$ observations $f_i$ de la même scène.
+% Chaque observation $f_i$ est modélisée comme
+% la somme d'une image déterministe $x$ et d'un bruit additif~$b_i$~:
+% \begin{equation*}
+%   \forall i, \quad f_i = x + b_i.
+% \end{equation*}
+% Les bruits $b_i$ sont supposés aléatoires, de moyenne nulle $E[b_i] = 0$, de variance $V[b_i]$
+% et indépendants d'une observation $i$ à l'autre (donc $E[b_i b_j] = 0$ si $i \neq j$).
+%
+% La moyenne des observations $\bar{f}$ s'écrit~:
+% \begin{equation*}
+%   \bar{f} = \frac{1}{I} \sum_i f_i = \frac{1}{I} \sum_i (x + b_i) = x + \frac{1}{I} \sum_i b_i = x + \bar{b}.
+% \end{equation*}
+% Ainsi, la moyenne des observations peut être vue comme la somme de $x$ et d'un bruit $\bar{b}$.
+% Puisque l'espérance $E$ est un opérateur linéaire et que le bruit $b_i$ est de moyenne nulle,
+% son espérance est~:
+% \begin{equation*}
+%   E\left[\bar{b}\right]
+%   = E\left[\frac{1}{I} \sum_i b_i \right]
+%   = \frac{1}{I} \sum_i E \left[ b_i \right]
+%   = \frac{1}{I} \sum_i 0
+%    = 0.
+% \end{equation*}
+%
+% Par ailleurs, la variance du bruit $\bar{b}$ est~:
+% \begin{align*}
+%   V\left[\bar{b}\right]
+%   &= E\left[ \left( \bar{b} - E[\bar{b}] \right)^2 \right]      &&\text{par définition de la variance} \\
+%   &= E\left[ \bar{b}^2 \right]                                  &&\text{car $E\left[\bar{b}\right]=0$} \\
+%   &= E\left[\left(\frac{1}{I} \sum_i b_i\right)^2\right]        &&\text{par définition de $\bar{b}$} \\
+%   &= \frac{1}{I^2} E\left[\left(\sum_i b_i\right)^2\right]      &&\text{l'espérance étant linéaire}\\
+%   &= \frac{1}{I^2} \sum_i E[b_i^2]                              &&\text{les $b_i$ étant indépendants ($E[b_i b_j] = 0$ si $i \neq j$)} \\
+%   &= \frac{1}{I^2} \sum_i V[b_i]                                &&\text{les $b_i$ étant de moyenne nulle, $V[b_i]=E[b_i^2]$} \\
+%   &= \frac{1}{I} V[b_i]
+% \end{align*}
+% La variance de $\bar{b}$ est donc $I$ fois plus petite que la variance du bruit initial $b_i$.
+% Autrement dit, la moyenne de $I$ observations sous hypothèse de bruit additif, indépendant et de moyenne nulle,
+% permet de diminuer la variance, donc la puissance, du bruit d'un facteur~$I$.
+ -->
+<!--  débruiter = désherber --></div>
 
     <script type="text/x-thebe-config">
     {

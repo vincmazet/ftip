@@ -517,8 +517,8 @@ the dilation is converted to erosion and vice versa:</p>
 <p><a class="reference internal" href="#f-mm-real-dilation-erosion"><span class="std std-numref">Fig. 29</span></a> shows the result of dilation and erosion on a binary image of Greece.</p>
 <p>As you can see, dilation:</p>
 <ul class="simple">
-<li><p>increase the size of objects (<em>e.g.</em> the islands are bigger),</p></li>
-<li><p>fill the small holes (<em>e.g.</em> the <a class="reference external" href="https://en.wikipedia.org/wiki/Gulf_of_Corinth">Gulf of Corinth</a> does not more exist after dilation),</p></li>
+<li><p>increases the size of objects (<em>e.g.</em> the islands are bigger),</p></li>
+<li><p>fills the small holes (<em>e.g.</em> the <a class="reference external" href="https://en.wikipedia.org/wiki/Gulf_of_Corinth">Gulf of Corinth</a> does not more exist after dilation),</p></li>
 <li><p>welds close objects (<em>e.g.</em> some islands are grouped into a larger island).</p></li>
 </ul>
 <p>On the contrary, erosion:</p>
@@ -526,7 +526,7 @@ the dilation is converted to erosion and vice versa:</p>
 <li><p>decreases the size of objects (<em>e.g.</em> Crete is smaller),</p></li>
 <li><p>widens the holes (<em>e.g.</em> the Gulf of Corinth is bigger after erosion),</p></li>
 <li><p>separates the connected objects by a small bridge (<em>e.g.</em> the Peloponnese and mainland Greece are now disconnected),</p></li>
-<li><p>remove small items (<em>e.g.</em> small islands have disappeared).</p></li>
+<li><p>removes small items (<em>e.g.</em> small islands have disappeared).</p></li>
 </ul>
 <div class="figure align-default" id="f-mm-real-dilation-erosion">
 <div class="cell_output docutils container">
@@ -595,12 +595,12 @@ Similarly to opening, closing is an idempotent operation:</p>
 <p>Especially, opening:</p>
 <ul class="simple">
 <li><p>removes small objects (<em>e.g.</em> small islands have disappeared),</p></li>
-<li><p>smooth the contours (the coasts are no more jagged).</p></li>
+<li><p>smoothes the contours (the coasts are no more jagged).</p></li>
 </ul>
 <p>Besides, closing:</p>
 <ul class="simple">
-<li><p>fill small holes (<em>e.g.</em> gulfs and lakes are removed)</p></li>
-<li><p>weld close shapes (<em>e.g.</em> some separated islands now form only one)</p></li>
+<li><p>fills small holes (<em>e.g.</em> gulfs and lakes are removed)</p></li>
+<li><p>welds close shapes (<em>e.g.</em> some separated islands now form only one)</p></li>
 </ul>
 </div>
 <div class="section" id="hit-or-miss-transform">
