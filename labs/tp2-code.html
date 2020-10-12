@@ -394,7 +394,7 @@
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#reconstruction-with-a-constant-magnitude-or-a-constant-argument">
-     Reconstruction with a constant magnitude or a constant argument£
+     Reconstruction with a constant magnitude or a constant argument
     </a>
    </li>
   </ul>
@@ -420,8 +420,8 @@
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#evolution-du-psnr">
-     Évolution du PSNR
+    <a class="reference internal nav-link" href="#evolution-de-l-eqm">
+     Évolution de l’EQM
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
@@ -545,7 +545,7 @@ To get a readable display, one has to apply an histogram transform on the magnit
 <p>L’objectif de cet exercice est d’observer l’influence du module et de la phase sur la transformée de Fourier.</p>
 </div>
 <div class="section" id="reconstruction-with-a-constant-magnitude-or-a-constant-argument">
-<h3>Reconstruction with a constant magnitude or a constant argument£<a class="headerlink" href="#reconstruction-with-a-constant-magnitude-or-a-constant-argument" title="Permalink to this headline">¶</a></h3>
+<h3>Reconstruction with a constant magnitude or a constant argument<a class="headerlink" href="#reconstruction-with-a-constant-magnitude-or-a-constant-argument" title="Permalink to this headline">¶</a></h3>
 <p>La transformée de Fourier étant complexe, elle peut s’écrire <span class="math notranslate nohighlight">\(\rho e^{j\theta}\)</span>. Il est donc possible de construire une image particulière en choisissant une valeur spécifique pour <span class="math notranslate nohighlight">\(\rho\)</span> ou pour <span class="math notranslate nohighlight">\(\theta\)</span>.</p>
 <p>On choisira donc :</p>
 <ul class="simple">
@@ -612,7 +612,7 @@ Vérifiez : La plupart des pixels de cette image ne sont pas nuls.
 <img alt="../_images/tp2-code_44_0.png" src="../_images/tp2-code_44_0.png" />
 </div>
 </div>
-<p>Avec pourtant un taux de compression très élevé, le résultat visuel est très bon : il est très difficile d’observer des différences entre les deux images. Cette observation est d’ailleurs confirmée par la valeur élevée du PSNR :</p>
+<p>Avec pourtant un taux de compression très élevé, le résultat visuel est très bon : il est très difficile d’observer des différences entre les deux images. Cette observation est d’ailleurs confirmée par la valeur faible de l’EQM :</p>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
 <img alt="../_images/tp2-code_46_0.png" src="../_images/tp2-code_46_0.png" />
@@ -621,15 +621,12 @@ Vérifiez : La plupart des pixels de cette image ne sont pas nuls.
 <p>L’image de différence est intéressante, car on peut voir que les erreurs sont principalement situées dans les zones de l’image qui possèdent des hautes fréquences (contours, plumes du chapeau…). C’est logique puisque c’est justement ces hautes fréquences qui ont été annulées.</p>
 <p>Le compression JPEG joue sur le fait que l’oeil humain n’est pas sensible à ces changements à haute fréquence.</p>
 </div>
-<div class="section" id="evolution-du-psnr">
-<h3>Évolution du PSNR<a class="headerlink" href="#evolution-du-psnr" title="Permalink to this headline">¶</a></h3>
-<p>La procédure précédente est utilisée pour différentes valeurs de <span class="math notranslate nohighlight">\(C\)</span>, afin de calculer le PSNR et l’EQM entre l’image compressée et l’image originale.</p>
+<div class="section" id="evolution-de-l-eqm">
+<h3>Évolution de l’EQM<a class="headerlink" href="#evolution-de-l-eqm" title="Permalink to this headline">¶</a></h3>
+<p>La procédure précédente est utilisée pour différentes valeurs de <span class="math notranslate nohighlight">\(C\)</span>, afin de calculer l’EQM entre l’image compressée et l’image originale. Le PSNR est également indiqué, c’est une mesure que l’on verra dans un prochain cours.</p>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;EQM&#39;)
-</pre></div>
-</div>
-<img alt="../_images/tp2-code_50_1.png" src="../_images/tp2-code_50_1.png" />
+<img alt="../_images/tp2-code_50_0.png" src="../_images/tp2-code_50_0.png" />
 </div>
 </div>
 <p>L’analyse des courbes permet d’aboutir aux conclusions suivantes.</p>

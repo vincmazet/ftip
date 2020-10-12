@@ -454,8 +454,15 @@ affichez-le pour une valeur de <span class="math notranslate nohighlight">\(C\)<
 <li><p>Annulez les coefficients de la DCT à l’aide du masque généré.</p></li>
 <li><p>Affichez l’image compressée en utilisant la DCT inverse
 (<code class="docutils literal notranslate"><span class="pre">scipy.fftpack.idctn</span></code>, toujours avec l’option <code class="docutils literal notranslate"><span class="pre">norm='ortho'</span></code>).
-Calculez son PSNR.</p></li>
-<li><p>Analysez l’évolution du PSNR en fonction du taux de compression, défini comme :</p>
+Calculez son erreur quadratique moyenne (EQM) définie comme :</p>
+<div class="math notranslate nohighlight">
+\[
+  EQM = \frac{1}{MN} \sum_{m,n} (f(m,n) - g(m,n))^2
+  \]</div>
+<p>où <span class="math notranslate nohighlight">\(f\)</span> et <span class="math notranslate nohighlight">\(g\)</span> sont respectivement les images avant et après compression, <span class="math notranslate nohighlight">\(M\)</span> et <span class="math notranslate nohighlight">\(N\)</span> étant les dimensions de ces images.
+Vous pouvez utiliser la fonction <code class="docutils literal notranslate"><span class="pre">numpy.linalg.norm</span></code>.</p>
+</li>
+<li><p>Analysez l’évolution de l’EQM en fonction du taux de compression, défini comme :</p>
 <div class="math notranslate nohighlight">
 \[
     \tau = \frac{\text{Taille de l'image compressée}}{\text{Taille de l'image originale}}
