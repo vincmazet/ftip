@@ -468,7 +468,7 @@ It is used in format like GIF or TIFF.</p>
 <p>The most famous compression format for images is JPEG,
 created in 1992 by the Joint Photographic Experts Group.
 The idea of JPEG compression is to apply a specific transform on the image,
-such that most coefficients of the transformed are very small and can be cancelled,
+such that most coefficients of the transformed image are very small and can be cancelled,
 thus gaining storage at the price of a very little visual degradation.
 This principle is also used in lossy compression of audio (MP3) and video (MPEG).</p>
 <p>Most of the energy of usual pictures are concentrated in low frequencies,
@@ -549,7 +549,7 @@ Here are some of them.</p>
 Especially, the YCbCr is the one used in JPEG compression
 because the Y channel codes the brightness of the image and contains important information for the human eye.
 In consequence, the two other channels (Cb and Cr) are sub-sampled to have less pixel to store.</p></li>
-<li><p>The image is split in sub-image of size 8 × 8, and one DCT is computed on each of the sub-images.</p></li>
+<li><p>The image is split in sub-images of size 8 × 8, and one DCT is computed on each of the sub-images.</p></li>
 <li><p>In the previous section, the high-frequency coefficients are cancelled.
 In reality, a quantification is made on every coefficient of each DCT,
 but the quantification is fine for low-frequency coefficients and rough for high-frequency ones.</p></li>
