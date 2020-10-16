@@ -348,6 +348,11 @@
    Mathematical Morphology
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#registration">
+   Registration
+  </a>
+ </li>
 </ul>
 
         </nav>
@@ -379,6 +384,28 @@ Appliquez-la pour déterminer le nombre de piscines.</p></li>
 <li><p>Déterminez la surface des piscines, sachant que l’image est de résolution 50 cm.</p></li>
 <li><p>Critiquez la méthode implémentée : identifiez les bons résultats de la méthode et ses limites.
 Proposez des améliorations.</p></li>
+</ul>
+</div>
+<div class="section" id="registration">
+<h2>Registration<a class="headerlink" href="#registration" title="Permalink to this headline">¶</a></h2>
+<p>Dans cet exercice, deux images satellitaires du Capitole à Toulouse sont à recaler :
+<a class="reference external" href="https://vincmazet.github.io/ftip/_static/data/capitole1.jpg">capitole1.jpg</a> (la référence) et
+<a class="reference external" href="https://vincmazet.github.io/ftip/_static/data/capitole2.jpg">capitole2.jpg</a> (la source).
+On utilise une approche iconique.</p>
+<ul class="simple">
+<li><p>Quel modèle de déformation est à choisir pour effectuer le recalage ?</p></li>
+<li><p>Avant d’appliquer toute la procédure pour recaler ces deux images,
+nous allons dans un premier temps appliquer une déformation arbitraire sur l’image.
+Pour cela, utilisez la fonction appropriée du module <code class="docutils literal notranslate"><span class="pre">skimage.transform</span></code>
+pour définir une transformation euclidienne de translation <span class="math notranslate nohighlight">\((400, -100)\)</span> et de rotation <span class="math notranslate nohighlight">\(\pi/3\)</span>.
+Ces paramètres permettent de s’approcher assez près de la transformation optimale.
+Appliquez ensuite cette transformation sur l’image source avec <code class="docutils literal notranslate"><span class="pre">skimage.transform.warp</span></code>.
+Vérifiez que l’image déformée est assez proche de l’image référence.
+Vous pouvez notamment afficher la différence entre les deux images.</p></li>
+<li><p>Implémentez une méthode d’optimisation pour déterminer automatiquement les meilleurs paramètres de la transformation.
+La méthode d’optimisation la plus simple (bien que très longue en temps de calcul !)
+consiste à utiliser des boucles pour tester plusieurs valeurs et conserver celles qui minimisent l’erreur quadratique moyenne
+(définie dans le TP précédent).</p></li>
 </ul>
 </div>
 </div>

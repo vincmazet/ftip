@@ -344,13 +344,13 @@
         <nav id="bd-toc-nav">
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#mathematical-morphology">
-   Mathematical morphology
+  <a class="reference internal nav-link" href="#mathematical-morphology-morphologie-mathematique">
+   Mathematical morphology (morphologie mathématique)
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#objectives">
-     Objectives
+    <a class="reference internal nav-link" href="#objectif">
+     Objectif
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
@@ -370,6 +370,18 @@
    </li>
   </ul>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#registration-recalage">
+   Registration (recalage)
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id2">
+     Objectif
+    </a>
+   </li>
+  </ul>
+ </li>
 </ul>
 
         </nav>
@@ -382,10 +394,10 @@
                 
   <div class="section" id="id1">
 <h1>21/10/2020<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="mathematical-morphology">
-<h2>Mathematical morphology<a class="headerlink" href="#mathematical-morphology" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="objectives">
-<h3>Objectives<a class="headerlink" href="#objectives" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="mathematical-morphology-morphologie-mathematique">
+<h2>Mathematical morphology (morphologie mathématique)<a class="headerlink" href="#mathematical-morphology-morphologie-mathematique" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="objectif">
+<h3>Objectif<a class="headerlink" href="#objectif" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>appliquer et comparer les opérations de base (érosion, dilatation, ouverture, fermeture)</p></li>
 <li><p>évaluer les influences des paramètres de ces opérations</p></li>
@@ -527,6 +539,84 @@ Surface moyenne des piscines détectées : 40.89 m²
 <li><p>le choix du seuil est fixé et fonctionne bien sur cette image. Mais rien n’assure que la valeur choisie puisse s’appliquer sur une autre image : rien ne permet de dire que cette méthode est robuste à la résolution du capteur, à la luminosité lors de la prise de vue, au type de piscine, etc. ;</p></li>
 <li><p>la binarisation de l’image pourrait prendre en compte, en plus de la luminosité des pixels, la classe dans laquelle se trouvent les pxels voisins. Ce principe est souvent modélisé à l’aide de champs de Markov.</p></li>
 </ul>
+</div>
+</div>
+<div class="section" id="registration-recalage">
+<h2>Registration (recalage)<a class="headerlink" href="#registration-recalage" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id2">
+<h3>Objectif<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>L’objectif de cet exercice est d’appréhender le problème du recalage par un premier exemple simple.</p>
+<p>Les deux images à recaler sont :</p>
+<div class="cell tag_remove-input docutils container">
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp3-code_38_0.png" src="../_images/tp3-code_38_0.png" />
+</div>
+</div>
+<p>Pour recaler la source sur la référence, l’image doit subir une rotation et une translation : il s’agit donc d’une déformation rigide, appelée aussi euclidienne car elle préserve la distance euclidienne entre les pixels de l’image.
+Cette déformation correspond à appliquer deux opérations :</p>
+<ul class="simple">
+<li><p>une rotation de l’image d’un angle <span class="math notranslate nohighlight">\(\theta\)</span> est d’abord appliquée, autour du pixel <span class="math notranslate nohighlight">\((0,0)\)</span> (le coin en haut à gauche de l’image),</p></li>
+<li><p>une translation <span class="math notranslate nohighlight">\((x,y)\)</span> est ensuite effectuée, la translation s’effectuant suivant le nouveau repère de l’image (selon la rotation précédente).</p></li>
+</ul>
+<p>La déformation rigide est donc définie par trois paramètres : une translation <span class="math notranslate nohighlight">\((x,y)\)</span> et une rotation <span class="math notranslate nohighlight">\(\theta\)</span>.
+La fonction <code class="docutils literal notranslate"><span class="pre">skimage.transform.EuclideanTransform</span></code> permet de définir une telle déformation.
+L’image est transformée selon cette déformation avec la fonction <code class="docutils literal notranslate"><span class="pre">skimage.transform.warp</span></code> :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">transformation</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">EuclideanTransform</span><span class="p">(</span><span class="n">translation</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">),</span> <span class="n">rotation</span><span class="o">=</span><span class="n">t</span><span class="p">)</span>
+<span class="n">h</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">warp</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">transformation</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Une transformation de rotation <span class="math notranslate nohighlight">\(\pi/3\)</span> et de translation <span class="math notranslate nohighlight">\((400,-100)\)</span> donne ainsi :</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp3-code_40_0.png" src="../_images/tp3-code_40_0.png" />
+</div>
+</div>
+<p>On peut comparer visuellement la différence entre la référence et l’image déformée (attention : vérifiez que les images ont la même dynamique !)…</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp3-code_42_0.png" src="../_images/tp3-code_42_0.png" />
+</div>
+</div>
+<p>…ou en calculant l’EQM entre ces deux images :</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>EQM = 2.537e-02
+</pre></div>
+</div>
+</div>
+</div>
+<p>Sans autre valeur de comparaison, on ne peut pas dire, uniquement à partir de l’EQM, si le résultat est bon ou pas.
+On voit cependant sur la différence entre les deux images que le recalage n’est pas encore très bon.</p>
+<p>Il faut donc optimiser le critère de similarité (ici, l’EQM) en fonction des paramètres de la transformation (<span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span>, <span class="math notranslate nohighlight">\(\theta\)</span>).
+Bien qu’il existe beaucoup de méthodes d’optimisation très efficaces, nous allons ici utiliser une méthode toute simple qui consiste à essayer toutes les valeurs de ces trois paramètres.
+Pour chaque triplet <span class="math notranslate nohighlight">\((x,y,\theta)\)</span> il faudra donc appliquer la déformation et calculer l’EQM : si le nombre de combinaison est grand, le temps de calcul sera vite très long !</p>
+<p>L’idée est donc de tester certains triplets <span class="math notranslate nohighlight">\((x,y,\theta)\)</span> autour de <span class="math notranslate nohighlight">\((400,-100,\pi/3)\)</span> testé précédemment.
+Par exemple, on choisit de tester les valeurs selons les intervalles :</p>
+<div class="math notranslate nohighlight">
+\[
+x \in [300,500], \quad
+y \in [-200,0], \quad
+\theta \in [0,\pi].
+\]</div>
+<p>De plus, il faut commencer par un pas assez grossier, par exemple en allant de 10 en 10 pour les translations, et de <span class="math notranslate nohighlight">\(1\)</span> en <span class="math notranslate nohighlight">\(1\)</span> pour la rotation.
+En fonction du résultat obtenu, on pourra ensuite affiner l’espace de recherche.</p>
+<p>Le résultat obtenu de cette manière est le suivant :</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp3-code_46_0.png" src="../_images/tp3-code_46_0.png" />
+<img alt="../_images/tp3-code_46_1.png" src="../_images/tp3-code_46_1.png" />
+</div>
+</div>
+<p>L’EQM est plus faible que celle obtenue ci-avant, ce qui montre que le recalage est meilleur :</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>EQM = 4.144e-03
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
