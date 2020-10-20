@@ -157,7 +157,7 @@ Image Lena.
 
 ### Déformation rigide
 
-Une déformation rigide est une transformation linéaire
+Une déformation rigide (ou euclidienne) est une transformation linéaire
 définie avec 3 paramètres : $\theta=\{\alpha,t_x,t_y\}$.
 La matrice de déformation s'écrit :
 
@@ -283,7 +283,7 @@ Le choix de $E$ dépend du choix de l'approche choisie.
 ### Approche iconique
 
 Dans le cas d'une approche iconique (basée sur l'intensité des pixels),
-on utilisera un critères de similarité dit _dense_.
+on utilisera un critère de similarité dit _dense_.
 Il existe plusieurs hypothèses sur les liens entre les intensités des deux images.
 Dans le cas le plus simple, on suppose que les intensités des pixels
 sont égales à un bruit additif gaussien près, donc :
