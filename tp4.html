@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 
 <html>
@@ -7,9 +6,26 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>04/11/2020 &#8212; Fundamental Tools for Image Processing</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
-    <link href="_static/css/index.css" rel="stylesheet">
-    <link rel="stylesheet" href="_static/sphinx-book-theme.css" type="text/css" />
+    
+  <link rel="stylesheet" href="_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="_static/sphinx-book-theme.2d2078699c18a0efb88233928e1cf6ed.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
@@ -17,7 +33,11 @@
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="_static/jbvinc.css" />
     <link rel="stylesheet" type="text/css" href="_static/.ipynb_checkpoints/jbvinc-checkpoint.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-dropdown.css" />
+    <link rel="stylesheet" type="text/css" href="_static/spanels-index--0afa1ebdab0bb23b98b56d34c23d9f57.css" />
+    <link rel="stylesheet" type="text/css" href="_static/spanels-variables--ffc7f74dcb1b9eecba2dbcbc22818714.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.3da636dd464baa7582d2.js">
+
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
@@ -26,8 +46,8 @@
     <script src="_static/togglebutton.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
-    <script src="_static/sphinx-book-theme.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.be0a4a0c39cd630af62a2fcf693f3f06.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
@@ -42,8 +62,8 @@
     <link rel="next" title="18/11/2020" href="tp5.html" />
     <link rel="prev" title="21/10/2020" href="tp3.html" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="docsearch:language" content="en">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
 
 
 
@@ -313,7 +333,8 @@
 
         <!-- Full screen (wrap in <a> to have style consistency -->
         <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-                data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i
+                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                title="Fullscreen mode"><i
                     class="fas fa-expand"></i></button></a>
 
         <!-- Launch buttons -->
@@ -338,12 +359,7 @@
 
     <!-- Table of contents -->
     <div class="d-none d-md-block col-md-2 bd-toc show">
-        <div class="tocsection onthispage pt-5 pb-3">
-            <i class="fas fa-list"></i> Contents
-        </div>
-        <nav id="bd-toc-nav">
-            
-        </nav>
+        
     </div>
 </div>
     <div id="main-content" class="row">
@@ -353,6 +369,43 @@
                 
   <div class="section" id="id1">
 <h1>04/11/2020<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>On souhaite segmenter les pièces de monnaie de l’image <a class="reference external" href="https://vincmazet.github.io/ftip/_static/data/coins1.png">coins1.png</a> en seuillant l’image.</p>
+<p>Dans un premier temps, le seuil est choisi visuellement à partir de l’histogramme de l’image.</p>
+<ul>
+<li><p>Affichez l’histogramme de l’image <a class="reference external" href="https://vincmazet.github.io/ftip/_static/data/coins1.png">coins1.png</a>, et déduisez-en un seuil pour segmenter l’image.
+L’image seuillée <code class="docutils literal notranslate"><span class="pre">image2</span></code> est obtenue à partir de l’image <code class="docutils literal notranslate"><span class="pre">image1</span></code> et le seuil <code class="docutils literal notranslate"><span class="pre">s</span></code> avec la syntaxe</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">image2</span> <span class="o">=</span> <span class="n">image1</span><span class="o">&gt;</span><span class="n">s</span>
+</pre></div>
+</div>
+</li>
+<li><p>Calculez le coefficient Dice de la segmentation obtenue
+en comparant cette dernière à la vérité terrain <a class="reference external" href="https://vincmazet.github.io/ftip/_static/data/coins-groundtruth.png">coins-groundtruth.png</a>.</p></li>
+</ul>
+<p>Dans un deuxième temps, le seuil est déterminé grâce à la méthode de Otsu.</p>
+<ul class="simple">
+<li><p>Utilisez <code class="docutils literal notranslate"><span class="pre">skimage.filters.threshold_otsu</span></code> pour déterminer une valeur de seuil,
+et affichez la segmentation résultante.</p></li>
+<li><p>Qu’observez-vous comme différences entre le résultat de cette segmentation
+avec le résultat de la segmentation manuelle ?
+Comment ces différences peuvent-elles s’expliquer ?</p></li>
+</ul>
+<p>Considérons maintenant l’image <a class="reference external" href="https://vincmazet.github.io/ftip/_static/data/coins2.png">coins2.png</a>.</p>
+<ul class="simple">
+<li><p>En quoi cette nouvelle image diffère de la précédente ?</p></li>
+<li><p>Segmentez l’image avec le seuil déterminé par la méthode de Otsu sur cette nouvelle image.
+Qu’observez-vous, et comment cela peut s’expliquer ?</p></li>
+</ul>
+<p>Enfin, un seuil adaptatif est appliqué à l’image <a class="reference external" href="https://vincmazet.github.io/ftip/_static/data/coins2.png">coins2.png</a>.
+Cela consiste à considérer des portions de l’image et à appliquer un seuillage de Otsu sur chacune d’elles.</p>
+<ul class="simple">
+<li><p>Appliquez un seuillage adaptatif pour segmenter l’image.</p></li>
+<li><p>Critiquez la méthode implémentée : identifiez les bons résultats de la méthode et ses limites.
+Proposez des améliorations.</p></li>
+</ul>
+<!-- Questions supplémentaires possibles :
+- utiliser la ligne de partage des eaux pour distinguer des pièces qui seraient collées
+- contour actifs --><p><em>Une fois que vous avez terminé ce TP, appelez un enseignant pour discuter de vos conclusions.
+Ensuite, revenez sur les TP précédents que vous n’avez pas terminés.</em></p>
 </div>
 
     <script type="text/x-thebe-config">
@@ -406,7 +459,10 @@
       </div>
     </div>
 
-    <script src="_static/js/index.js"></script>
+    
+  <script src="_static/js/index.3da636dd464baa7582d2.js"></script>
+
+
     
   </body>
 </html>

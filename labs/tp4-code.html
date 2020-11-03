@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 
 <html>
@@ -7,9 +6,26 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>04/11/2020 &#8212; Fundamental Tools for Image Processing</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
-    <link href="../_static/css/index.css" rel="stylesheet">
-    <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
+    
+  <link rel="stylesheet" href="../_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.2d2078699c18a0efb88233928e1cf6ed.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -17,7 +33,11 @@
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/jbvinc.css" />
     <link rel="stylesheet" type="text/css" href="../_static/.ipynb_checkpoints/jbvinc-checkpoint.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-dropdown.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/spanels-index--0afa1ebdab0bb23b98b56d34c23d9f57.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/spanels-variables--ffc7f74dcb1b9eecba2dbcbc22818714.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.3da636dd464baa7582d2.js">
+
     <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
@@ -26,8 +46,8 @@
     <script src="../_static/togglebutton.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
-    <script src="../_static/sphinx-book-theme.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.be0a4a0c39cd630af62a2fcf693f3f06.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
@@ -42,8 +62,8 @@
     <link rel="next" title="18/10/2020" href="tp5-code.html" />
     <link rel="prev" title="21/10/2020" href="tp3-code.html" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="docsearch:language" content="en">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
 
 
 
@@ -313,7 +333,8 @@
 
         <!-- Full screen (wrap in <a> to have style consistency -->
         <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-                data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i
+                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                title="Fullscreen mode"><i
                     class="fas fa-expand"></i></button></a>
 
         <!-- Launch buttons -->
@@ -338,12 +359,36 @@
 
     <!-- Table of contents -->
     <div class="d-none d-md-block col-md-2 bd-toc show">
+        
         <div class="tocsection onthispage pt-5 pb-3">
             <i class="fas fa-list"></i> Contents
         </div>
         <nav id="bd-toc-nav">
-            
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#seuil-manuel">
+   Seuil manuel
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#seuillage-de-otsu">
+   Seuillage de Otsu
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#methode-optimisant-le-coefficient-dice-connaissant-la-verite-terrain">
+   Méthode optimisant le coefficient Dice (connaissant la vérité terrain)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#seuil-adaptatif-pour-une-image-avec-un-eclairage-non-uniforme">
+   Seuil adaptatif pour une image avec un éclairage non uniforme
+  </a>
+ </li>
+</ul>
+
         </nav>
+        
     </div>
 </div>
     <div id="main-content" class="row">
@@ -353,6 +398,160 @@
                 
   <div class="section" id="id1">
 <h1>04/11/2020<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>Les objectifs de cet exercice sont :</p>
+<ul class="simple">
+<li><p>application et comparaison de plusieurs méthodes de segmentation</p></li>
+<li><p>évaluation des résultats à l’aide du coefficient Dice</p></li>
+</ul>
+<p>L’image à segmenter (dans un premier temps) est :</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp4-code_6_0.png" src="../_images/tp4-code_6_0.png" />
+</div>
+</div>
+<p>Dans le cas d’une analyse de performance, on peut comparer les résultats obtenus avec la vérité terrain. Dans notre cas, il s’agit de la segmentation optimale, représentée ci-dessous.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp4-code_8_0.png" src="../_images/tp4-code_8_0.png" />
+</div>
+</div>
+<div class="section" id="seuil-manuel">
+<h2>Seuil manuel<a class="headerlink" href="#seuil-manuel" title="Permalink to this headline">¶</a></h2>
+<p>L’histogramme de l’image à segmenter fait apparaître clairement deux modes. Il est donc aisé de définir un seuil pour cette image en le plaçant entre ces deux modes.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp4-code_11_0.png" src="../_images/tp4-code_11_0.png" />
+</div>
+</div>
+<p>Par exemple, pour un seuil égal à 90 :</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp4-code_13_0.png" src="../_images/tp4-code_13_0.png" />
+</div>
+</div>
+<p>Avec le seuil choisi, on obtient un coefficient Dice égal à 0,986, ce qui est bien, mais pas top.</p>
+</div>
+<div class="section" id="seuillage-de-otsu">
+<h2>Seuillage de Otsu<a class="headerlink" href="#seuillage-de-otsu" title="Permalink to this headline">¶</a></h2>
+<p>Le seuillage manuel a l’inconvénient d’être, justement, manuel. Au contraire, la méthode de Otsu permet de calculer <em>automatiquement</em> une valeur de seuil. Cependant, dans le cas de l’image considérée, la segmentation n’est pas aussi bonne qu’avec un seuil manuel.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp4-code_17_0.png" src="../_images/tp4-code_17_0.png" />
+</div>
+</div>
+<p>La méthode de Otsu trouve un seuil plus élevé que précédemment. En conséquence, il y a moins de pixels blancs dans la segmentation. La pièce légèrement plus foncée que les autres est donc moins bien segmentée.</p>
+</div>
+<div class="section" id="methode-optimisant-le-coefficient-dice-connaissant-la-verite-terrain">
+<h2>Méthode optimisant le coefficient Dice (connaissant la vérité terrain)<a class="headerlink" href="#methode-optimisant-le-coefficient-dice-connaissant-la-verite-terrain" title="Permalink to this headline">¶</a></h2>
+<p>La méthode la plus simple pour trouver le meilleur seuil au sens du coefficient Dice consiste à tester toutes les valeurs de seuil (de 0 à 255) en calculant le coefficient Dice correspondant à chacun de ces seuils. Bien entendu, cette méthode n’est pas utilisable dans un cas réel puisqu’elle nécessite de connaître la vérité terrain ! Elle a cependant l’avantage de vérifier que le seuil obtenu avec la méthode de Otsu est satisfaisant car proche de la solution optimale.</p>
+<p>La courbe ci-dessous représente l’évolution du coefficient Dice en fonction de la valeur du seuil. Le meilleur seuil correspond à la droite rouge.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp4-code_21_0.png" src="../_images/tp4-code_21_0.png" />
+</div>
+</div>
+<p>Le seuil qui maximise le Dice est égal à 105, ce qui donne le résultat ci-dessous.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp4-code_23_0.png" src="../_images/tp4-code_23_0.png" />
+</div>
+</div>
+<p>Le seuil obtenu avec la méthode de Otsu n’est donc pas le meilleur, mais donne une segmentation déjà proche de la segmentation optimale.</p>
+</div>
+<div class="section" id="seuil-adaptatif-pour-une-image-avec-un-eclairage-non-uniforme">
+<h2>Seuil adaptatif pour une image avec un éclairage non uniforme<a class="headerlink" href="#seuil-adaptatif-pour-une-image-avec-un-eclairage-non-uniforme" title="Permalink to this headline">¶</a></h2>
+<p>La seconde image à segmenter fait apparaître un éclairage qui varie en fonction des pixels.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp4-code_27_0.png" src="../_images/tp4-code_27_0.png" />
+</div>
+</div>
+<p>L’histogramme de cette nouvelle image est clairement plus difficile à seuiller, puisqu’on ne distingue pas deux modes qui pourraient être séparés.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp4-code_29_0.png" src="../_images/tp4-code_29_0.png" />
+</div>
+</div>
+<p>Dans ce cas, la méthode de Otsu ne donne pas un résultat acceptable, cela est confirmé par le coefficient Dice obtenu.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp4-code_31_0.png" src="../_images/tp4-code_31_0.png" />
+</div>
+</div>
+<p>Ce mauvais résultat s’explique par le fait que certaines pièces, très sombres, ont une luminosité inférieure au seuil. Si le seuil était plus faible, on pourrait espérer retrouver ces pièces, au risque de considérer alors une partie du fond comme faisant partie des objets…</p>
+<p>Pour résoudre ce problème, on effectue un seuillage adaptatif : c’est-à-dire que le seuil s’adaptera à la luminosité. Pour faire simple, on va décomposer l’image en images plus petites, sur lesquelles la luminosité peut être considérée homogène : la méthode de Otsu pourra alors être appliquée convenablement.</p>
+<p>Le résultat du seuillage adaptatif est présenté sur l’image de gauche, et les valeurs des seuils sont représentés sur l’image de droite.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Taille d&#39;une imagette</span>
+<span class="n">W</span><span class="p">,</span> <span class="n">H</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">41</span>
+
+<span class="c1"># Matrice pour enregistrer les seuils successifs</span>
+<span class="n">seuils</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+
+<span class="c1"># Seuillage sur chaque imagette</span>
+<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>
+        
+        <span class="c1"># Découpage de l&#39;imagette</span>
+        <span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">,</span> <span class="n">n1</span><span class="p">,</span> <span class="n">n2</span> <span class="o">=</span> <span class="n">r</span><span class="o">*</span><span class="n">H</span><span class="p">,</span> <span class="p">(</span><span class="n">r</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">H</span><span class="p">,</span> <span class="n">c</span><span class="o">*</span><span class="n">W</span><span class="p">,</span> <span class="p">(</span><span class="n">c</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">W</span>
+        <span class="n">imagette</span> <span class="o">=</span> <span class="n">img</span><span class="p">[</span><span class="n">m1</span><span class="p">:</span><span class="n">m2</span><span class="p">,</span> <span class="n">n1</span><span class="p">:</span><span class="n">n2</span><span class="p">]</span>
+        
+        <span class="c1"># Calcul du seuil</span>
+        <span class="n">seuil</span> <span class="o">=</span> <span class="n">threshold_otsu</span><span class="p">(</span><span class="n">imagette</span><span class="p">,</span> <span class="n">nbins</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span>
+        
+        <span class="c1"># Enregistrement du seuil</span>
+        <span class="n">seuils</span><span class="p">[</span><span class="n">r</span><span class="p">,</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">seuil</span>
+        
+        <span class="c1"># Segmentation</span>
+        <span class="n">bin_imagette</span> <span class="o">=</span> <span class="n">imagette</span><span class="o">&gt;</span><span class="n">seuil</span>
+        
+        <span class="c1"># Affectation du résultat à la portion de l&#39;image considérée</span>
+        <span class="n">binarized</span><span class="p">[</span><span class="n">m1</span><span class="p">:</span><span class="n">m2</span><span class="p">,</span> <span class="n">n1</span><span class="p">:</span><span class="n">n2</span><span class="p">]</span> <span class="o">=</span> <span class="n">bin_imagette</span>
+
+<span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+
+<span class="c1"># Affichage de l&#39;image segmentée</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">imshow</span><span class="p">(</span><span class="n">binarized</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+<span class="n">title</span><span class="p">(</span><span class="s1">&#39;Dice = </span><span class="si">{:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dice</span><span class="p">(</span><span class="n">binarized</span><span class="p">,</span> <span class="n">gt</span><span class="p">)))</span>
+
+<span class="c1"># Affichage des valeurs des seuils</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">imshow</span><span class="p">(</span><span class="n">seuils</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>
+        <span class="n">text</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">{:.0f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">seuils</span><span class="p">[</span><span class="n">r</span><span class="p">,</span><span class="n">c</span><span class="p">]),</span>
+            <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span> <span class="k">if</span> <span class="n">seuils</span><span class="p">[</span><span class="n">r</span><span class="p">,</span><span class="n">c</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">60</span> <span class="k">else</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+<span class="n">title</span><span class="p">(</span><span class="s1">&#39;Seuils&#39;</span><span class="p">)</span>
+<span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/tp4-code_33_0.png" src="../_images/tp4-code_33_0.png" />
+</div>
+</div>
+<p>On s’aperçoit que le seuil évolue bien spatialement, et qu’il est plus haut là où l’image est plus claire.
+Mais qu’est-ce que c’est ces drôles de trucs qui apparaissent dans l’image ?</p>
+<p>Notons également que le coefficient Dice n’est pas très bon.
+Cela est dû aux faux positifs qui apparaissent dans plusieurs imagettes ;
+plus précisément, les imagettes en question sont des imagettes ne contenant pas d’objet.
+Une façon de résoudre ce problème est d’effectuer la segmentation
+uniquement si la répartition des intensités des pixels est suffisament
+importante : on peut donc utiliser l’écart-type, l’écart entre les
+valeurs extrêmes, etc.
+Le résultat obtenu en utilisant l’écart sur les valeurs extrêmes est
+donné dans la figure ci-dessous : il est très satisfaisant cette fois-ci.</p>
+<p>Les crois rouges sur l’image des seuils indique que la segmentation n’a pas été faite.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp4-code_35_0.png" src="../_images/tp4-code_35_0.png" />
+</div>
+</div>
+<p>À ce stade, pour améliorer encore le coefficient Dice, il pourrait être utile d’appliquer des opérateurs de morphologie mathématique (tel qu’une fermeture) ou de remplir les trous (c’est-à-dire mettre en blanc les pixels noirs entourés de pixels blancs).</p>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
@@ -406,7 +605,10 @@
       </div>
     </div>
 
-    <script src="../_static/js/index.js"></script>
+    
+  <script src="../_static/js/index.3da636dd464baa7582d2.js"></script>
+
+
     
   </body>
 </html>
