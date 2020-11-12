@@ -59,8 +59,8 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="(Pattern &amp; Co)" href="xxx_pattern.html" />
-    <link rel="prev" title="Deconvolution" href="deconvolution.html" />
+    <link rel="next" title="Deconvolution" href="deconvolution.html" />
+    <link rel="prev" title="Segmentation" href="segmentation.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -154,14 +154,14 @@
    Segmentation
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="deconvolution.html">
-   Deconvolution
-  </a>
- </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
    Denoising
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="deconvolution.html">
+   Deconvolution
   </a>
  </li>
  <li class="toctree-l1">
@@ -360,6 +360,67 @@
     <!-- Table of contents -->
     <div class="d-none d-md-block col-md-2 bd-toc show">
         
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#sources-de-bruit">
+   Sources de bruit
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#bruit-blanc-gaussien-additif">
+     Bruit blanc gaussien additif
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#bruit-de-poisson">
+     Bruit de Poisson
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#bruit-impulsionnel">
+     Bruit impulsionnel
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#puissance-du-bruit">
+     Puissance du bruit
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#filtre-moyenneur">
+   Filtre moyenneur
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#filtre-median">
+   Filtre médian
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#filtrage-de-bruits-periodiques">
+   Filtrage de bruits périodiques
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#regularisation-tv">
+   Régularisation TV
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#conclusion">
+   Conclusion
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
     </div>
 </div>
     <div id="main-content" class="row">
@@ -369,7 +430,280 @@
                 
   <div class="section" id="denoising">
 <span id="c-denoising"></span><h1>Denoising<a class="headerlink" href="#denoising" title="Permalink to this headline">¶</a></h1>
-<p><a class="reference external" href="https://vincmazet.github.io/ftip/_static/slides/restauration-slides.pdf">Ancien cours</a></p>
+<p>Le débruitage (<em>denoising</em>) consiste à diminuer le plus possible le bruit dans une image.
+Dans la très grande majorité des cas, il n’est pas possible de supprimer complètement le bruit.</p>
+<p>Le débruitage fait partie de la famille des méthodes de restauration (<em>restoration</em>),
+au même titre que la déconvolution que l’on verra dans le <a class="reference internal" href="deconvolution.html#c-deconvolution"><span class="std std-ref">chapitre suivant</span></a>.
+La restauration consiste à supprimer (ou diminuer) les dégradations subies par l’image.
+Pour appliquer une méthode de restauration, il faut avant tout définir un modèle mathématique de la dégradation.
+Ensuite, seulement, on pourra « inverser » la dégradation ; on dit que la restauration est un « problème inverse ».
+Très souvent, la restauration nécessite la formulation d’un critère à minimiser,
+c’est-à-dire une fonction mathématique dont le minimum correspond à la meilleure restauration possible.</p>
+<!-- introduire le schéma : x -> dégradation -> y -> restauration -> \hat{x} -->
+<!-- donner des exemples réels, liés à des problèmes de restauration (denoising, deconvolution, dehazing, gestion des distortions -->
+<p>Dans ce chapitre, nous commençons par lister les modèles de bruit les plus courants,
+puis nous présentons quelques méthodes de débruitage.</p>
+<div class="section" id="sources-de-bruit">
+<h2>Sources de bruit<a class="headerlink" href="#sources-de-bruit" title="Permalink to this headline">¶</a></h2>
+<p>Les principales sources de bruit dans les images numériques interviennent
+durant l’acquisition (quantité de photons collectés trop faible, température du capteur…)
+ou durant l’éventuelle transmission (échos et distorsions atmosphériques en communication sans-fil).
+Dans certains cas, le bruit peut également représenter les imprécisions du modèle mathématique de formation de l’image,
+qui comme tout modèle physique est forcément imparfait par rapport à la réalité !</p>
+<p>Le bruit étant par nature un phénomène aléatoire, il est modélisé par une densité de probabilité qui représente la distribution d’intensité du bruit.</p>
+<p>Dans la suite, nous notons <span class="math notranslate nohighlight">\(y\)</span> l’image observée (et donc bruitée), <span class="math notranslate nohighlight">\(b\)</span> le bruit et <span class="math notranslate nohighlight">\(x\)</span> l’image non bruitée.</p>
+<div class="section" id="bruit-blanc-gaussien-additif">
+<h3>Bruit blanc gaussien additif<a class="headerlink" href="#bruit-blanc-gaussien-additif" title="Permalink to this headline">¶</a></h3>
+<p>Le bruit blanc gaussien additif (AWGN : <em>additive white Gaussian noise</em>) modélise chaque pixel <span class="math notranslate nohighlight">\((m,n)\)</span> de l’observation <span class="math notranslate nohighlight">\(y\)</span>
+par la somme du pixel <span class="math notranslate nohighlight">\((m,n)\)</span> de l’image non bruitée <span class="math notranslate nohighlight">\(x\)</span> et d’un pixel du bruit <span class="math notranslate nohighlight">\(b\)</span> :</p>
+<div class="math notranslate nohighlight">
+\[
+  \forall\, m,n \quad
+  y(m,n) = x(m,n) + b(m,n)
+\]</div>
+<p>où <span class="math notranslate nohighlight">\(b(m,n) \sim \mathcal{N}(0,\,\sigma^2)\)</span>.</p>
+<p>Ce modèle est simple et facilite les calculs.
+Il est utilisé dans la plupart des applications, dont la photographie.</p>
+</div>
+<div class="section" id="bruit-de-poisson">
+<h3>Bruit de Poisson<a class="headerlink" href="#bruit-de-poisson" title="Permalink to this headline">¶</a></h3>
+<!-- Jahne 3.4.1 -->
+<p>Dans le cas d’un bruit de Poisson (<em>Poisson noise</em> ou <em>shot noise</em>),
+le nombre de photons mesurés par un photosite est aléatoire et dépend de l’illumination.
+Il est modélisé par un processus de Poisson dont la moyenne est égale à l’illumination.
+L’intensité de chaque pixel <span class="math notranslate nohighlight">\((m,n)\)</span> de l’observation <span class="math notranslate nohighlight">\(y\)</span> est :</p>
+<div class="math notranslate nohighlight">
+\[
+  \forall\, m,n \qquad
+  y(m,n) \sim \mathcal{P}\big(x(m,n)\big)
+\]</div>
+<p>Ce modèle est utilisé dans le cas d’acquisitions à faible nombre de photons, par exemple en astronomie.</p>
+<p>Pour rappel, la loi de Poisson <span class="math notranslate nohighlight">\(\mathcal{P}\big(\lambda\big)\)</span> s’écrit</p>
+<div class="math notranslate nohighlight">
+\[
+  p(k)=\frac{\lambda^k}{k\,!} e^{-\lambda}
+\]</div>
+<p>La <a class="reference internal" href="#f-denoising-poisson-distribution"><span class="std std-numref">Fig. 70</span></a> représente la loi de Poisson pour trois valeurs du paramètre <span class="math notranslate nohighlight">\(\lambda\)</span>.</p>
+<div class="figure align-default" id="f-denoising-poisson-distribution">
+<a class="reference internal image-reference" href="_images/poisson-distribution.png"><img alt="_images/poisson-distribution.png" src="_images/poisson-distribution.png" style="height: 250px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 70 </span><span class="caption-text">Loi de Poisson pour trois valeurs de <span class="math notranslate nohighlight">\(\lambda\)</span>.</span><a class="headerlink" href="#f-denoising-poisson-distribution" title="Permalink to this image">¶</a></p>
+</div>
+<p>La moyenne et la variance de la loi de Poisson sont égales et valent <span class="math notranslate nohighlight">\(\lambda\)</span> : elles dépendent donc du nombre de photons incidents ;
+le bruit <span class="math notranslate nohighlight">\(b\)</span> dépend de l’image non bruitée <span class="math notranslate nohighlight">\(x\)</span>.
+Par ailleurs, lorsque <span class="math notranslate nohighlight">\(\lambda\)</span> augmente, la loi de Poisson tend vers la loi normale.
+Le bruit de Poisson peut donc être considéré comme un bruit blanc gaussien additif s’il y a suffisamment de photons collectés.</p>
+<!-- bruit de speckle (différent d'un bruit de poisson) -->
+</div>
+<div class="section" id="bruit-impulsionnel">
+<h3>Bruit impulsionnel<a class="headerlink" href="#bruit-impulsionnel" title="Permalink to this headline">¶</a></h3>
+<p>Le bruit impulsionnel, aussi appelé poétiquement poivre &amp; sel, (<em>salt-and-pepper noise</em>) permet de modéliser le cas où certains pixels sont saturés ou morts
+(dysfonctionnement des photosites, saturation, etc.).</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+  \forall\, m,n \quad
+  y(m,n) =
+  \begin{cases}
+    x_\mathrm{min}      &amp;\text{avec une probabilité}\,p_\mathrm{min}, \\
+    x_\mathrm{max}      &amp;\text{avec une probabilité}\,p_\mathrm{max}, \\
+    x(m,n)              &amp;\text{avec une probabilité}\,1\!-\!p_\mathrm{min}\!-\!p_\mathrm{max}.
+  \end{cases}
+\end{split}\]</div>
+<p>où <span class="math notranslate nohighlight">\(x_\mathrm{min}\)</span> et <span class="math notranslate nohighlight">\(x_\mathrm{max}\)</span> sont les valeurs minimales et maximales des intensités.</p>
+</div>
+<div class="section" id="puissance-du-bruit">
+<h3>Puissance du bruit<a class="headerlink" href="#puissance-du-bruit" title="Permalink to this headline">¶</a></h3>
+<p>La <a class="reference internal" href="#f-denoising-three-noises"><span class="std std-numref">Fig. 71</span></a> illustre l’effet des trois bruits précédents sur la même image.
+On remarque notamment que :</p>
+<ul class="simple">
+<li><p>dans le cas du bruit gaussien, toute l’image est affectée de la même façon par le bruit,</p></li>
+<li><p>dans le cas du bruit de Poisson, les parties les plus claires sont plus bruitées que les parties sombres,</p></li>
+<li><p>dans le cas du bruit impulsionnel, seuls quelques pixels sont modifiés et ils sont remplacés par des pixels noirs ou blanc.</p></li>
+</ul>
+<div class="figure align-default" id="f-denoising-three-noises">
+<div class="cell_output docutils container">
+<img alt="_images/denoising_4_2.png" src="_images/denoising_4_2.png" />
+</div>
+<p class="caption"><span class="caption-number">Fig. 71 </span><span class="caption-text">Exemple de bruits de puissance sensiblement identique dans les trois images.</span><a class="headerlink" href="#f-denoising-three-noises" title="Permalink to this image">¶</a></p>
+</div>
+<p>Le rapport signal-à-bruit (RSB ou SNR : <em>signal-to-noise ratio</em>) est une mesure du niveau de bruit.
+Il correspond au rapport entre la puissance de l’image non bruitée sur la puissance du bruit.
+On rappelle que la puissance d’une image <span class="math notranslate nohighlight">\(x\)</span> est définie par :</p>
+<div class="math notranslate nohighlight">
+\[
+  P_x = \frac{1}{M \times N} \sum_{m,n} x(m,n)^2
+\]</div>
+<p>Le RSB est le plus souvent exprimé en échelle logarithmique (aevc pour unité le décibel).
+Sa définition mathématique est donc :</p>
+<div class="math notranslate nohighlight">
+\[
+  \text{RSB} = 10 \log_{10} \left( \frac{\sum_{m,n} x(m,n)^2}{\sum_{m,n} b(m,n)^2} \right)
+\]</div>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p>À ma connaissance, il n’y a pas de termes français équivalent.</p>
+</div>
+<p>Le <em>peak signal-to-noise ratio</em> (PSNR) est le rapport entre la dynamique de l’image non bruitée (au carré) sur la puissance du bruit.
+La dynamique est la différence entre l’intensité maximale et l’intensité minimale.
+Cette définition s’applique dans le cas d’un bruit additif.
+Le PSNR est donc défini par :</p>
+<div class="math notranslate nohighlight">
+\[
+  \text{PSNR} = 10 \log_{10} \left( \frac{\Delta x^{\;2}}{\frac{1}{M \times N} \sum_{m,n} b(m,n)^2} \right)
+\]</div>
+<!-- TODO : pourquoi introduire le PSNR ? -->
+<p>La <a class="reference internal" href="#f-denoising-snr-psnr"><span class="std std-numref">Fig. 72</span></a> représente la même image bruitée avec un bruit blanc gaussien additif, à différents RSB et PSNR.
+On constate que lorsque le RSB ou le PSNR augmente, alors le bruit diminue !</p>
+<div class="figure align-default" id="f-denoising-snr-psnr">
+<div class="cell_output docutils container">
+<img alt="_images/denoising_5_0.png" src="_images/denoising_5_0.png" />
+</div>
+<p class="caption"><span class="caption-number">Fig. 72 </span><span class="caption-text">Image bruitée à différents RSB et PSNR.</span><a class="headerlink" href="#f-denoising-snr-psnr" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+</div>
+<div class="section" id="filtre-moyenneur">
+<h2>Filtre moyenneur<a class="headerlink" href="#filtre-moyenneur" title="Permalink to this headline">¶</a></h2>
+<p>Le filtre moyenneur (<em>mean filter</em>) est une méthode très simple.
+Chaque pixel <span class="math notranslate nohighlight">\((m,n)\)</span> de l’image débruitée <span class="math notranslate nohighlight">\(\widehat{x}\)</span> est la moyenne des pixels de l’image bruitée <span class="math notranslate nohighlight">\(y\)</span> autour de <span class="math notranslate nohighlight">\((m,n)\)</span> :</p>
+<div class="math notranslate nohighlight">
+\[
+\forall m,\,n \quad
+\widehat{x}(m,n) = \frac{1}{|V_{m,n}|} \sum_{(u,v)\in V_{m,n}} y(u,v)
+\]</div>
+<p>où</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(V_{m,n}\)</span> est le voisinage et définit quels sont les pixels autour de <span class="math notranslate nohighlight">\((m,n)\)</span> ;</p></li>
+<li><p><span class="math notranslate nohighlight">\(|V_{m,n}|\)</span> est le cardinal de <span class="math notranslate nohighlight">\(V_{m,n}\)</span>, c’est-à-dire le nombre de pixels dans le voisinage.</p></li>
+</ul>
+<p>La <a class="reference internal" href="#f-denoising-mean-size"><span class="std std-numref">Fig. 73</span></a> illustre l’effet du filtre moyenneur pour différentes tailles du voisinage :
+lorsque la taille du voisinage augmente, alors le bruit diminue, mais en contrepartie l’image devient plus floue.</p>
+<div class="figure align-default" id="f-denoising-mean-size">
+<a class="reference internal image-reference" href="_images/restauration2.png"><img alt="_images/restauration2.png" src="_images/restauration2.png" style="width: 600px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 73 </span><span class="caption-text">Effet de la taille du filtre moyenneur.</span><a class="headerlink" href="#f-denoising-mean-size" title="Permalink to this image">¶</a></p>
+</div>
+<div class="figure align-default" id="f-denoising-mean-size-zoom">
+<a class="reference internal image-reference" href="_images/restauration3.png"><img alt="_images/restauration3.png" src="_images/restauration3.png" style="width: 600px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 74 </span><span class="caption-text">Effet de la taille du filtre moyenneur (zoom).</span><a class="headerlink" href="#f-denoising-mean-size-zoom" title="Permalink to this image">¶</a></p>
+</div>
+<p>Le filtre moyenneur peut s’exprimer avec un produit de convolution.
+En effet, dans le cas où le voisinage est un carré de taille <span class="math notranslate nohighlight">\(N \times N\)</span> pixels :</p>
+<div class="math notranslate nohighlight">
+\[
+\widehat{x}(m,n)
+= \frac{1}{N^2} \sum_{(u,v)\in V_{m,n}} y(u,v)
+= \sum_{u,v} g(m-u,n-v) y(u,v)
+\]</div>
+<p>où</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+g(u,v) =
+\begin{cases}
+  1/N^2  &amp;\text{si}\, u\in\left\{-\frac{N}{2},\dots,\frac{N}{2}\right\} \,\text{et}\, v\in\left\{-\frac{N}{2},\dots,\frac{N}{2}\right\} \\
+  0              &amp;\text{sinon}
+\end{cases}
+\end{split}\]</div>
+<p>On peut étendre cette définition à tout type de noyau <span class="math notranslate nohighlight">\(g\)</span> !
+Par exemple, la <a class="reference internal" href="#f-denoising-mean-kernel"><span class="std std-numref">Fig. 75</span></a> donne le résultat pour deux noyaux particuliers.</p>
+<div class="figure align-default" id="f-denoising-mean-kernel">
+<a class="reference internal image-reference" href="_images/restauration4.png"><img alt="_images/restauration4.png" src="_images/restauration4.png" style="width: 600px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 75 </span><span class="caption-text">Effet de deux filtres moyenneur de noyaux différents.</span><a class="headerlink" href="#f-denoising-mean-kernel" title="Permalink to this image">¶</a></p>
+</div>
+<p>En résumé :</p>
+<ul class="simple">
+<li><p>le filtre moyenneur calcule la moyenne des pixels dans un voisinage</p></li>
+<li><p>le filtre moyenneur peut s’écrire comme une convolution</p></li>
+<li><p>le lissage des variations permet de réduire le bruit par effet de flou</p></li>
+</ul>
+</div>
+<div class="section" id="filtre-median">
+<h2>Filtre médian<a class="headerlink" href="#filtre-median" title="Permalink to this headline">¶</a></h2>
+<p>La médiane d’un ensemble de nombres est l’élément <span class="math notranslate nohighlight">\(m\)</span> de cet ensemble
+tel qu’il y a autant de nombres plus petit que <span class="math notranslate nohighlight">\(m\)</span> que de nombres plus grands que <span class="math notranslate nohighlight">\(m\)</span>.
+Par exemple, la médiane de <span class="math notranslate nohighlight">\(\{1,\,2,\,4,\,8,\,16\}\)</span> est <span class="math notranslate nohighlight">\(4\)</span>.</p>
+<p>Le filtre médian est défini par :</p>
+<div class="math notranslate nohighlight">
+\[
+\forall m,\,n \quad
+\widehat{x}(m,n) = \mathrm{médiane}\big(\{y(u,v) \mid (u,v)\in V_{m,n}\}\big)
+\]</div>
+<p>Le filtre médian est excellent pour débruiter une image dans le cas d’un bruit impulsionnel
+(car le résultat est moins flou qu’avec un filtre moyenneur).</p>
+<p>Malgré son nom, le filtre médian n’est pas un filtre car il ne respecte pas la propriété de linéarité :
+il ne peut donc pas s’écrire comme une convolution.</p>
+<div class="figure align-default" id="f-denoising-median">
+<a class="reference internal image-reference" href="_images/restauration5.png"><img alt="_images/restauration5.png" src="_images/restauration5.png" style="width: 600px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 76 </span><span class="caption-text">Comparaison entre un filtre moyenneur et un filtre médian, sur une image bruitée par un bruit impulsionnel.</span><a class="headerlink" href="#f-denoising-median" title="Permalink to this image">¶</a></p>
+</div>
+<div class="figure align-default" id="f-denoising-median-zoom">
+<a class="reference internal image-reference" href="_images/restauration6.png"><img alt="_images/restauration6.png" src="_images/restauration6.png" style="width: 600px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 77 </span><span class="caption-text">Comparaison entre un filtre moyenneur et un filtre médian, sur une image bruitée par un bruit impulsionnel (zoom).</span><a class="headerlink" href="#f-denoising-median-zoom" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+<div class="section" id="filtrage-de-bruits-periodiques">
+<h2>Filtrage de bruits périodiques<a class="headerlink" href="#filtrage-de-bruits-periodiques" title="Permalink to this headline">¶</a></h2>
+<p>Les bruits périodiques sont caractérisés par des structures dans la transformée de Fourier.
+En supprimant ces structures dans le domaine de Fourier, on obtient par transformée de Fourier inverse une image débruitée.</p>
+<div class="figure align-default" id="f-denoising-periodic-noise">
+<a class="reference internal image-reference" href="_images/restauration7.png"><img alt="_images/restauration7.png" src="_images/restauration7.png" style="width: 600px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 78 </span><span class="caption-text">Filtrage des structures du bruit sur une photographie de la Lune :
+des zones de la transformée de Fourier sont annulées (elles apparaissent en noir),
+éliminant ainsi des fréquences parasites.
+L’image est ainsi nettoyée des artefacts périodiques de l’image.</span><a class="headerlink" href="#f-denoising-periodic-noise" title="Permalink to this image">¶</a></p>
+</div>
+<!-- Estimer les paramètres du bruit
+- pouquoi faire ?
+- moyenne, variance, matrice de variance/covariance
+- travailler sur une zone noire ou une zone ou la moyenne est connue --></div>
+<div class="section" id="regularisation-tv">
+<h2>Régularisation TV<a class="headerlink" href="#regularisation-tv" title="Permalink to this headline">¶</a></h2>
+<p>De manière générale, l’objectif du débruitage est d’obtenir une image <span class="math notranslate nohighlight">\(\widehat{x}\)</span> proche de l’observation <span class="math notranslate nohighlight">\(y\)</span>
+et avec des variations d’intensité entre pixels qui restent faibles.
+La régularisation TV (<em>total variation</em>) [Rudin et coll. 1992, Chambolle 2004] est une méthode de débruitage qui décrit ces deux objectifs
+par des fonctions mathématiques (appelées « critères ») que l’on chercher à minimiser conjointement.</p>
+<p>Le souhait d’avoir une image débruitée <span class="math notranslate nohighlight">\(\widehat{x}\)</span> proche de l’observation <span class="math notranslate nohighlight">\(y\)</span> se traduit par
+un critère d’« adéquation aux données » (<em>data-fit</em>) qui mesure simplement la différence entre <span class="math notranslate nohighlight">\(x\)</span> et <span class="math notranslate nohighlight">\(y\)</span>.
+Un choix classique pour mesurer cette différence est le critère des moindres carrés :</p>
+<div class="math notranslate nohighlight">
+\[
+E(x,y) = \sum_{m,n} \left(y(m,n)-x(m,n)\right)^2
+\]</div>
+<p>Le souhait d’avoir une image avec peu de variations d’intensité se traduit par
+un critère de « régularisation » (<em>regularization</em>) qui mesure la différence entre les pixels voisins de <span class="math notranslate nohighlight">\(x\)</span>.
+Un choix simple est la « variation totale » (<em>total variation</em>) :</p>
+<div class="math notranslate nohighlight">
+\[
+R(x) = \sum_{m,n} \left|x(m+1,n)-x(m,n)\right| + \sum_{m,n} \left|x(m,n+1)-x(m,n)\right|
+\]</div>
+<p>L’objectif est donc de trouver l’image <span class="math notranslate nohighlight">\(x\)</span> qui minimise à la fois l’adéquation aux données et la régularisation.
+Mathématiquement, on cherche donc l’image <span class="math notranslate nohighlight">\(x\)</span> qui minimise <span class="math notranslate nohighlight">\(E(x,y) + \lambda R(x)\)</span>,
+où <span class="math notranslate nohighlight">\(\lambda\)</span> est le « paramètre de régularisation » qui permet de régler le compromis entre les deux critères.
+C’est à l’utilisateur de choisir la valeur de <span class="math notranslate nohighlight">\(\lambda\)</span>
+Mathématiquement, on écrit :</p>
+<div class="math notranslate nohighlight">
+\[
+\widehat{x} = \arg\min_x E(x,y) + \lambda R(x)
+\]</div>
+<p>C’est un problème d’optimisation, et il existe un grand nombre d’algorithmes pour minimiser <span class="math notranslate nohighlight">\(E(x,y) + \lambda R(x)\)</span>
+(le choix et le fonctionnement de ces algorithmes dépassent le cadre du cours).</p>
+<div class="figure align-default" id="f-denoising-tv">
+<a class="reference internal image-reference" href="_images/restauration8.png"><img alt="_images/restauration8.png" src="_images/restauration8.png" style="width: 600px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 79 </span><span class="caption-text">Résultat de débruitage avec la régularisation TV, pour deux valeurs de <span class="math notranslate nohighlight">\(\lambda\)</span>.</span><a class="headerlink" href="#f-denoising-tv" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+<div class="section" id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline">¶</a></h2>
+<p>Nous avons vu qu’il existe différents types de bruits,
+le modèle le plus courant (car le plus simple) étant le bruit blanc gaussien additif.</p>
+<p>Trois méthodes simples de débruitage ont été présentées, elles sont adaptées au modèle de bruit :</p>
+<ul class="simple">
+<li><p>le filtre moyenneur dans le cas d’un bruit blanc gaussien additif,</p></li>
+<li><p>le filtre médian dans le cas d’un bruit impulsionnel,</p></li>
+<li><p>le filtrage de certaines zones du spectre dans le cas d’un bruit périodique.</p></li>
+</ul>
+<p>Mais il existe beaucoup d’autres méthodes, plus performantes bien que plus complexes.
+Nous avons évoqué la méthode par régularisation TV (il existe d’autres choix de régularisation).
+Citons également les approches par ondelettes, les approches statistiques, les moyennes non locales [Buades et coll. 2005]
+ou les méthodes par réseaux de neurones (ou d’apprentissage profond : <em>deep learning</em>).</p>
 <!-- 
 % \subsubsection*{Démonstration~: débruitage par moyenne d'images}
 %
@@ -413,6 +747,7 @@
 % permet de diminuer la variance, donc la puissance, du bruit d'un facteur~$I$.
  -->
 <!--  débruiter = désherber --></div>
+</div>
 
     <script type="text/x-thebe-config">
     {
@@ -442,8 +777,8 @@
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="deconvolution.html" title="previous page">Deconvolution</a>
-    <a class='right-next' id="next-link" href="xxx_pattern.html" title="next page">(Pattern &amp; Co)</a>
+    <a class='left-prev' id="prev-link" href="segmentation.html" title="previous page">Segmentation</a>
+    <a class='right-next' id="next-link" href="deconvolution.html" title="next page">Deconvolution</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
