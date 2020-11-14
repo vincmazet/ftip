@@ -360,6 +360,69 @@
     <!-- Table of contents -->
     <div class="d-none d-md-block col-md-2 bd-toc show">
         
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#debruitage">
+   Débruitage
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#image-originale-et-image-bruitee">
+     Image originale et image bruitée
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#filtre-moyenneur">
+     Filtre moyenneur
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#debruitage-tv">
+     Débruitage TV
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#comparaison-des-deux-methodes-de-debruitage-pour-differents-rsb">
+     Comparaison des deux méthodes de débruitage pour différents RSB
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#deconvolution">
+   Déconvolution
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#images-originale-et-floutee">
+     Images originale et floutée
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#filtre-inverse-sur-l-image-sans-bruit">
+     Filtre inverse sur l’image sans bruit
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#filtre-inverse-avec-bruit">
+     Filtre inverse avec bruit
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#filtre-de-wiener-avec-bruit">
+     Filtre de Wiener avec bruit
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+        </nav>
+        
     </div>
 </div>
     <div id="main-content" class="row">
@@ -369,6 +432,274 @@
                 
   <div class="section" id="id1">
 <h1>18/10/2020<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="debruitage">
+<h2>Débruitage<a class="headerlink" href="#debruitage" title="Permalink to this headline">¶</a></h2>
+<p>Les objectifs de cet exercice sont :</p>
+<ul class="simple">
+<li><p>appliquer un bruit blanc gaussien au bon RSB sur une image</p></li>
+<li><p>implémenter et régler un filtre moyenneur</p></li>
+<li><p>implémenter un débruitage par régularisation TV et régler le paramètre de régularisation</p></li>
+</ul>
+<p>Deux méthodes de débruitage sont étudiées dans cette correction : le filtre moyenneur et la régularisation TV.</p>
+<div class="cell tag_remove-input docutils container">
+</div>
+<p>Comme il y aura souvent besoin de calculer une EQM, je crée une fonction pour cela :</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Erreur quadratique moyenne (MSE = mean square error)</span>
+<span class="k">def</span> <span class="nf">mse</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">):</span>
+    <span class="n">M</span><span class="p">,</span> <span class="n">N</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">shape</span>
+    <span class="k">return</span> <span class="n">norm</span><span class="p">(</span><span class="n">a</span><span class="o">-</span><span class="n">b</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="n">M</span><span class="o">*</span><span class="n">N</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+</div>
+<div class="section" id="image-originale-et-image-bruitee">
+<h3>Image originale et image bruitée<a class="headerlink" href="#image-originale-et-image-bruitee" title="Permalink to this headline">¶</a></h3>
+<p>L’image originale, en niveau de gris :</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp5-code_9_0.png" src="../_images/tp5-code_9_0.png" />
+</div>
+</div>
+<p>Le rapport signal-à-bruit RSB est défini comme la puissance de l’image <span class="math notranslate nohighlight">\(x\)</span> divisée par la puissance du bruit <span class="math notranslate nohighlight">\(b\)</span>. On choisit généralement une échelle logarithmique :</p>
+<div class="math notranslate nohighlight">
+\[
+\mathrm{RSB} = 10 \log_{10} \left(\frac{P_x}{P_b}\right)
+\quad\Leftrightarrow\quad
+10^\frac{\mathrm{RSB}}{10} = \frac{P_x}{P_b}
+\]</div>
+<p>avec :</p>
+<div class="math notranslate nohighlight">
+\[
+Px = \frac{1}{MN} \sum_{m,n} x(m,n)^2
+\quad\text{et}\quad
+Pb = \frac{1}{MN} \sum_{m,n} b(m,n)^2 = \sigma^2
+\]</div>
+<p>Ainsi, d’après la première équation :</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+                     &amp;P_b = \frac{P_x}{10^\frac{\mathrm{RSB}}{10}} \\
+\Leftrightarrow\quad &amp;\sigma^2 = P_x \times 10^{-\frac{\mathrm{RSB}}{10}} \\
+\Leftrightarrow\quad &amp;\sigma^2 = \frac{1}{MN} \sum_{m,n} x(m,n)^2 10^{-\frac{\mathrm{RSB}}{10}} \\
+\end{split}\]</div>
+<p>Remarquez que <span class="math notranslate nohighlight">\(\sqrt{\sum_{m,n}x(m,n)^2}\)</span> correspond à la norme de Frobenius de <span class="math notranslate nohighlight">\(x\)</span>, qui peut être calculée avec <code class="docutils literal notranslate"><span class="pre">numpy.linalg.norm</span></code>.</p>
+<p>Les figures ci-dessous représentent l’image à différents niveaux de bruit.</p>
+<p><strong>Attention :</strong> spécifiez <code class="docutils literal notranslate"><span class="pre">clip=False</span></code> dans l’utilisation de <code class="docutils literal notranslate"><span class="pre">skimage.util.random_noise</span></code>, afin d’ajouter un bruit réellement gaussien !</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp5-code_13_0.png" src="../_images/tp5-code_13_0.png" />
+</div>
+</div>
+<p>On remarque bien que plus le RSB est grand, moins le bruit est visible. Cela est logique puisque, dans la définition du RSB, la puissance du bruit apparaît au dénominateur. Par ailleurs, à partir de 30 dB, le bruit devient quasiment invisible, alors qu’en dessous de 0 dB, il est très fort et l’image n’est quasiment plus visible.</p>
+</div>
+<div class="section" id="filtre-moyenneur">
+<h3>Filtre moyenneur<a class="headerlink" href="#filtre-moyenneur" title="Permalink to this headline">¶</a></h3>
+<p>Je choisis de débruiter l’image avec un RSB égal à 10 dB, et j’applique un filtre moyenneur.</p>
+<div class="cell tag_remove-input docutils container">
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp5-code_18_0.png" src="../_images/tp5-code_18_0.png" />
+</div>
+</div>
+<p>On observe que le moyennage a permis de diminuer le bruit, ce qui était attendu (avez-vous essayé pour un filtre de taille 1 ? Que se passe-t-il ?). Par contre, l’image est plus floue : les contours sont moins nets. Cette seconde observation s’explique puisque le filtre moyenneur correspond à une convolution par un noyau qui n’est pas impulsionnel : il y a donc un étalement des intensités des pixels les uns sur les autres.</p>
+<p>Une mesure quantitative permettant de mesurer la qualité du débruitage est de calculer l’EQM entre l’image débruitée <span class="math notranslate nohighlight">\(\hat{x}\)</span> et <span class="math notranslate nohighlight">\(x\)</span>. Ainsi, le débruitage permettra d’améliorer l’EQM, mais dans le même temps le flou introduit va dégrader l’EQM. En conséquence, on peut s’attendre à ce que l’EQM évolue en fonction de la taille <code class="docutils literal notranslate"><span class="pre">w</span></code> du filtre. Pour vérifier cette hypothèse, on peut tracer les valeurs que prend l’EQM pour différentes valeurs de <code class="docutils literal notranslate"><span class="pre">w</span></code> :</p>
+<div class="cell tag_remove-input tag_hide docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>La meilleure restauration est obtenue pour w = 5 et correspond à une EQM = 2.180881e-03
+</pre></div>
+</div>
+<img alt="../_images/tp5-code_20_1.png" src="../_images/tp5-code_20_1.png" />
+</div>
+</div>
+<p>Comme nous pouvions nous y attendre, l’EQM évolue bien en fonction de la taille du filtre moyenneur. Il faut donc faire un compromis entre la capacité de débruitage et le flou introduit par le filtre. On observe quand même que la courbe présente un minimum : cela correspond à l’EQM la plus faible qui est obtenue, ici pour <code class="docutils literal notranslate"><span class="pre">w</span></code>=5.</p>
+<p>Malheureusement, il n’y a pas de moyen simple de connaître a priori la meilleur taille du filtre moyenneur à partir du RSB. La valeur obtenue ici dépend également de l’image (essayez avec une autre image !).</p>
+</div>
+<div class="section" id="debruitage-tv">
+<h3>Débruitage TV<a class="headerlink" href="#debruitage-tv" title="Permalink to this headline">¶</a></h3>
+<p>Sur l’image bruitée à RSB = 10 dB, on effectue maintenant un débruitage par régularisation TV (<em>total variation</em>).</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp5-code_24_0.png" src="../_images/tp5-code_24_0.png" />
+</div>
+</div>
+<p>Comme avec le filtre moyenneur, on observe que l’image est bien débruitée (le bruit est plus faible, donc l’EQM sera meilleure), mais que certains détails de l’image, comme les yeux, sont modifiés, ce qui aura pour conséquence de dégrader l’EQM. On peut donc s’attendre, comme précédemment, à ce qu’il existe une valeur optimale du paramètre de régularisation <span class="math notranslate nohighlight">\(\lambda\)</span>. Reste à savoir si cette technique de débruitage pourra dépasser les performances du filtre moyenneur…</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>La meilleure restauration est obtenue pour lambda = 0.16 et correspond à une EQM = 1.573617e-03
+</pre></div>
+</div>
+<img alt="../_images/tp5-code_26_1.png" src="../_images/tp5-code_26_1.png" />
+</div>
+</div>
+<p>La courbe a le même type de comportement que dans le cas du filtre moyenneur : il existe une valeur optimale du paramètre de la méthode pour laquelle l’EQM est meilleure. Ici, on a <span class="math notranslate nohighlight">\(\lambda=0,16\)</span>.</p>
+<p>À y regarder de plus près, on remarque que la meilleure EQM a une valeur plus faible que la meilleur EQM obtenue dans le cas du filtre moyenneur. Conclusion : le débruitage par régularisation TV est plus performant que le filtre moyenneur !
+Mais attention : cette conclusion est partielle, car obtenue seulement pour l’image lena.tiff avec un RSB de 10 dB.</p>
+</div>
+<div class="section" id="comparaison-des-deux-methodes-de-debruitage-pour-differents-rsb">
+<h3>Comparaison des deux méthodes de débruitage pour différents RSB<a class="headerlink" href="#comparaison-des-deux-methodes-de-debruitage-pour-differents-rsb" title="Permalink to this headline">¶</a></h3>
+<p>En calculant, pour plusieurs valeurs de RSB, les meilleurs paramètres pour les deux méthodes, on peut analyser l’évolution de l’EQM en fonction du niveau de bruit de l’image.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rsbs</span> <span class="o">=</span> <span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Filtre moyenneur</span>
+<span class="n">ws</span> <span class="o">=</span> <span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">40</span><span class="p">)</span>
+<span class="n">mean_eqm</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">rsbs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">mean_w</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">rsbs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="c1"># Régularisation TV</span>
+<span class="n">lbds</span> <span class="o">=</span> <span class="n">arange</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
+<span class="n">tv_eqm</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">rsbs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">tv_lbd</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">rsbs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">rsb</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">rsbs</span><span class="p">):</span>
+    
+    <span class="c1"># Génération de l&#39;image bruitée</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">stddev</span><span class="p">(</span><span class="n">rsb</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">random_noise</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;gaussian&#39;</span><span class="p">,</span> <span class="n">clip</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="n">sigma</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1"># Filtre moyenneur</span>
+    <span class="n">besteqm</span> <span class="o">=</span> <span class="n">inf</span>
+    <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">ws</span><span class="p">:</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">ones</span><span class="p">((</span><span class="n">w</span><span class="p">,</span><span class="n">w</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">w</span><span class="o">*</span><span class="n">w</span><span class="p">)</span>
+        <span class="n">xest</span> <span class="o">=</span> <span class="n">convolve</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
+        <span class="n">eqm</span> <span class="o">=</span> <span class="n">mse</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xest</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">eqm</span> <span class="o">&lt;</span> <span class="n">besteqm</span><span class="p">:</span>
+            <span class="n">besteqm</span> <span class="o">=</span> <span class="n">eqm</span>
+            <span class="n">bestw</span> <span class="o">=</span> <span class="n">w</span>
+    <span class="n">mean_eqm</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">besteqm</span>
+    <span class="n">mean_w</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">bestw</span>
+    
+    <span class="c1"># Débruitage TV</span>
+    <span class="n">besteqm</span> <span class="o">=</span> <span class="n">inf</span>
+    <span class="k">for</span> <span class="n">lbd</span> <span class="ow">in</span> <span class="n">lbds</span><span class="p">:</span>
+        <span class="n">xest</span> <span class="o">=</span> <span class="n">denoise_tv_chambolle</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="n">lbd</span><span class="p">)</span>
+        <span class="n">eqm</span> <span class="o">=</span> <span class="n">mse</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xest</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">eqm</span> <span class="o">&lt;</span> <span class="n">besteqm</span><span class="p">:</span>
+            <span class="n">besteqm</span> <span class="o">=</span> <span class="n">eqm</span>
+            <span class="n">bestlbd</span> <span class="o">=</span> <span class="n">lbd</span>
+    <span class="n">tv_eqm</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">besteqm</span>
+    <span class="n">tv_lbd</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">bestlbd</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>On peut alors représenter l’évolution de l’EQM pour les deux méthodes :</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp5-code_32_0.png" src="../_images/tp5-code_32_0.png" />
+</div>
+</div>
+<p>On observe une décroissance de l’EQM en fonction du RSB. Cela s’interprète par le fait lorsque le bruit diminue, l’image débruitée ressemble de plus en plus à la vérité terrain, ce qui est tout à fait logique.</p>
+<p>Par ailleurs, on observe que :</p>
+<ul class="simple">
+<li><p>pour des RSB inférieurs à (environ) 0 dB, le filtre moyenneur est meilleur que la régularisation TV. Cela peut paraître surprenant puisque la régularisation TV est censée être meilleure, c’est d’ailleurs ce qu’on a pu vérifier ci-avant. Cependant, un RSB inférieur à 0 dB est extrêmement faible. En fait, aucune des deux méthodes ne donne un résultat réellement satisfaisant (voir ci-après)</p></li>
+<li><p>pour des images à RSB supérieurs à 0 dB, la régularisation TV est meilleure.</p></li>
+</ul>
+<p>Observons maintenant l’évolution des valeurs des meilleurs paramètres des deux méthodes, en fonction du RSB :</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp5-code_35_0.png" src="../_images/tp5-code_35_0.png" />
+</div>
+</div>
+<p>Pour les deux méthodes, la valeur du paramètre décroît lorsque le RSB augmente.</p>
+<ul class="simple">
+<li><p>pour le filtre moyenneur (en bleu), la fenêtre utilisée est donc de plus en plus petite lorsque le bruit diminue. C’est logique : le bruit diminuant, il n’est pas nécessaire de moyenner sur un grand voisinage, ce qui permet de trop flouter l’image.</p></li>
+<li><p>pour la régularisation TV (rouge), le paramètre de régularisation est plus faible lorsque le bruit diminue. C’est également logique : en diminuant, le paramètre de régularisation donne moins de poids à la régularisation qui est là surtout pour compenser le bruit. S’il y a moins de bruit, il y a moins besoin de régulariser !</p></li>
+</ul>
+<p>On peut vérifier que ces conclusions sont en accord avec ce qu’on peut observer sur quelques exemples :</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp5-code_37_0.png" src="../_images/tp5-code_37_0.png" />
+<img alt="../_images/tp5-code_37_1.png" src="../_images/tp5-code_37_1.png" />
+<img alt="../_images/tp5-code_37_2.png" src="../_images/tp5-code_37_2.png" />
+</div>
+</div>
+<p>OK, on retrouve les mêmes conclusions que précédemment.</p>
+<p>La comparaison entre ces deux méthodes n’a été effectuée que sur une seule image et un seul critère (la qualité du résultat en termes d’EQM). C’est sans doute le meilleur critère pour comparer deux méthodes, mais d’autres points de comparaison existent, comme par exemple la complexité de la méthode, le temps de calcul, etc.</p>
+</div>
+</div>
+<div class="section" id="deconvolution">
+<h2>Déconvolution<a class="headerlink" href="#deconvolution" title="Permalink to this headline">¶</a></h2>
+<p>Les objectifs de cet exercice sont :</p>
+<ul class="simple">
+<li><p>savoir appliquer une dégradation connue sur une image</p></li>
+<li><p>comprendre pourquoi la déconvolution naïve ne fonctionne pas</p></li>
+<li><p>implémenter un filtre de Wiener</p></li>
+</ul>
+<div class="cell tag_remove-input docutils container">
+</div>
+<div class="cell tag_remove-input docutils container">
+</div>
+<div class="cell tag_remove-input docutils container">
+</div>
+<div class="section" id="images-originale-et-floutee">
+<h3>Images originale et floutée<a class="headerlink" href="#images-originale-et-floutee" title="Permalink to this headline">¶</a></h3>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp5-code_46_0.png" src="../_images/tp5-code_46_0.png" />
+</div>
+</div>
+<p>La mire « USAF 1951 » est un outil pour mesurer la résolution d’instruments optiques. Elle a été conçu par l’U.S. Air Force. Son intérêt en traitement d’images est de mesurer la capacité de résolution des méthodes. Ici, elle est intéressante car une fois floutée, il est difficile de comptabiliser les lignes et de lire les chiffres.</p>
+</div>
+<div class="section" id="filtre-inverse-sur-l-image-sans-bruit">
+<h3>Filtre inverse sur l’image sans bruit<a class="headerlink" href="#filtre-inverse-sur-l-image-sans-bruit" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Notez qu&#39;il n&#39;est pas nécessaire ici d&#39;utiliser fftshift.</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">fft2</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">fft2</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>     <span class="c1"># Attention, pour pouvoir diviser les deux FFT, elles doivent être de la même taille !</span>
+<span class="n">Xest</span> <span class="o">=</span> <span class="n">Y</span><span class="o">/</span><span class="n">H</span>
+<span class="n">xest</span> <span class="o">=</span> <span class="n">real</span><span class="p">(</span><span class="n">ifft2</span><span class="p">(</span><span class="n">Xest</span><span class="p">))</span> <span class="c1"># Attention, bien prendre la partie réelle !</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp5-code_50_0.png" src="../_images/tp5-code_50_0.png" />
+</div>
+</div>
+<p>En l’absence de bruit, le filtre inverse fonctionne parfaitement (à l’exception d’un décalage).</p>
+</div>
+<div class="section" id="filtre-inverse-avec-bruit">
+<h3>Filtre inverse avec bruit<a class="headerlink" href="#filtre-inverse-avec-bruit" title="Permalink to this headline">¶</a></h3>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp5-code_53_0.png" src="../_images/tp5-code_53_0.png" />
+</div>
+</div>
+<p>En revanche, lorsque l’image est bruitée (même faiblement : ici le RSB est de 40 dB), la restauration n’est pas du tout acceptable !</p>
+</div>
+<div class="section" id="filtre-de-wiener-avec-bruit">
+<h3>Filtre de Wiener avec bruit<a class="headerlink" href="#filtre-de-wiener-avec-bruit" title="Permalink to this headline">¶</a></h3>
+<p>Attention, il existe une autre fonction <code class="docutils literal notranslate"><span class="pre">wiener</span></code> (<code class="docutils literal notranslate"><span class="pre">skimage.filters.wiener</span></code>), mais elle est plus délicate à utiliser. Utilisez plutôt <code class="docutils literal notranslate"><span class="pre">skimage.restoration.wiener</span></code>, en n’oubliant pas l’argument <code class="docutils literal notranslate"><span class="pre">clip=False</span></code>.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp5-code_57_0.png" src="../_images/tp5-code_57_0.png" />
+<img alt="../_images/tp5-code_57_1.png" src="../_images/tp5-code_57_1.png" />
+</div>
+</div>
+<p>Ces premiers résultats, pour trois valeurs du paramètre <span class="math notranslate nohighlight">\(\lambda\)</span>, permettent de montrer qu’en termes d’EQM, il y a un compromis à faire entre la puissance du débruitage et la conservation de l’image originale. Si <span class="math notranslate nohighlight">\(\lambda\)</span> est trop faible, l’image restaurée est bien déconvoluée mais reste très bruitée ; si <span class="math notranslate nohighlight">\(\lambda\)</span> est trop grand alors l’image reste floue.</p>
+<p>Pour une meilleure analyse, nous alons représenter l’évolution de l’EQM en fonction de <span class="math notranslate nohighlight">\(\lambda\)</span> (comme dans l’exercice 1).</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/tp5-code_59_0.png" src="../_images/tp5-code_59_0.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>La meilleure restauration est obtenue pour lambda = 90 et correspond à une EQM = 1031.34.
+</pre></div>
+</div>
+<img alt="../_images/tp5-code_59_2.png" src="../_images/tp5-code_59_2.png" />
+</div>
+</div>
+<p>Personnellement, je trouve que cette valeur de <span class="math notranslate nohighlight">\(\lambda\)</span> fournit une image moins claire que pour des valeurs de <span class="math notranslate nohighlight">\(\lambda\)</span> plus faibles (comme celles présentées plus haut). Cela montre que l’EQM ne représente pas parfaitement la qualité perçue. Mais contrairement à la qualité perçue qui peut être subjective ou dépendre de l’objectif souhaité, l’EQM est une mesure objective et quantitative.</p>
+<p>Cela dit, la déconvolution a tout de même joué son rôle : les lignes et les chiffres sont lisibles, contrairement à l’image observée.</p>
+<p>Enfin, et comme pour les méthodes de débruitage de l’exercice 1, il est très difficile de fixer a priori la valeur du paramètre <span class="math notranslate nohighlight">\(\lambda\)</span>.</p>
+</div>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
