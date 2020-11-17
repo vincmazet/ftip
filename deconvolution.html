@@ -235,7 +235,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="labs/tp5-code.html">
-   18/10/2020
+   18/11/2020
   </a>
  </li>
  <li class="toctree-l1">
@@ -495,9 +495,9 @@ bien que le résultat soit encore loin d’être parfait
 <p>Le filtre de Wiener, noté <span class="math notranslate nohighlight">\(g\)</span> (et sa transformée de Fourier <span class="math notranslate nohighlight">\(G\)</span>), s’applique sur l’observation <span class="math notranslate nohighlight">\(y\)</span> :</p>
 <div class="math notranslate nohighlight">
 \[
-y = g * y
+\widehat{x} = g * y
 \qquad\Leftrightarrow\qquad
-Y = GY.
+\widehat{X} = GY.
 \]</div>
 <p>Ce filtre est établi dans le cadre statistique : l’image <span class="math notranslate nohighlight">\(x\)</span> et le bruit <span class="math notranslate nohighlight">\(b\)</span> sont considérés comme étant des variables aléatoires.
 Elles sont également supposées statistiquement indépendantes.
@@ -577,7 +577,7 @@ puisque le filtre inverse tend vers 0.</p></li>
 </li>
 </ul>
 <p>Le résultat du filtre de Wiener est présenté <a class="reference internal" href="#f-deconvolution-wiener"><span class="std std-numref">Fig. 84</span></a> :
-le résultat est clairement bien meilleur que le filtre de Wiener, même tronqué !</p>
+le résultat est clairement bien meilleur que le filtre inverse, même tronqué !</p>
 <div class="figure align-default" id="f-deconvolution-wiener">
 <a class="reference internal image-reference" href="_images/restauration14.png"><img alt="_images/restauration14.png" src="_images/restauration14.png" style="width: 600px;" /></a>
 <p class="caption"><span class="caption-number">Fig. 84 </span><span class="caption-text">Résultat du filtre de Wiener, pour <span class="math notranslate nohighlight">\(K=10^{-5}\)</span>,
