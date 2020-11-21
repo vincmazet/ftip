@@ -458,256 +458,106 @@ Il existe toutefois d’autres méthodes, parmi lesquelles :</p>
 </ul>
 <div class="section" id="detecteur-de-moravec">
 <h2>Détecteur de Moravec<a class="headerlink" href="#detecteur-de-moravec" title="Permalink to this headline">¶</a></h2>
-<p>À venir…</p>
-<!-- 
-
-Le principe de ce détecteur est d'observer les changements d'un patch (une sous-image)
-que l'on décale d'un pixel dans toutes les directions, autour d'un pixel d'intérêt.
-Si les changements sont importants, alors le patch est centré sur un coin.
-
-```{figure} figs/feature-moravec.png
----
-width: 80%
-name: F:feature:corners:moravec
----
-Principe du détecteur de Moravec.
+<p>Le principe de ce détecteur est d’observer les changements d’un patch (une sous-image)
+que l’on décale d’un pixel dans toutes les directions, autour d’un pixel d’intérêt.
+Il y a quatre directions : horizontalement, verticalement, et selon les deus diagonales.
+Si les changements sont importants, alors le patch est centré sur un coin.</p>
+<div class="figure align-default" id="f-feature-corners-moravec">
+<a class="reference internal image-reference" href="../_images/feature-moravec.png"><img alt="../_images/feature-moravec.png" src="../_images/feature-moravec.png" style="width: 80%;" /></a>
+<p class="caption"><span class="caption-number">Fig. 99 </span><span class="caption-text">Principe du détecteur de Moravec.
 De gauche à droite :
 sur une zone plate, de petits décalages du patch (en rouge) ne provoquent pas de changement ;
-sur un contour, on n'observe des changements que dans une seule direction ;
-autour d'un coin, il y a des changements significatifs dans toutes les directions.
-```
-
-Mathématiquement, le changement est caractérisé par une variable $E$ telle que :
-
-$$
+sur un contour, on n’observe des changements que dans une seule direction ;
+autour d’un coin, il y a des changements significatifs dans toutes les directions.</span><a class="headerlink" href="#f-feature-corners-moravec" title="Permalink to this image">¶</a></p>
+</div>
+<p>Mathématiquement, le changement est caractérisé en chaque pixel <span class="math notranslate nohighlight">\((m,n)\)</span> de l’image par
+<span class="math notranslate nohighlight">\(E_{m,n}(x,y)\)</span> qui représente la différence entre les patchs pour un décalage <span class="math notranslate nohighlight">\((x,y)\)</span> :</p>
+<div class="math notranslate nohighlight">
+\[
   \forall m,n,x,y \qquad E_{m,n}(x,y) = \sum_{u,v} w_{m,n}(u,v) \big[f(u+x,v+y)-f(u,v)\big]^2
-$$
-
-où~:
-
-* $x$ et $y$ représentent les quatre décalages possibles , donc :
-  $$
-  (x,y) \in \{(1,0),\,(1,1),\,(0,1),\,(-1,1)\}
-  $$
-sont mesurés en chaque pixel $(m,n)$ de l'image~:
-
-    \item $w_{m,n}$ est une fenêtre rectangulaire autour du pixel ($m,n)$
-    \item $\big[f(u+x,v+y)-f(u,v)\big]^2$ représente la différence entre \\
-    le patch $f(u,v)$ et le patch décalé $f(u+x,v+y)$
-    \item $E_{m,n}(x,y)$ est la différence entre les patchs pour un décalage $(x,y)$
-  \end{itemize}
-
-
-  Le minimum de $E_{m,n}(x,y)$ par rapport aux décalages est déterminé~:
-  \begin{equation*}
-    \forall m,n \qquad F_{m,n} = \min_{x,y} E_{m,n}(x,y)
-  \end{equation*}
-
-  Les coins détectés correspondent aux maxima locaux de $F_{m,n}$.
-
-
-En chaque pixel $(m,n)$ de l'image est calculé pour différents décalages $(x,y)$~:
-\begin{equation*}
-  \forall m,n,x,y \qquad E_{m,n}(x,y) = \sum_{u,v} w_{m,n}(u,v) \big[f(u+x,v+y)-f(u,v)\big]^2
-\end{equation*}
-(seuls $(x,y) \in \{(1,0),\,(1,1),\,(0,1),\,(-1,1)\}$ sont testés).
-
-\bigskip
-
-  où~:
-  \begin{itemize}
-    \item $w_{m,n}$ est une fenêtre rectangulaire autour du pixel ($m,n)$
-    \item $\big[f(u+x,v+y)-f(u,v)\big]^2$ représente la différence entre \\
-    le patch $f(u,v)$ et le patch décalé $f(u+x,v+y)$
-    \item $E(x,y)$ est la différence entre les patchs pour un décalage $(x,y)$
-  \end{itemize}
-
-\end{frame}
-
-\begin{frame}<handout>{Détecteur de Moravec}
-
-En chaque pixel $(m,n)$ de l'image est calculé pour différents décalages $(x,y)$~:
-\begin{equation*}
-  \forall m,n,x,y \qquad E_{m,n}(x,y) = \sum_{u,v} w_{m,n}(u,v) \big[f(u+x,v+y)-f(u,v)\big]^2
-\end{equation*}
-(seuls $(x,y) \in \{(1,0),\,(1,1),\,(0,1),\,(-1,1)\}$ sont testés).
-
-\bigskip
-
-
-  Le minimum de $E_{m,n}(x,y)$ par rapport aux décalages t déterminé~:
-  \begin{equation*}
-    \forall m,n \qquad F_{m,n} = \min_{x,y} E_{m,n}(x,y)
-  \end{equation*}
-
-  Les coins détectés correspondent aux maxima locaux de $F_{m,n}$.
-
-
-\end{frame}
-
-% =============================================================================================== %
-
-\begin{frame}{Détecteur de Moravec}
-
-\begin{equation*}
-  \forall m,n,x,y \qquad E_{m,n}(x,y) = \sum_{u,v} w_{m,n}(u,v) \big[f(u+x,v+y)-f(u,v)\big]^2
-\end{equation*}
-
-\bigskip\bigskip
-
-\only<beamer:1|handout:1>{\includegraphics{moravec-example}}
-\only<beamer:2|handout:0>{\includegraphics{moravec-example-nocorner}}
-\only<beamer:3|handout:0>{\includegraphics{moravec-example-corner}}
-
-\end{frame}
-
-% =============================================================================================== %
-
-\newcommand{\pbnum}[1]{\hspace*{1mm}{\color{unistra}\pscircle[linecolor=unistra](.9ex,.5ex){0.25}\footnotesize P#1}\hspace*{1mm}}
-
-\begin{frame}{Détecteur de Moravec}
-
-Problèmes~:
-\begin{enumerate}
-  \item[\pbnum{1}] la réponse du détecteur peut être bruitée car $w$ est une fenêtre binaire
-  \item[\pbnum{2}] seuls des décalages de 45\degre{} sont considérés
-  \item[\pbnum{3}] le détecteur est trop sensible aux contours car seul le minimum de $E$ est considéré
-\end{enumerate}
-
-\pause\bigskip
-
-$\Rightarrow$ détecteur de Harris.
-
-\end{frame} --></div>
+\]</div>
+<p>où :</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(x\)</span> et <span class="math notranslate nohighlight">\(y\)</span> représentent les décalages dans les quatre directions :</p>
+<div class="math notranslate nohighlight">
+\[
+  (x,y) \in \{(1,0),\,(1,1),\,(0,1),\,(-1,1)\},
+  \]</div>
+</li>
+<li><p><span class="math notranslate nohighlight">\(w_{m,n}\)</span> est une fenêtre rectangulaire autour du pixel (<span class="math notranslate nohighlight">\(m,n)\)</span>,</p></li>
+<li><p><span class="math notranslate nohighlight">\(\big[f(u+x,v+y)-f(u,v)\big]^2\)</span> est la différence entre le patch <span class="math notranslate nohighlight">\(f(u,v)\)</span> et le patch décalé <span class="math notranslate nohighlight">\(f(u+x,v+y)\)</span>,</p></li>
+</ul>
+<p>En chaque pixel <span class="math notranslate nohighlight">\((m,n)\)</span>, le minimum de <span class="math notranslate nohighlight">\(E_{m,n}(x,y)\)</span> dans les quatre directions est conservé et noté <span class="math notranslate nohighlight">\(F_{m,n}\)</span>.
+Finalement, les coins détectés correspondent aux maxima locaux de <span class="math notranslate nohighlight">\(F_{m,n}\)</span>,
+c’est-à-dire aux pixels <span class="math notranslate nohighlight">\((m,n)\)</span> où la plus petite valeur de <span class="math notranslate nohighlight">\(E_{m,n}(x,y)\)</span> est grande.</p>
+<!-- exemple -->
+<p>Il s’avère que le détecteur de Moravec a plusieurs limites.
+Premièrement, <span class="math notranslate nohighlight">\(w\)</span> est une fenêtre binaire et donc le détecteur considère avec le même poids tous les pixels dans la fenêtre.
+Lorsque le bruit dans l’image est important, cela peut amener à de fausses détections de coins.
+Deuxièmement, seuls quatre directions sont considérées.
+Troisièment, le détecteur reste très sensible aux contours car seul le minimum de <span class="math notranslate nohighlight">\(E\)</span> est considéré.
+Pour ces raisons, Harris a proposé un détecteur qui répond à ces limites.</p>
+</div>
 <div class="section" id="detecteur-de-harris">
 <h2>Détecteur de Harris<a class="headerlink" href="#detecteur-de-harris" title="Permalink to this headline">¶</a></h2>
-<p>À venir…</p>
-<!-- 
-
-Pour éviter une réponse bruitée (problème \pbnum{1}), la fenêtre rectangulaire $w$
-est remplacée par une fenêtre $w$ gaussienne dans~:
-\begin{equation*}
-  E_{m,n}(x,y) = \sum_{u,v} w_{m,n}(u,v) \left[ f(u+x,v+y) - f(u,v) \right]^2
-\end{equation*}
-
-\end{frame}
-
-% =============================================================================================== %
-
-\begin{frame}{Détecteur de Harris}
-
-Pour étendre le modèle à n'importe quel angle (problème \pbnum{2}),
-on utilise un développement en série de Taylor de $f(u+x,v+y)$~:
-
-\begin{equation*}
-  f(u+x,v+y) \approx f(u,v) + x \,\partial_x f(u,v) + y \,\partial_y f(u,v)
-\end{equation*}
-\vspace*{-\baselineskip}\pause
-\begin{align*}
-  \Rightarrow\quad
-  E_{m,n}(x,y) &= \sum_{u,v} w_{m,n}(u,v) \left( f(u+x,v+y) - f(u,v) \right)^2 \\
-         &\approx \sum_{u,v} w_{m,n}(u,v) \left( x \,\partial_x f(u,v) + y \,\partial_y f(u,v) \right)^2 \\
-         &\approx
-         \begin{pmatrix} x & y \end{pmatrix}
-         M
-         \begin{pmatrix} x \\ y \end{pmatrix}
-\end{align*}
-\begin{equation*}
-  \text{où}\qquad
-  M = \sum_{u,v} w_{m,n}(u,v)
-  \begin{pmatrix}
-    (\partial_x f)^2  &  \partial_x f \,\partial_y f \\
-    \partial_x f \,\partial_y f  &  (\partial_y f)^2 \\
-  \end{pmatrix}
-\end{equation*}
-
-\end{frame}
-
-% =============================================================================================== %
-
-\begin{frame}{Détecteur de Harris}
-
-Le problème \pbnum{3} peut être évité en considérant une nouvelle mesure de la présence d'un coin~:
-on peut obtenir d'autres informations sur le changement d'intensité dans la fenêtre
-en analysant les valeurs propres $\lambda_1$ et $\lambda_2$ de la matrice $M$.
-
-\bigskip
-
-\begin{minipage}{.49\textwidth}
-  \centering$\displaystyle E(x,y) = \begin{pmatrix} x & y \end{pmatrix} M \begin{pmatrix} x \\ y \end{pmatrix}$
-\end{minipage}
-\begin{minipage}{.49\textwidth}
-  \centering\includegraphics{harris-eigenvector}
-\end{minipage}
-
-\end{frame}
-
-% TODO : images telles que :
-% /home/vincent/Ecole/OFTI/S3 Détection de caractéristiques + recalage/caracteristiques/figs/toto-16.png
-% /home/vincent/Ecole/OFTI/S3 Détection de caractéristiques + recalage/caracteristiques/figs/toto-17.png
-
-% =============================================================================================== %
-
-\begin{frame}{Détecteur de Harris}
-
-Le calcul des valeurs propres de $M$ pouvant être difficile,
-une alternative est de calculer~:
-\begin{equation*}
-  R = \mathrm{det}(M) - k (\mathrm{trace}(M))^2
-    = \lambda_1 \lambda_2 - k(\lambda_1 + \lambda_2)^2
-\end{equation*}
-avec $0,04 < k < 0,06$.
-
-\pause
-
-\begin{minipage}{.52\textwidth}
-Les valeurs de $R$ sont~:
-\begin{itemize}
-  \item faibles dans une région plate,
-  \item négatives sur un contour,
-  \item positives sur un coin.
-\end{itemize}
-\end{minipage}
-\begin{minipage}{.46\textwidth}
-  \centering\includegraphics{harris-eigenvector-R}
-\end{minipage}
-
-\end{frame}
-
-% =============================================================================================== %
-
-\begin{frame}{Détecteur de Harris}
-
-\begin{center}
-  \includegraphics[width=.3\textwidth]{moulinsart-harris-edge}\quad
-    \includegraphics[width=.3\textwidth]{moulinsart-harris-const}\quad
-  \includegraphics[width=.3\textwidth]{moulinsart-harris-corner}\\
-  \parbox{.3\textwidth}{\centering $R<-10^8$}\quad
-  \parbox{.3\textwidth}{\centering $|R|<10^8$}\quad
-  \parbox{.3\textwidth}{\centering $R>10^8$}\\
-\end{center}
-
-% \begin{center}\includegraphics[width=10cm]{toto-22}\end{center}
-% \hspace*{4.8cm}\parbox{6.2cm}{\centering $R$ \\ (après un filtre de Sobel)}
-% \end{frame}
-%
-% \begin{frame}{Détecteur de Harris}
-% \begin{center}\includegraphics[width=10cm]{toto-25}\end{center}
-% \hspace*{4.8cm}\parbox{6.2cm}{\centering $R\in[-10^4, \, 10^4]$ $\Rightarrow$ zones constantes}
-% \end{frame}
-%
-% \begin{frame}{Détecteur de Harris}
-% \begin{center}\includegraphics[width=10cm]{toto-23}\end{center}
-% \hspace*{4.8cm}\parbox{6.2cm}{\centering $R<-10^4$ $\Rightarrow$ contours}
-% \end{frame}
-%
-% \begin{frame}{Détecteur de Harris}
-% \begin{center}\includegraphics[width=10cm]{toto-24}\end{center}
-% \hspace*{4.8cm}\parbox{6.2cm}{\centering $R>10^4$ $\Rightarrow$ coins}
-\end{frame}
-
-% =============================================================================================== %
- --></div>
+<p>Pour éviter une réponse bruitée, la fenêtre rectangulaire <span class="math notranslate nohighlight">\(w\)</span> du détecteur de Moravec est remplacée par une fenêtre <span class="math notranslate nohighlight">\(w\)</span> gaussienne
+dans l’expression de <span class="math notranslate nohighlight">\(E_{m,n}(x,y)\)</span>.</p>
+<p>Pour étendre le détecteur de Moravec à toutes les directions, sans se limiter aux quatre directions initiales,
+un développement en série de Taylor est effectué sur le patch décalé <span class="math notranslate nohighlight">\(f(u+x,v+y)\)</span> :</p>
+<div class="math notranslate nohighlight">
+\[
+  f(u+x,v+y) \approx f(u,v) + x \,\partial_x f(u,v) + y \,\partial_y f(u,v).
+\]</div>
+<p>Par conséquent :</p>
+<div class="math notranslate nohighlight">
+\[
+E_{m,n}(x,y) \approx \sum_{u,v} w_{m,n}(u,v) \big[ x \,\partial_x f(u,v) + y \,\partial_y f(u,v) \big]^2
+\]</div>
+<p>Cette expression peut s’écrire sous la forme matricielle suivante :</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+E_{m,n}(x,y) \approx
+\begin{pmatrix} x &amp; y \end{pmatrix}
+M
+\begin{pmatrix} x \\ y \end{pmatrix}
+\end{split}\]</div>
+<p>où</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+M = \sum_{u,v} w_{m,n}(u,v)
+\begin{pmatrix}
+  (\partial_x f)^2  &amp;  \partial_x f \,\partial_y f \\
+  \partial_x f \,\partial_y f  &amp;  (\partial_y f)^2 \\
+\end{pmatrix}
+\end{split}\]</div>
+<p>Enfin, la dernière limite du détecteur de Moravec peut être évité en considérant une nouvelle mesure de la présence d’un coin :
+on peut obtenir d’autres informations sur le changement d’intensité dans la fenêtre
+en analysant les valeurs propres <span class="math notranslate nohighlight">\(\lambda_1\)</span> et <span class="math notranslate nohighlight">\(\lambda_2\)</span> de la matrice <span class="math notranslate nohighlight">\(M\)</span> (<a class="reference internal" href="#f-feature-corners-eigenvectors"><span class="std std-numref">Fig. 100</span></a>).
+En effet, la présence d’un coin est attestée lorsque les dérivées de <span class="math notranslate nohighlight">\(f\)</span> sont très grandes,
+et alors <span class="math notranslate nohighlight">\(M\)</span> possède de grands coefficients, et ses valeurs propres sont également très grandes.</p>
+<div class="figure align-default" id="f-feature-corners-eigenvectors">
+<a class="reference internal image-reference" href="../_images/feature-30.png"><img alt="../_images/feature-30.png" src="../_images/feature-30.png" style="width: 250px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 100 </span><span class="caption-text">Décision à prendre sur le patch considéré quant à la valeur des valeurs propres.</span><a class="headerlink" href="#f-feature-corners-eigenvectors" title="Permalink to this image">¶</a></p>
+</div>
+<!-- Introduire comme illustration : figs/toto-16.png et figs/toto-17.png -->
+<p>Le calcul des valeurs propres de <span class="math notranslate nohighlight">\(M\)</span> pouvant être difficile, une alternative est de calculer :</p>
+<div class="math notranslate nohighlight">
+\[
+R = \mathrm{det}(M) - k (\mathrm{trace}(M))^2 = \lambda_1 \lambda_2 - k(\lambda_1 + \lambda_2)^2
+\]</div>
+<p>avec <span class="math notranslate nohighlight">\(0,04 &lt; k &lt; 0,06\)</span>.</p>
+<p>Ainsi, les valeurs de <span class="math notranslate nohighlight">\(R\)</span> sont faibles dans une région plate, négatives sur un contour et positives sur un coin (<a class="reference internal" href="#f-feature-corners-r"><span class="std std-numref">Fig. 101</span></a>).</p>
+<div class="figure align-default" id="f-feature-corners-r">
+<a class="reference internal image-reference" href="../_images/feature-31.png"><img alt="../_images/feature-31.png" src="../_images/feature-31.png" style="width: 250px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 101 </span><span class="caption-text">Décision à prendre sur le patch considéré quant à la valeur de <span class="math notranslate nohighlight">\(R\)</span>.</span><a class="headerlink" href="#f-feature-corners-r" title="Permalink to this image">¶</a></p>
+</div>
+<p>L’application du détecteur de Harris est illustré sur l’exemple de la <a class="reference internal" href="#f-feature-corners-harris"><span class="std std-numref">Fig. 102</span></a></p>
+<div class="figure align-default" id="f-feature-corners-harris">
+<a class="reference internal image-reference" href="../_images/feature-32.png"><img alt="../_images/feature-32.png" src="../_images/feature-32.png" style="width: 100%;" /></a>
+<p class="caption"><span class="caption-number">Fig. 102 </span><span class="caption-text">Résultat du détecteur de Harris.
+Ces trois images binaires représentent les valeurs négatives (contours), faibles (zones plates) et positives (coins) du coefficient <span class="math notranslate nohighlight">\(R\)</span>.</span><a class="headerlink" href="#f-feature-corners-harris" title="Permalink to this image">¶</a></p>
+</div>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
