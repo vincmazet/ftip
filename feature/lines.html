@@ -1,0 +1,765 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Line detection &#8212; Fundamental Tools for Image Processing</title>
+    
+  <link rel="stylesheet" href="../_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.2d2078699c18a0efb88233928e1cf6ed.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/jbvinc.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/.ipynb_checkpoints/jbvinc-checkpoint.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/spanels-index--0afa1ebdab0bb23b98b56d34c23d9f57.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/spanels-variables--ffc7f74dcb1b9eecba2dbcbc22818714.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.3da636dd464baa7582d2.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.be0a4a0c39cd630af62a2fcf693f3f06.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Conclusion" href="outro.html" />
+    <link rel="prev" title="Corner detection" href="corners.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  
+  <h1 class="site-logo" id="site-title">Fundamental Tools for Image Processing</h1>
+  
+</a>
+</div>
+
+<form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../preface.html">
+   Preface
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Basics
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../definition.html">
+   What is a Digital Image?
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../operations.html">
+   Arithmetic Operations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../histogram.html">
+   Histogram
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../convolution.html">
+   Convolution
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../fourier.html">
+   Fourier Transform
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Compression
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../compression.html">
+   Compression
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Mathematical Morphology
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../mm.html">
+   Mathematical Morphology
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Registration
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../interpolation.html">
+   Interpolation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../registration.html">
+   Registration
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Segmentation
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../segmentation.html">
+   Segmentation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Restoration
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../denoising.html">
+   Denoising
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../deconvolution.html">
+   Deconvolution
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Feature Detection
+ </span>
+</p>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   Introduction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="edges.html">
+   Edges detection
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="corners.html">
+   Corner detection
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Line detection
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="outro.html">
+   Conclusion
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  In-Class Sessions
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tp1.html">
+   07/10/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tp2.html">
+   14/10/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tp3.html">
+   21/10/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tp4.html">
+   04/11/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tp5.html">
+   18/11/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tp6.html">
+   25/11/2020
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Corrections
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../labs/tp1-code.html">
+   07/10/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../labs/tp2-code.html">
+   14/10/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../labs/tp3-code.html">
+   21/10/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../labs/tp4-code.html">
+   04/11/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../labs/tp5-code.html">
+   18/11/2020
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../labs/tp6-code.html">
+   25/10/2020
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Appendices
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://moodle3.unistra.fr/course/view.php?id=13708">
+   Moodle
+   <i class="fas fa-external-link-alt">
+   </i>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../python.html">
+   Installing and Using Python
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../glossary.html">
+   Glossary
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../biblio.html">
+   References
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../license.html">
+   License
+  </a>
+ </li>
+</ul>
+
+</nav>
+
+ <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        <div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/feature/lines.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+    
+</div>
+        <!-- Source interaction buttons -->
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/vincmazet/ftip/blob/master/feature/lines.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="line-detection">
+<h1>Line detection<a class="headerlink" href="#line-detection" title="Permalink to this headline">¶</a></h1>
+<p>À venir…</p>
+<!-- % !TEX root = detection.tex
+
+\chapter{Détection de droites}
+
+% =============================================================================================== %
+
+\begin{frame}<beamer>{Transformée de Hough pour les droites}
+
+L'idée de la transformée de Hough~\mycite{Hough62}
+est de représenter une droite de l'\emph{image} en un point dans l'\emph{espace des paramètres}.
+
+\begin{center}
+  \includegraphics<1>[page=1]{hough}%
+  \includegraphics<2>[page=2]{hough}%
+  \includegraphics<3>[page=3]{hough}%
+  \includegraphics<4>[page=4]{hough}%
+  \includegraphics<5>[page=5]{hough}%
+  \includegraphics<6->[page=6]{hough}%
+\end{center}
+
+\visible<7>{Les points d'une droite $y=ax+b$ dans l'image
+deviennent des droites qui se coupent en $(a,b)$ dans l'espace des paramètres.}
+
+\end{frame}
+
+
+\begin{frame}<handout>{Transformée de Hough pour les droites}
+L'idée de la transformée de Hough~\mycite{Hough62}
+est de représenter une droite de l'\emph{image} en un point dans l'\emph{espace des paramètres}.
+\begin{center}
+  \includegraphics<1>[page=1]{hough}%
+\end{center}
+Les points d'une droite $y=ax+b$ dans l'image
+deviennent des droites qui se coupent en $(a,b)$ dans l'espace des paramètres.
+\end{frame}
+
+\begin{frame}<handout>{Transformée de Hough pour les droites}
+L'idée de la transformée de Hough~\mycite{Hough62}
+est de représenter une droite de l'\emph{image} en un point dans l'\emph{espace des paramètres}.
+\begin{center}
+  \includegraphics<2>[page=2]{hough}%
+\end{center}
+Les points d'une droite $y=ax+b$ dans l'image
+deviennent des droites qui se coupent en $(a,b)$ dans l'espace des paramètres.
+\end{frame}
+
+\begin{frame}<handout>{Transformée de Hough pour les droites}
+L'idée de la transformée de Hough~\mycite{Hough62}
+est de représenter une droite de l'\emph{image} en un point dans l'\emph{espace des paramètres}.
+\begin{center}
+  \includegraphics<3>[page=3]{hough}%
+\end{center}
+Les points d'une droite $y=ax+b$ dans l'image
+deviennent des droites qui se coupent en $(a,b)$ dans l'espace des paramètres.
+\end{frame}
+
+\begin{frame}<handout>{Transformée de Hough pour les droites}
+L'idée de la transformée de Hough~\mycite{Hough62}
+est de représenter une droite de l'\emph{image} en un point dans l'\emph{espace des paramètres}.
+\begin{center}
+  \includegraphics<4>[page=4]{hough}%
+\end{center}
+Les points d'une droite $y=ax+b$ dans l'image
+deviennent des droites qui se coupent en $(a,b)$ dans l'espace des paramètres.
+\end{frame}
+
+\begin{frame}<handout>{Transformée de Hough pour les droites}
+L'idée de la transformée de Hough~\mycite{Hough62}
+est de représenter une droite de l'\emph{image} en un point dans l'\emph{espace des paramètres}.
+\begin{center}
+  \includegraphics<5>[page=5]{hough}%
+\end{center}
+Les points d'une droite $y=ax+b$ dans l'image
+deviennent des droites qui se coupent en $(a,b)$ dans l'espace des paramètres.
+\end{frame}
+
+\begin{frame}<handout>{Transformée de Hough pour les droites}
+L'idée de la transformée de Hough~\mycite{Hough62}
+est de représenter une droite de l'\emph{image} en un point dans l'\emph{espace des paramètres}.
+\begin{center}
+  \includegraphics<6->[page=6]{hough}%
+\end{center}
+Les points d'une droite $y=ax+b$ dans l'image
+deviennent des droites qui se coupent en $(a,b)$ dans l'espace des paramètres.
+\end{frame}
+
+% =============================================================================================== %
+
+\begin{frame}{Nouvelle paramétrisation}
+
+L'inconvénient de la paramétrisation $(a,b)$ est que l'espace des paramètres doit être borné et discrétisé
+$\Rightarrow$ une droite verticale ($a=\infty$) ne peut pas être représentée.
+
+\pause\medskip
+
+$\Rightarrow$ Nouvelle paramétrisation
+
+\begin{center}
+  \includegraphics[page=1]{hough-new}
+\end{center}
+
+\vspace*{-2\baselineskip}
+
+\begin{equation*}
+  x = s \cos(\theta)
+  \;\text{et}\;
+  y = s \sin(\theta)
+  \quad\Rightarrow\quad
+  s = x \cos(\theta) + y \sin(\theta)
+\end{equation*}
+
+\end{frame}
+
+% =============================================================================================== %
+
+\begin{frame}{Nouvelle paramétrisation}
+
+Pour chaque point $(x_i,y_i)$ de l'image, une sinusoïde est associée dans l'espace $(\theta,s)$~:
+\begin{equation*}
+  s = x_i \cos(\theta) + y_i \sin(\theta)
+\end{equation*}
+
+\begin{center}
+  \includegraphics[page=2]{hough-new}
+\end{center}
+
+Les sinusoïdes correspondant aux points d'une même droite se coupent au point $(s^*,\theta^*)$ paramétrisant cette droite.
+
+\end{frame}
+
+% =============================================================================================== %
+
+% \begin{frame}{Exemple}
+%
+% \begin{center}
+%   \includegraphics[width=.3\textwidth]{losange}\quad
+%   \includegraphics[width=.3\textwidth]{losange-canny}\quad
+%   \includegraphics[width=.3\textwidth]{losange-hough}\\
+%   \parbox{.3\textwidth}{\centering $f$}\quad
+%   \parbox{.3\textwidth}{\centering contours}\quad
+%   \parbox{.3\textwidth}{\centering Hough}\\
+% \end{center}
+%
+% % \begin{center}
+% %   \includegraphics[width=10cm]{thiran3}\imgref{GET}
+% % \end{center}
+%
+% \end{frame}
+
+% =============================================================================================== %
+
+\begin{frame}{Algorithme}
+
+\begin{center}
+  \setlength{\fboxsep}{3mm}
+  \colorbox{algobg}{\parbox{.9\textwidth}{
+  Appliquer une détection de contours \\
+  Définir un accumulateur ($=$ espace des paramètres discrétisé) \\
+  Pour chaque point des contours~: \\
+  \albar Déterminer la sinusoïde correspondante au point \\
+  \albar Incrémenter l'accumulateur le long de cette sinusoïde \\
+  Rechercher les maxima de l'accumulateur \\
+  En déduire les paramètres des lignes
+}}
+\end{center}
+
+\end{frame}
+
+% =============================================================================================== %
+
+\begin{frame}{Exemple}
+
+\begin{center}
+  \includegraphics[width=45mm]{losange-axes}\qquad
+  \includegraphics[width=45mm]{losange-hough-axes}
+  \rput(-1.6,3.9){\color{green}A}%
+  \rput( 0  ,3.9){\color{green}B}%
+  \rput(-1.6,2.4){\color{green}C}%
+  \rput( 0  ,2.4){\color{green}D}%
+  \rput(3.9,3.5){\color{green}1}%
+  \rput(5.4,2.8){\color{green}2}%
+  \rput(3.5,2.6){\color{green}3}%
+  \rput(5.4,1.6){\color{green}4}%
+  \bigskip\bigskip
+  \votew\pause\\
+  \bigskip
+  ~
+  % A$\rightarrow$2\quad
+  % B$\rightarrow$3\quad
+  % C$\rightarrow$1\quad
+  % D$\rightarrow$4
+\end{center}
+
+\end{frame}
+
+% =============================================================================================== %
+
+% \begin{frame}{Exemple}
+%
+% \begin{center}
+%   \includegraphics[width=10cm]{letouzey1}\imgref{LC}
+%   % Léo Letouzey + Thomas Chabrier 2008
+% \end{center}
+%
+% \end{frame}
+
+% =============================================================================================== %
+
+\begin{frame}{Transformée de Hough}
+
+Avantages~:
+\begin{itemize}
+  \item robuste au bruit
+  \item robuste aux occlusions (peut détecter des objets partiellement recouverts)
+  \item Extensible à tout objet paramétré (cercles, ellipses, \dots) \mycite{Duda72} \\
+  \pause
+  Exemple pour la détection de cercles~:
+  \begin{equation*}
+    (x-a)^2 + (y-b)^2 = r^2 \quad\rightarrow\quad \text{3 paramètres}
+  \end{equation*}
+\end{itemize}
+
+\pause
+
+Inconvénient~:
+\begin{itemize}
+  \item la dimension de l'accumulateur est égal aux nombres de paramètres
+  $\Rightarrow$ le temps de calcul et la mémoire utilisée deviennent vite conséquents
+\end{itemize}
+
+\end{frame}
+
+% =============================================================================================== %
+
+\begin{frame}{Transformée de Hough}
+
+% TODO : exemple sur des lignes, des cercles, après détection de contours + occlusions
+
+\begin{center}
+  \includegraphics[width=9cm]{building-hough}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Transformée de Hough}
+
+\begin{center}
+  \includegraphics[width=9cm]{coins-hough}
+\end{center}
+
+\end{frame}
+
+% =============================================================================================== %
+
+% \begin{frame}{Exercice}
+%
+% \begin{center}
+%   \quad
+%   \imgbox{25mm}{h2}{A}\hfill
+%   \imgbox{25mm}{h3}{B}\hfill
+%   \imgbox{25mm}{h4}{C}\\[5mm]
+%   \imgbox{30mm}{hough4}{1}\hfill
+%   \imgbox{30mm}{hough3}{2}\hfill
+%   \imgbox{30mm}{hough2}{3}
+% \end{center}
+%
+% % (les transformées de Hough sont représentées dans l'espace $(\theta,\,\rho)$)
+%
+% \end{frame}
+
+% =============================================================================================== %
+ --></div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./feature"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="corners.html" title="previous page">Corner detection</a>
+    <a class='right-next' id="next-link" href="outro.html" title="next page">Conclusion</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Vincent Mazet (University of Strasbourg, France)<br/>
+        
+            &copy; Copyright 2020.<br/>
+          <div class="extra_footer">
+            Fundamental Tools for Image Processing &mdash; Vincent Mazet (Université de Strasbourg), 2020 &mdash; <a href="license.html">CC BY-NC 4.0</a>.
+          </div>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.3da636dd464baa7582d2.js"></script>
+
+
+    
+  </body>
+</html>
