@@ -401,22 +401,6 @@
 
         <!-- Launch buttons -->
 
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
-    <div class="dropdown-buttons">
-        
-        
-        
-        <a class="colab-button" href="https://colab.research.google.com/github/vincmazet/ftip/blob/master/feature/corners.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
-                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
-                    src="../_static/images/logo_colab.png"
-                    alt="Interact on Colab">Colab</button></a>
-        
-        
-    </div>
-</div>
-
     </div>
 
     <!-- Table of contents -->
@@ -456,6 +440,9 @@ Il existe toutefois d’autres méthodes, parmi lesquelles :</p>
 <li><p>le détecteur de Moravec [Moravec 1980],</p></li>
 <li><p>le détecteur de Harris [Harris 1988].</p></li>
 </ul>
+<div class="figure align-default" id="f-feature-corners-example">
+<a class="reference internal image-reference" href="../_images/corner-example.png"><img alt="../_images/corner-example.png" src="../_images/corner-example.png" style="width: 250px;" /></a>
+</div>
 <div class="section" id="detecteur-de-moravec">
 <h2>Détecteur de Moravec<a class="headerlink" href="#detecteur-de-moravec" title="Permalink to this headline">¶</a></h2>
 <p>Le principe de ce détecteur est d’observer les changements d’un patch (une sous-image)
@@ -464,7 +451,7 @@ Il y a quatre directions : horizontalement, verticalement, et selon les deus dia
 Si les changements sont importants, alors le patch est centré sur un coin.</p>
 <div class="figure align-default" id="f-feature-corners-moravec">
 <a class="reference internal image-reference" href="../_images/feature-moravec.png"><img alt="../_images/feature-moravec.png" src="../_images/feature-moravec.png" style="width: 80%;" /></a>
-<p class="caption"><span class="caption-number">Fig. 99 </span><span class="caption-text">Principe du détecteur de Moravec.
+<p class="caption"><span class="caption-number">Fig. 100 </span><span class="caption-text">Principe du détecteur de Moravec.
 De gauche à droite :
 sur une zone plate, de petits décalages du patch (en rouge) ne provoquent pas de changement ;
 sur un contour, on n’observe des changements que dans une seule direction ;
@@ -532,12 +519,12 @@ M = \sum_{u,v} w_{m,n}(u,v)
 \end{split}\]</div>
 <p>Enfin, la dernière limite du détecteur de Moravec peut être évité en considérant une nouvelle mesure de la présence d’un coin :
 on peut obtenir d’autres informations sur le changement d’intensité dans la fenêtre
-en analysant les valeurs propres <span class="math notranslate nohighlight">\(\lambda_1\)</span> et <span class="math notranslate nohighlight">\(\lambda_2\)</span> de la matrice <span class="math notranslate nohighlight">\(M\)</span> (<a class="reference internal" href="#f-feature-corners-eigenvectors"><span class="std std-numref">Fig. 100</span></a>).
+en analysant les valeurs propres <span class="math notranslate nohighlight">\(\lambda_1\)</span> et <span class="math notranslate nohighlight">\(\lambda_2\)</span> de la matrice <span class="math notranslate nohighlight">\(M\)</span> (<a class="reference internal" href="#f-feature-corners-eigenvectors"><span class="std std-numref">Fig. 101</span></a>).
 En effet, la présence d’un coin est attestée lorsque les dérivées de <span class="math notranslate nohighlight">\(f\)</span> sont très grandes,
 et alors <span class="math notranslate nohighlight">\(M\)</span> possède de grands coefficients, et ses valeurs propres sont également très grandes.</p>
 <div class="figure align-default" id="f-feature-corners-eigenvectors">
 <a class="reference internal image-reference" href="../_images/feature-30.png"><img alt="../_images/feature-30.png" src="../_images/feature-30.png" style="width: 250px;" /></a>
-<p class="caption"><span class="caption-number">Fig. 100 </span><span class="caption-text">Décision à prendre sur le patch considéré quant à la valeur des valeurs propres.</span><a class="headerlink" href="#f-feature-corners-eigenvectors" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-number">Fig. 101 </span><span class="caption-text">Décision à prendre sur le patch considéré quant à la valeur des valeurs propres.</span><a class="headerlink" href="#f-feature-corners-eigenvectors" title="Permalink to this image">¶</a></p>
 </div>
 <!-- Introduire comme illustration : figs/toto-16.png et figs/toto-17.png -->
 <p>Le calcul des valeurs propres de <span class="math notranslate nohighlight">\(M\)</span> pouvant être difficile, une alternative est de calculer :</p>
@@ -546,15 +533,15 @@ et alors <span class="math notranslate nohighlight">\(M\)</span> possède de gra
 R = \mathrm{det}(M) - k (\mathrm{trace}(M))^2 = \lambda_1 \lambda_2 - k(\lambda_1 + \lambda_2)^2
 \]</div>
 <p>avec <span class="math notranslate nohighlight">\(0,04 &lt; k &lt; 0,06\)</span>.</p>
-<p>Ainsi, les valeurs de <span class="math notranslate nohighlight">\(R\)</span> sont faibles dans une région plate, négatives sur un contour et positives sur un coin (<a class="reference internal" href="#f-feature-corners-r"><span class="std std-numref">Fig. 101</span></a>).</p>
+<p>Ainsi, les valeurs de <span class="math notranslate nohighlight">\(R\)</span> sont faibles dans une région plate, négatives sur un contour et positives sur un coin (<a class="reference internal" href="#f-feature-corners-r"><span class="std std-numref">Fig. 102</span></a>).</p>
 <div class="figure align-default" id="f-feature-corners-r">
 <a class="reference internal image-reference" href="../_images/feature-31.png"><img alt="../_images/feature-31.png" src="../_images/feature-31.png" style="width: 250px;" /></a>
-<p class="caption"><span class="caption-number">Fig. 101 </span><span class="caption-text">Décision à prendre sur le patch considéré quant à la valeur de <span class="math notranslate nohighlight">\(R\)</span>.</span><a class="headerlink" href="#f-feature-corners-r" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-number">Fig. 102 </span><span class="caption-text">Décision à prendre sur le patch considéré quant à la valeur de <span class="math notranslate nohighlight">\(R\)</span>.</span><a class="headerlink" href="#f-feature-corners-r" title="Permalink to this image">¶</a></p>
 </div>
-<p>L’application du détecteur de Harris est illustré sur l’exemple de la <a class="reference internal" href="#f-feature-corners-harris"><span class="std std-numref">Fig. 102</span></a></p>
+<p>L’application du détecteur de Harris est illustré sur l’exemple de la <a class="reference internal" href="#f-feature-corners-harris"><span class="std std-numref">Fig. 103</span></a></p>
 <div class="figure align-default" id="f-feature-corners-harris">
 <a class="reference internal image-reference" href="../_images/feature-32.png"><img alt="../_images/feature-32.png" src="../_images/feature-32.png" style="width: 100%;" /></a>
-<p class="caption"><span class="caption-number">Fig. 102 </span><span class="caption-text">Résultat du détecteur de Harris.
+<p class="caption"><span class="caption-number">Fig. 103 </span><span class="caption-text">Résultat du détecteur de Harris.
 Ces trois images binaires représentent les valeurs négatives (contours), faibles (zones plates) et positives (coins) du coefficient <span class="math notranslate nohighlight">\(R\)</span>.</span><a class="headerlink" href="#f-feature-corners-harris" title="Permalink to this image">¶</a></p>
 </div>
 </div>

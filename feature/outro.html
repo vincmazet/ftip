@@ -401,22 +401,6 @@
 
         <!-- Launch buttons -->
 
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
-    <div class="dropdown-buttons">
-        
-        
-        
-        <a class="colab-button" href="https://colab.research.google.com/github/vincmazet/ftip/blob/master/feature/outro.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
-                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
-                    src="../_static/images/logo_colab.png"
-                    alt="Interact on Colab">Colab</button></a>
-        
-        
-    </div>
-</div>
-
     </div>
 
     <!-- Table of contents -->
@@ -431,10 +415,18 @@
                 
   <div class="section" id="conclusion">
 <h1>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline">¶</a></h1>
-<p>À venir…</p>
-<!-- ## Détection de formes \\ par filtrage adapté !!!!!!
-
-% =============================================================================================== %
+<p>Nous avons vu qu’en fonction de la caractéristique recherchée, les méthodes de la littérature scientifique sont très différentes.</p>
+<ul class="simple">
+<li><p>Pour les contours, il s’agit essentiellement d’un filtrage de l’image en utilisant le gradient ou le laplacien
+(filtres de Roberts ou Prewitt, détecteurs de Sobel ou Canny).</p></li>
+<li><p>Pour les coins, on effectue une mesure du changement d’intensité dans le voisinage des pixels (détecteur de Moravec et de Harris).</p></li>
+<li><p>Pour les lignes ou les cercles, l’image est transformée dans l’espace des paramètres de la forme géométrique (transformée de Hough).</p></li>
+</ul>
+<p>Il existe d’autres approches adaptées à d’autres caractéristiques.
+Par exemple, lorsqu’un motif, parfaitement connu sous forme de sous-image, est recherché,
+alors l’intercorrélation de l’image avec ce motif est une technique très efficace
+(elle est appelée « filtre adapté » ou en anglais : <em>matched filter</em> ou <a class="reference external" href="https://en.wikipedia.org/wiki/Template_matching"><em>template matching</em></a>).</p>
+<!--
 
 \begin{frame}{Filtre adapté}
 
@@ -446,8 +438,6 @@ dans une image $x$~:
 \end{equation*}
 Elle peut s'écrire comme une convolution $\rightarrow$ \og{}Filtre adapté\fg{}.
 
-\pause\medskip
-
 Généralement, $x$ et $g$ sont remplacées par les images normalisées~:
 \begin{equation*}
   x(m,n) \rightarrow \left( x(m,n)-\mu_x \right) / \sigma_x \qquad
@@ -456,109 +446,28 @@ Généralement, $x$ et $g$ sont remplacées par les images normalisées~:
 où $\mu_x$ et $\sigma_x$ sont respectivement la moyenne et l'écart-type de l'image $x$.
 Cela aboutit à la \emph{corrélation croisée normalisée} qui est insensible aux changements d'amplitude.
 
-\end{frame}
-
-% =============================================================================================== %
-
-% \begin{frame}{Filtre adapté}
-%
-% \begin{center}
-%   \includegraphics[width=7cm]{vincent20}
-% \end{center}
-%
-% \end{frame}
-
-% =============================================================================================== %
-
-\begin{frame}{Filtre adapté}
-
 \begin{center}
   ~\\
   \includegraphics[width=53mm]{audir8}\hfill
-  \includegraphics[width=53mm]{audir8-xcorr} \\[2mm]
+  \includegraphics[width=53mm]{audir8-xcorr} 
   Corrélation croisée normalisée avec le motif \raisebox{-.4mm}{\includegraphics[width=2mm]{sept}}.
 \end{center}
 
-\end{frame}
-
-% =============================================================================================== %
-
-% \begin{frame}{Filtre adapté}
-%
-% \begin{center}
-%   RSB = 1,5~dB \hspace*{55mm}~\\
-%   \includegraphics[width=53mm]{audir8-noise}\hfill
-%   \includegraphics[width=53mm]{audir8-noise-xcorr} \\[2mm]
-%   Corrélation croisée normalisée avec le motif \raisebox{-.4mm}{\includegraphics[width=2mm]{sept}}.
-% \end{center}
-%
-% \end{frame}
-%
-% % =============================================================================================== %
-%
-% \begin{frame}<handout:0>{Filtre adapté}
-%
-% \begin{center}
-%   RSB = 1,5~dB \hspace*{55mm}~\\
-%   \includegraphics[width=53mm]{audir8-noise}\hfill
-%   \includegraphics[width=53mm]{audir8-noise-xcorr-seuil} \\[2mm]
-%   Corrélation croisée normalisée avec le motif \raisebox{-.4mm}{\includegraphics[width=2mm]{sept}}.
-% \end{center}
-%
-% \end{frame}
-
-% =============================================================================================== %
-
-\begin{frame}{Filtre adapté}
-
 \begin{center}
   \includegraphics[width=80mm]{corr-plaques}\par
-  \includegraphics[width=80mm]{corr-plaques-result2} \\[2mm]
+  \includegraphics[width=80mm]{corr-plaques-result2}
   Corrélation croisée normalisée avec le motif \raisebox{-.4mm}{\includegraphics[width=4mm]{corr-motif}}.
 \end{center}
 
-\end{frame}
-
-% =============================================================================================== %
-
-\begin{frame}{Filtre adapté}
-
 L'inconvénient du filtrage adapté est qu'il est sensible aux variations d'orientation, de taille, etc.
-
-\bigskip
 
 On peut alors appliquer plusieurs filtres représentatifs de toutes les variations du motifs
 $\Rightarrow$ très coûteux en temps de calcul~!
 
-\bigskip
-
 Alternative~: trouver des caractéristiques aux objets et effectuer une classification.
 
-\end{frame}
- --><!-- % !TEX root = detection.tex
-
-\chapter{Conclusion}
-
-% ==================================================================================================================== %
-
-\begin{frame}{Conclusion}
-
-Détection de caractéristiques~: approches différentes en fonction de la caractéristique cherchée~!
-
-\bigskip
-
-\begin{itemize}
-  \item Contour $\rightarrow$ filtrage de l'image en utilisant le gradient ou le laplacien (Roberts, Prewitt, Sobel, Canny~\dots)
-  \item Coin $\rightarrow$ mesurer les changements d'intensité dans le voisinage des pixels (Moravec, Harris~\dots)
-  \item Ligne, cercle $\rightarrow$ représenter l'image dans l'espace des paramètres (Hough~\dots)
-  \item Motif bien connu $\rightarrow$ calculer une intercorrélation (filtre adapté)
-\end{itemize}
-
-\end{frame}
-
-% ==================================================================================================================== %
-
-% Bibliographie
+-->
+<!-- Bibliographie
 
 \begin{frame}[t]{Bibliographie}
 \scriptsize
@@ -613,10 +522,7 @@ Détection de caractéristiques~: approches différentes en fonction de la carac
   \emph{Obstacle Avoidance and Navigation in the Real World by a Seeing Robot Rover},
   rapport technique, Carnegie--Mellon University, Robotics Institute, 1980.
 
-
-\end{thebibliography}
-\end{frame}
- --></div>
+--></div>
 
     <script type="text/x-thebe-config">
     {

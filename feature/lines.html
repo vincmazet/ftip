@@ -401,26 +401,29 @@
 
         <!-- Launch buttons -->
 
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
-    <div class="dropdown-buttons">
-        
-        
-        
-        <a class="colab-button" href="https://colab.research.google.com/github/vincmazet/ftip/blob/master/feature/lines.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
-                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
-                    src="../_static/images/logo_colab.png"
-                    alt="Interact on Colab">Colab</button></a>
-        
-        
-    </div>
-</div>
-
     </div>
 
     <!-- Table of contents -->
     <div class="d-none d-md-block col-md-2 bd-toc show">
+        
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#premiere-parametrisation">
+   Première paramétrisation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#nouvelle-parametrisation">
+   Nouvelle paramétrisation
+  </a>
+ </li>
+</ul>
+
+        </nav>
         
     </div>
 </div>
@@ -431,279 +434,93 @@
                 
   <div class="section" id="line-detection">
 <h1>Line detection<a class="headerlink" href="#line-detection" title="Permalink to this headline">¶</a></h1>
-<p>À venir…</p>
-<!-- % !TEX root = detection.tex
-
-\chapter{Détection de droites}
-
-% =============================================================================================== %
-
-\begin{frame}<beamer>{Transformée de Hough pour les droites}
-
-L'idée de la transformée de Hough~\mycite{Hough62}
-est de représenter une droite de l'\emph{image} en un point dans l'\emph{espace des paramètres}.
-
-\begin{center}
-  \includegraphics<1>[page=1]{hough}%
-  \includegraphics<2>[page=2]{hough}%
-  \includegraphics<3>[page=3]{hough}%
-  \includegraphics<4>[page=4]{hough}%
-  \includegraphics<5>[page=5]{hough}%
-  \includegraphics<6->[page=6]{hough}%
-\end{center}
-
-\visible<7>{Les points d'une droite $y=ax+b$ dans l'image
-deviennent des droites qui se coupent en $(a,b)$ dans l'espace des paramètres.}
-
-\end{frame}
-
-
-\begin{frame}<handout>{Transformée de Hough pour les droites}
-L'idée de la transformée de Hough~\mycite{Hough62}
-est de représenter une droite de l'\emph{image} en un point dans l'\emph{espace des paramètres}.
-\begin{center}
-  \includegraphics<1>[page=1]{hough}%
-\end{center}
-Les points d'une droite $y=ax+b$ dans l'image
-deviennent des droites qui se coupent en $(a,b)$ dans l'espace des paramètres.
-\end{frame}
-
-\begin{frame}<handout>{Transformée de Hough pour les droites}
-L'idée de la transformée de Hough~\mycite{Hough62}
-est de représenter une droite de l'\emph{image} en un point dans l'\emph{espace des paramètres}.
-\begin{center}
-  \includegraphics<2>[page=2]{hough}%
-\end{center}
-Les points d'une droite $y=ax+b$ dans l'image
-deviennent des droites qui se coupent en $(a,b)$ dans l'espace des paramètres.
-\end{frame}
-
-\begin{frame}<handout>{Transformée de Hough pour les droites}
-L'idée de la transformée de Hough~\mycite{Hough62}
-est de représenter une droite de l'\emph{image} en un point dans l'\emph{espace des paramètres}.
-\begin{center}
-  \includegraphics<3>[page=3]{hough}%
-\end{center}
-Les points d'une droite $y=ax+b$ dans l'image
-deviennent des droites qui se coupent en $(a,b)$ dans l'espace des paramètres.
-\end{frame}
-
-\begin{frame}<handout>{Transformée de Hough pour les droites}
-L'idée de la transformée de Hough~\mycite{Hough62}
-est de représenter une droite de l'\emph{image} en un point dans l'\emph{espace des paramètres}.
-\begin{center}
-  \includegraphics<4>[page=4]{hough}%
-\end{center}
-Les points d'une droite $y=ax+b$ dans l'image
-deviennent des droites qui se coupent en $(a,b)$ dans l'espace des paramètres.
-\end{frame}
-
-\begin{frame}<handout>{Transformée de Hough pour les droites}
-L'idée de la transformée de Hough~\mycite{Hough62}
-est de représenter une droite de l'\emph{image} en un point dans l'\emph{espace des paramètres}.
-\begin{center}
-  \includegraphics<5>[page=5]{hough}%
-\end{center}
-Les points d'une droite $y=ax+b$ dans l'image
-deviennent des droites qui se coupent en $(a,b)$ dans l'espace des paramètres.
-\end{frame}
-
-\begin{frame}<handout>{Transformée de Hough pour les droites}
-L'idée de la transformée de Hough~\mycite{Hough62}
-est de représenter une droite de l'\emph{image} en un point dans l'\emph{espace des paramètres}.
-\begin{center}
-  \includegraphics<6->[page=6]{hough}%
-\end{center}
-Les points d'une droite $y=ax+b$ dans l'image
-deviennent des droites qui se coupent en $(a,b)$ dans l'espace des paramètres.
-\end{frame}
-
-% =============================================================================================== %
-
-\begin{frame}{Nouvelle paramétrisation}
-
-L'inconvénient de la paramétrisation $(a,b)$ est que l'espace des paramètres doit être borné et discrétisé
-$\Rightarrow$ une droite verticale ($a=\infty$) ne peut pas être représentée.
-
-\pause\medskip
-
-$\Rightarrow$ Nouvelle paramétrisation
-
-\begin{center}
-  \includegraphics[page=1]{hough-new}
-\end{center}
-
-\vspace*{-2\baselineskip}
-
-\begin{equation*}
-  x = s \cos(\theta)
-  \;\text{et}\;
-  y = s \sin(\theta)
-  \quad\Rightarrow\quad
-  s = x \cos(\theta) + y \sin(\theta)
-\end{equation*}
-
-\end{frame}
-
-% =============================================================================================== %
-
-\begin{frame}{Nouvelle paramétrisation}
-
-Pour chaque point $(x_i,y_i)$ de l'image, une sinusoïde est associée dans l'espace $(\theta,s)$~:
-\begin{equation*}
-  s = x_i \cos(\theta) + y_i \sin(\theta)
-\end{equation*}
-
-\begin{center}
-  \includegraphics[page=2]{hough-new}
-\end{center}
-
-Les sinusoïdes correspondant aux points d'une même droite se coupent au point $(s^*,\theta^*)$ paramétrisant cette droite.
-
-\end{frame}
-
-% =============================================================================================== %
-
-% \begin{frame}{Exemple}
-%
-% \begin{center}
-%   \includegraphics[width=.3\textwidth]{losange}\quad
-%   \includegraphics[width=.3\textwidth]{losange-canny}\quad
-%   \includegraphics[width=.3\textwidth]{losange-hough}\\
-%   \parbox{.3\textwidth}{\centering $f$}\quad
-%   \parbox{.3\textwidth}{\centering contours}\quad
-%   \parbox{.3\textwidth}{\centering Hough}\\
-% \end{center}
-%
-% % \begin{center}
-% %   \includegraphics[width=10cm]{thiran3}\imgref{GET}
-% % \end{center}
-%
-% \end{frame}
-
-% =============================================================================================== %
-
-\begin{frame}{Algorithme}
-
-\begin{center}
-  \setlength{\fboxsep}{3mm}
-  \colorbox{algobg}{\parbox{.9\textwidth}{
-  Appliquer une détection de contours \\
-  Définir un accumulateur ($=$ espace des paramètres discrétisé) \\
-  Pour chaque point des contours~: \\
-  \albar Déterminer la sinusoïde correspondante au point \\
-  \albar Incrémenter l'accumulateur le long de cette sinusoïde \\
-  Rechercher les maxima de l'accumulateur \\
-  En déduire les paramètres des lignes
-}}
-\end{center}
-
-\end{frame}
-
-% =============================================================================================== %
-
-\begin{frame}{Exemple}
-
-\begin{center}
-  \includegraphics[width=45mm]{losange-axes}\qquad
-  \includegraphics[width=45mm]{losange-hough-axes}
-  \rput(-1.6,3.9){\color{green}A}%
-  \rput( 0  ,3.9){\color{green}B}%
-  \rput(-1.6,2.4){\color{green}C}%
-  \rput( 0  ,2.4){\color{green}D}%
-  \rput(3.9,3.5){\color{green}1}%
-  \rput(5.4,2.8){\color{green}2}%
-  \rput(3.5,2.6){\color{green}3}%
-  \rput(5.4,1.6){\color{green}4}%
-  \bigskip\bigskip
-  \votew\pause\\
-  \bigskip
-  ~
-  % A$\rightarrow$2\quad
-  % B$\rightarrow$3\quad
-  % C$\rightarrow$1\quad
-  % D$\rightarrow$4
-\end{center}
-
-\end{frame}
-
-% =============================================================================================== %
-
-% \begin{frame}{Exemple}
-%
-% \begin{center}
-%   \includegraphics[width=10cm]{letouzey1}\imgref{LC}
-%   % Léo Letouzey + Thomas Chabrier 2008
-% \end{center}
-%
-% \end{frame}
-
-% =============================================================================================== %
-
-\begin{frame}{Transformée de Hough}
-
-Avantages~:
-\begin{itemize}
-  \item robuste au bruit
-  \item robuste aux occlusions (peut détecter des objets partiellement recouverts)
-  \item Extensible à tout objet paramétré (cercles, ellipses, \dots) \mycite{Duda72} \\
-  \pause
-  Exemple pour la détection de cercles~:
-  \begin{equation*}
-    (x-a)^2 + (y-b)^2 = r^2 \quad\rightarrow\quad \text{3 paramètres}
-  \end{equation*}
-\end{itemize}
-
-\pause
-
-Inconvénient~:
-\begin{itemize}
-  \item la dimension de l'accumulateur est égal aux nombres de paramètres
-  $\Rightarrow$ le temps de calcul et la mémoire utilisée deviennent vite conséquents
-\end{itemize}
-
-\end{frame}
-
-% =============================================================================================== %
-
-\begin{frame}{Transformée de Hough}
-
-% TODO : exemple sur des lignes, des cercles, après détection de contours + occlusions
-
-\begin{center}
-  \includegraphics[width=9cm]{building-hough}
-\end{center}
-
-\end{frame}
-
-\begin{frame}{Transformée de Hough}
-
-\begin{center}
-  \includegraphics[width=9cm]{coins-hough}
-\end{center}
-
-\end{frame}
-
-% =============================================================================================== %
-
-% \begin{frame}{Exercice}
-%
-% \begin{center}
-%   \quad
-%   \imgbox{25mm}{h2}{A}\hfill
-%   \imgbox{25mm}{h3}{B}\hfill
-%   \imgbox{25mm}{h4}{C}\\[5mm]
-%   \imgbox{30mm}{hough4}{1}\hfill
-%   \imgbox{30mm}{hough3}{2}\hfill
-%   \imgbox{30mm}{hough2}{3}
-% \end{center}
-%
-% % (les transformées de Hough sont représentées dans l'espace $(\theta,\,\rho)$)
-%
-% \end{frame}
-
-% =============================================================================================== %
- --></div>
+<p>La détection de ligne consiste à détecter des alignements de points sur une image de contours.</p>
+<div class="figure align-default" id="f-feature-lines-example">
+<a class="reference internal image-reference" href="../_images/line-example.png"><img alt="../_images/line-example.png" src="../_images/line-example.png" style="width: 250px;" /></a>
+</div>
+<p>La méthode la plus courante pour cela est la transformée de Hough [Hough 1962].
+Comme la transformée de Fourier, elle transpose l’image du domaine spatial vers un autre domaine,
+où les informations d’intérêt sont représentées différemment.
+En l’occurrence, les lignes dans le domaine spatial sont transformées en points dans le domaine de Hough.</p>
+<p>La transformée de Hough n’est pas restreinte aux lignes et peut être utilisée pour détecter une autre forme,
+tant qu’il existe une paramétrisation mathématique de cette forme.
+Le principe de fonctionnement reste cependant le même, et la suite de ce chapitre se concentre sur la détection de lignes.</p>
+<div class="section" id="premiere-parametrisation">
+<h2>Première paramétrisation<a class="headerlink" href="#premiere-parametrisation" title="Permalink to this headline">¶</a></h2>
+<p>Dans le domaine spatial <span class="math notranslate nohighlight">\((x,y)\)</span>, une ligne est paramétrée par son coefficient directeur <span class="math notranslate nohighlight">\(a\)</span> et son ordonnée à l’origine <span class="math notranslate nohighlight">\(b\)</span> :</p>
+<div class="math notranslate nohighlight">
+\[
+y = a x + b.
+\]</div>
+<p>Ainsi, toute droite peut être représentée par le couple <span class="math notranslate nohighlight">\((a,b)\)</span>.
+C’est l’idée de Hough : chaque ligne de l’image sera représentée par un point dans le domaine de Hough <span class="math notranslate nohighlight">\((a,b)\)</span>.
+Le domaine de Hough est aussi appelé espace des paramètres.</p>
+<div class="figure align-default" id="f-feature-lines-hough-1">
+<a class="reference internal image-reference" href="../_images/feat-1.png"><img alt="../_images/feat-1.png" src="../_images/feat-1.png" style="width: 450px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 105 </span><span class="caption-text">La transformée de Hough transforme une droite de l’image en un point dans l’espace des paramètres.</span><a class="headerlink" href="#f-feature-lines-hough-1" title="Permalink to this image">¶</a></p>
+</div>
+<p>À l’inverse, un point de l’image est représenté par une droite dans l’espace des paramètres
+(qui a pour équation <span class="math notranslate nohighlight">\(b = \alpha a + \beta\)</span>).</p>
+<div class="figure align-default" id="f-feature-lines-hough-2">
+<a class="reference internal image-reference" href="../_images/feat-2.png"><img alt="../_images/feat-2.png" src="../_images/feat-2.png" style="width: 450px;" /></a>
+</div>
+<p>En particulier, une droite constante <span class="math notranslate nohighlight">\(b=\beta\)</span> dans l’espace des paramètres correspond à un point d’abscisse <span class="math notranslate nohighlight">\(x=0\)</span> dans l’image.</p>
+<div class="figure align-default" id="f-feature-lines-hough-3">
+<a class="reference internal image-reference" href="../_images/feat-3.png"><img alt="../_images/feat-3.png" src="../_images/feat-3.png" style="width: 450px;" /></a>
+</div>
+<p>Enfin, lorsque plusieurs points dans l’image sont alignés, leurs droites respectives dans l’espace des paramètres
+se coupent en un unique point, qui définit l’équation de la droite les reliant.</p>
+<div class="figure align-default" id="f-feature-lines-hough-5">
+<a class="reference internal image-reference" href="../_images/feat-5.png"><img alt="../_images/feat-5.png" src="../_images/feat-5.png" style="width: 450px;" /></a>
+</div>
+<p>Cependant, comme l’espace des paramètres est fini et discrétisé (puisqu’il est traité par un ordinateur),
+certaines lignes de l’image ne pourront pas y être représentées.
+C’est le cas par exemple d’une droite verticale pour laquelle <span class="math notranslate nohighlight">\(a=\infty\)</span>.
+Aussi, une autre paramétrisation des droites est utilisées dans la pratique.</p>
+</div>
+<div class="section" id="nouvelle-parametrisation">
+<h2>Nouvelle paramétrisation<a class="headerlink" href="#nouvelle-parametrisation" title="Permalink to this headline">¶</a></h2>
+<p>Pour éviter le problème de l’espace de paramétrisation <span class="math notranslate nohighlight">\((a,b)\)</span>, les droites sont définies à partir de deux autres paramètres :</p>
+<ul class="simple">
+<li><p>la longueur <span class="math notranslate nohighlight">\(s\)</span> du segment reliant l’origine avec le point le plus proche de la droite (ce segment est donc perpendiculaire à la droite),</p></li>
+<li><p>l’angle <span class="math notranslate nohighlight">\(\theta\)</span> que fait ce segment avec l’axe des abscisses.</p></li>
+</ul>
+<p>Chaque ligne de l’image est donc paramétrée par le couple <span class="math notranslate nohighlight">\((\theta,s)\)</span> qui correspond à un point dans l’espace de paramètre <span class="math notranslate nohighlight">\((\theta,s)\)</span>.</p>
+<div class="figure align-default" id="f-feature-lines-houghnew-1">
+<a class="reference internal image-reference" href="../_images/feature-50.png"><img alt="../_images/feature-50.png" src="../_images/feature-50.png" style="width: 450px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 109 </span><span class="caption-text">Nouvelle paramétrisation de la transformée de Hough.</span><a class="headerlink" href="#f-feature-lines-houghnew-1" title="Permalink to this image">¶</a></p>
+</div>
+<!-- Equation de la droite paramétrée ainsi -->
+<p>On peut montrer que pour chaque point <span class="math notranslate nohighlight">\((x_i,y_i)\)</span> de l’image, une sinusoïde d’équation <span class="math notranslate nohighlight">\(s = x_i \cos(\theta) + y_i \sin(\theta)\)</span>
+est associée dans l’espace <span class="math notranslate nohighlight">\((\theta,s)\)</span>.
+Les sinusoïdes correspondant aux points d’une même droite se coupent au point <span class="math notranslate nohighlight">\((s^*,\theta^*)\)</span> paramétrisant cette droite.</p>
+<p>L’algorithme de la transformée de Hough est le suivant :</p>
+<div class="figure align-default" id="f-feature-lines-houghnew-algo">
+<a class="reference internal image-reference" href="../_images/feat-9.png"><img alt="../_images/feat-9.png" src="../_images/feat-9.png" style="width: 450px;" /></a>
+</div>
+<p>La <a class="reference internal" href="#f-feature-lines-example"><span class="std std-numref">Fig. 104</span></a> donne un exemple de transformée de Hough sur une image représentant un carré
+(on peut imaginer que cette image provient d’une détection de contour).</p>
+<!-- dans l'example, afficher d'abord l'image avant détection de contour (un losange blanc donc) -->
+<div class="figure align-default" id="f-feature-lines-houghnew-example">
+<a class="reference internal image-reference" href="../_images/feat-10.png"><img alt="../_images/feat-10.png" src="../_images/feat-10.png" style="width: 600px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 111 </span><span class="caption-text">Tranformée de Hough associée à l’image de gauche.
+Les sinusoïdes se coupent en quatre points (très lumineux) telle que l’association entre les lignes de l’image et les points sont :
+A<span class="math notranslate nohighlight">\(\rightarrow\)</span>2, B<span class="math notranslate nohighlight">\(\rightarrow\)</span>3, C<span class="math notranslate nohighlight">\(\rightarrow\)</span>1 et D<span class="math notranslate nohighlight">\(\rightarrow\)</span>4;</span><a class="headerlink" href="#f-feature-lines-houghnew-example" title="Permalink to this image">¶</a></p>
+</div>
+<!-- Autre exemple : Léo Letouzey + Thomas Chabrier 2008 -->
+<p>Finalement, la transformée de Hough présente plusieurs avantages :</p>
+<ul class="simple">
+<li><p>elle est robuste au bruit,</p></li>
+<li><p>elle est robuste aux occlusions (elle peut détecter des objets partiellement recouverts)</p></li>
+</ul>
+<p>De plus, elle est extensible à tout objet paramétré (cercles, ellipses…).
+Par exemple, un cercle est paramétré par trois paramètres (les coordonnées du centre et le rayon).
+Une transformée de Hough est donc possible, et son espace de paramètres est en trois dimensions.</p>
+<p>On voit donc l’inconvénient principal de cette méthode,
+c’est-à-dire que la dimension de l’accumulateur est égale aux nombres de paramètres,
+et donc le temps de calcul et la mémoire utilisée deviennent vite conséquents.</p>
+</div>
+</div>
 
     <script type="text/x-thebe-config">
     {
