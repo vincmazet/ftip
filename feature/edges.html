@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 
 <html>
@@ -6,26 +7,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Edges detection &#8212; Fundamental Tools for Image Processing</title>
-    
-  <link rel="stylesheet" href="../_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
-
-    
-  <link rel="stylesheet"
-    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-
-    
-      
-  <link rel="stylesheet"
-    href="../_static/vendor/open-sans_all/1.44.1/index.css">
-  <link rel="stylesheet"
-    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
-
-    
-    <link rel="stylesheet" href="../_static/sphinx-book-theme.2d2078699c18a0efb88233928e1cf6ed.css" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+    <link href="../_static/css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -33,11 +17,8 @@
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/jbvinc.css" />
     <link rel="stylesheet" type="text/css" href="../_static/.ipynb_checkpoints/jbvinc-checkpoint.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/spanels-index--0afa1ebdab0bb23b98b56d34c23d9f57.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/spanels-variables--ffc7f74dcb1b9eecba2dbcbc22818714.css" />
-    
-  <link rel="preload" as="script" href="../_static/js/index.3da636dd464baa7582d2.js">
-
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
@@ -46,8 +27,8 @@
     <script src="../_static/togglebutton.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
+    <script src="../_static/sphinx-book-theme.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.be0a4a0c39cd630af62a2fcf693f3f06.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
@@ -62,8 +43,8 @@
     <link rel="next" title="Corner detection" href="corners.html" />
     <link rel="prev" title="Introduction" href="intro.html" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="en">
 
 
 
@@ -302,7 +283,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../labs/tp6-code.html">
-   25/10/2020
+   25/11/2020
   </a>
  </li>
 </ul>
@@ -395,8 +376,7 @@
 
         <!-- Full screen (wrap in <a> to have style consistency -->
         <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-                title="Fullscreen mode"><i
+                data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i
                     class="fas fa-expand"></i></button></a>
 
         <!-- Launch buttons -->
@@ -405,7 +385,6 @@
 
     <!-- Table of contents -->
     <div class="d-none d-md-block col-md-2 bd-toc show">
-        
         <div class="tocsection onthispage pt-5 pb-3">
             <i class="fas fa-list"></i> Contents
         </div>
@@ -453,7 +432,6 @@
 </ul>
 
         </nav>
-        
     </div>
 </div>
     <div id="main-content" class="row">
@@ -638,7 +616,7 @@ Dans ce cas, on peut seuiller l’amplitude pour ne conserver que les grandes va
 <div class="section" id="impact-du-bruit-sur-la-detection">
 <h3>Impact du bruit sur la détection<a class="headerlink" href="#impact-du-bruit-sur-la-detection" title="Permalink to this headline">¶</a></h3>
 <p>Comme le bruit apporte une variation plus importante de luminosité entre les pixels,
-les opérateurs de gradients, qui sont basés sur la dérivée, y seront très sensibles,
+les opérateurs de gradient, qui sont basés sur la dérivée, y seront très sensibles,
 comme on le voit sur la <a class="reference internal" href="#f-feature-edges-noise"><span class="std std-numref">Fig. 92</span></a>.
 C’est pourquoi il est parfois utile d’introduire un débruitage avant la détection de contour.
 Dans la figure <a class="reference internal" href="#f-feature-edges-sobel-noise"><span class="std std-numref">Fig. 93</span></a>, un filtre moyenneur de petite taille est utilisé
@@ -757,7 +735,7 @@ et des détecteurs de Marr-Hildreth et Canny sur une image.</p>
 <a class="reference internal image-reference" href="../_images/feature-13.png"><img alt="../_images/feature-13.png" src="../_images/feature-13.png" style="width: 100%;" /></a>
 <p class="caption"><span class="caption-number">Fig. 97 </span><span class="caption-text">Résultats pour trois détecteurs de contour.</span><a class="headerlink" href="#f-feature-edges-sobel-marr-hildreth-canny" title="Permalink to this image">¶</a></p>
 </div>
-<p>Sur la <a class="reference internal" href="#f-feature-edges-marr-hildreth-canny-zoom"><span class="std std-numref">Fig. 98</span></a>, qui compare les deux détecteurs de Canny,
+<p>Sur la <a class="reference internal" href="#f-feature-edges-marr-hildreth-canny-zoom"><span class="std std-numref">Fig. 98</span></a>, qui compare les détecteurs de Marr-Hildreth et de Canny,
 on peut voir que les contours détectés avec le détecteur de Canny sont mieux localisés.</p>
 <div class="figure align-default" id="f-feature-edges-marr-hildreth-canny-zoom">
 <a class="reference internal image-reference" href="../_images/feature-14.png"><img alt="../_images/feature-14.png" src="../_images/feature-14.png" style="width: 70%;" /></a>
@@ -819,10 +797,7 @@ Les contours sont représentés en vert.</span><a class="headerlink" href="#f-fe
       </div>
     </div>
 
-    
-  <script src="../_static/js/index.3da636dd464baa7582d2.js"></script>
-
-
+    <script src="../_static/js/index.js"></script>
     
   </body>
 </html>
