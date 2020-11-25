@@ -491,7 +491,7 @@ n’est pas positionné avec précision.</p></li>
 <img alt="../_images/tp6-code_14_0.png" src="../_images/tp6-code_14_0.png" />
 </div>
 </div>
-<p>On observe que lorsque <code class="docutils literal notranslate"><span class="pre">sigma</span></code> augmente, le nombre de contours détecté est plus faible. Cela s’explique par le fait que la première étape du détecteur de Sobel est un filtrage de l’image par un filtre gaussien d’écart type <code class="docutils literal notranslate"><span class="pre">sigma</span></code> pour adoucir le bruit. En contrepartie, l’image est plus floue et donc les contours sont moins marqués : ils sont donc plus difficiles à détecter.</p>
+<p>On observe que lorsque <code class="docutils literal notranslate"><span class="pre">sigma</span></code> augmente, le nombre de contours détecté est plus faible. Cela s’explique par le fait que la première étape du détecteur de Canny est un filtrage de l’image par un filtre gaussien d’écart type <code class="docutils literal notranslate"><span class="pre">sigma</span></code> pour adoucir le bruit. En contrepartie, l’image est plus floue et donc les contours sont moins marqués : ils sont donc plus difficiles à détecter.</p>
 <p><strong>Étude de l’influence du seuil bas (paramètre <code class="docutils literal notranslate"><span class="pre">low_threshold</span></code>)</strong></p>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
